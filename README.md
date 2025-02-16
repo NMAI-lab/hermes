@@ -21,7 +21,7 @@ In addition to that, Hermes uses the popular AgentSpeak language [Jason](https:/
 
 2. Make sure to source your installation:
 ```
-$ source /opt/ros/foxy/setup.bash
+$ source /opt/ros/<ROS VERSION>/setup.bash
 ```
 
 3. Create a ROS workspace for your system. Such as:
