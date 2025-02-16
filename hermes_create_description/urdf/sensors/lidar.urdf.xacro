@@ -3,15 +3,18 @@
   
   <xacro:macro name="lidar_sensor" params="name parent_link *origin">
   
-    <xacro:property name="radius"        value="${5*cm2m}" />
-    <xacro:property name="length"        value="${4*cm2m}"/>
-    <xacro:property name="mass"          value="0.1"/>
-    <xacro:property name="min_angle"     value="-1.57"/>
-    <xacro:property name="max_angle"     value="1.57"/>
-    <xacro:property name="min_range"     value="0.1"/>
-    <xacro:property name="max_range"     value="12"/>
-    <xacro:property name="num_samples"   value="180"/>
-    <xacro:property name="update_rate"   value="10"/>
+    <xacro:property name="config_file"         value="$(find hermes_environment)/config/lidar_params.yaml"/>
+    <xacro:property name="config"              value="${load_yaml(config_file)}" />
+    <xacro:property name="radius"              value="${5*cm2m}" />
+    <xacro:property name="length"              value="${4*cm2m}" />
+    <xacro:property name="mass"                value="0.1" />
+    <xacro:property name="publisher_topic"     value="${config['lidar_node']['ros__parameters']['publisher_topic']}" />
+    <xacro:property name="min_angle"           value="${config['lidar_node']['ros__parameters']['min_angle']}" />
+    <xacro:property name="max_angle"           value="${config['lidar_node']['ros__parameters']['max_angle']}" />
+    <xacro:property name="min_range"           value="${config['lidar_node']['ros__parameters']['min_range']}" />
+    <xacro:property name="max_range"           value="${config['lidar_node']['ros__parameters']['max_range']}" />
+    <xacro:property name="num_samples"         value="${config['lidar_node']['ros__parameters']['num_samples']}" />
+    <xacro:property name="update_rate"         value="${config['lidar_node']['ros__parameters']['update_rate']}" />
 
     <joint name="${name}_joint" type="fixed">
         <parent link="${parent_link}"/>
@@ -56,7 +59,7 @@
         </ray>
         <plugin name="laser_controller" filename="libgazebo_ros_ray_sensor.so">
           <ros>
-            <remapping>~/out:=scan</remapping>
+            <remapping>~/out:=${publisher_topic}</remapping>
           </ros>
           <output_type>sensor_msgs/LaserScan</output_type>
           <frame_name>lidar_frame</frame_name>
