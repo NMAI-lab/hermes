@@ -51,6 +51,7 @@ $ source ~/hermes_ws/install/local_setup.bash
 
 First try to fire up the simulator by doing:
 ```
+$ source ~/hermes_ws/install/local_setup.bash
 $ ros2 launch hermes_environment environment.launch.py
 ```
 
