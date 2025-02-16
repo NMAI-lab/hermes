@@ -78,3 +78,12 @@ $ ros2 action send_goal /dock irobot_create_msgs/action/DockServo "{}"
 $ source ~/hermes_ws/install/local_setup.bash
 $ ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
 ```
+
+## Notes
+- The inspiration for this project came from another similar project I worked on. Make sure to check out [Carleton Mail Delivery Robot](https://github.com/bardia-p/carleton-mail-delivery-robot)!
+- The name Hermes is a nod to the previous major AgentSpeak projects namely, [Jason](https://github.com/jason-lang/jason) and [Peleus](https://github.com/meneguzzi/Peleus). I chose the name Hermes since the main purpose of this robot is to deliver mail from one place to another. 
+
+## TO-DO
+- Add beacons to the simulator
+- Add custom map generation
+- Add a simple Jason implementation for the robot
