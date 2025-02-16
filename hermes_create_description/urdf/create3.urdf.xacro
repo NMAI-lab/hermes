@@ -30,6 +30,9 @@
   <xacro:property name="caster_position_x"       value="${12.5*cm2m}" />
   <xacro:property name="caster_position_z"       value="${-5.55*cm2m}" />
 
+  <xacro:property name="lidar_position_x"       value="${10*cm2m}" />
+  <xacro:property name="lidar_position_z"       value="${4*cm2m}" />
+
   <xacro:property name="wheel_drop_offset_z"     value="${3.5*mm2m}"/>
   <xacro:property name="wheel_drop_z"            value="${wheel_height + wheel_drop_offset_z}"/>
 
@@ -88,8 +91,8 @@
   </xacro:caster>
 
   <!-- LiDAR -->
-  <xacro:lidar_sensor>
-
+  <xacro:lidar_sensor name="lidar" parent_link="base_link">
+    <origin xyz="${lidar_position_x} 0 ${lidar_position_z  + base_link_z_offset}" rpy="0 0 0"/>
   </xacro:lidar_sensor>
 
   <!-- IMU -->

@@ -27,7 +27,7 @@ def generate_launch_description():
 
     # Rviz
     rviz_config_dir = PathJoinSubstitution([pkg_create3_description, 'rviz', 'model.rviz'])
-    rviz_logo_dir = PathJoinSubstitution([pkg_create3_description, 'rviz', 'irobot_logo.jpg'])
+    rviz_logo_dir = PathJoinSubstitution([pkg_create3_description, 'rviz', 'hermes.png'])
 
     rviz = Node(
         package='rviz2',
