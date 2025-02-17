@@ -2,6 +2,8 @@
 
 <p align="center">
     <img src="hermes_create_description/rviz/hermes.png" alt="hermes" width="200">
+    <br>
+    <em>Logo designed by Daniel Pacada</em>
 </p>
 
 Hermes is a simulator for a mobile robot, acting as a BDI agent, that navigates a custom maze through the use of a LiDAR sensor and various Bluetooth beacons placed at each intersection. 
@@ -117,6 +119,10 @@ $ ros2 action send_goal /dock irobot_create_msgs/action/DockServo "{}"
 $ source ~/hermes_ws/install/local_setup.bash
 $ ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
 ```
+
+## Project Structure
+- **hermes_create_description:** This package includes the Gazebo descriptions for the robotcs, sensors, and the dock station. It also includes the appropriate launch files for spawning these objects.
+- **hermes_environment:** This package includes the implementation for the simulator environment with the various configs for loading the robot map.
 
 ## Notes
 - The inspiration for this project came from another similar project I worked on. Make sure to check out [Carleton Mail Delivery Robot](https://github.com/bardia-p/carleton-mail-delivery-robot)!
