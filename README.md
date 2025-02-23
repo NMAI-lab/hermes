@@ -1,7 +1,7 @@
 # Hermes
 
 <p align="center">
-    <img src="hermes_create_description/rviz/hermes.png" alt="hermes" width="200">
+    <img src="images/hermes.png" alt="hermes" width="200">
     <br>
     <em>Logo designed by Daniel Pacada</em>
 </p>
@@ -97,7 +97,7 @@ $ ros2 launch hermes_environment environment.launch.py
 
 You should see the Gazebo and RViz windows pop up:
 <p align="center">
-    <img src="demos/rviz_gazebo_demo.png" alt="hermes" width=500">
+    <img src="images/rviz_gazebo_demo.png" alt="hermes" width=500">
 </p>
 
 In a separate window try controlling the robot by running a few ROS commands:
