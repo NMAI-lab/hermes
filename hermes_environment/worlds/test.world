@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<sdf version="1.6">
+  <world name="default">
+    <model name="custom_ground">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="ground_link">
+        <collision name="ground_collision">
+          <geometry>
+            <plane>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="ground_visual">
+          <geometry>
+            <plane>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/White</name>  <!-- Can be Gazebo/Grass, Gazebo/Asphalt, etc. -->
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <!-- Wall 1 (Front) -->
+    <model name="wall_1">
+      <static>true</static>
+      <pose>0 -5 2 0 0 0</pose>
+      <link name="wall_1_link">
+        <collision name="wall_1_collision">
+          <geometry>
+            <box>
+              <size>10 0.1 4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="wall_1_visual">
+          <geometry>
+            <box>
+              <size>10 0.1 4</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Bricks</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Wall 2 (Back) -->
+    <model name="wall_2">
+      <static>true</static>
+      <pose>0 5 2 0 0 0</pose>
+      <link name="wall_2_link">
+        <collision name="wall_2_collision">
+          <geometry>
+            <box>
+              <size>10 0.1 4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="wall_2_visual">
+          <geometry>
+            <box>
+              <size>10 0.1 4</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Bricks</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Wall 3 (Left) -->
+    <model name="wall_3">
+      <static>true</static>
+      <pose>-5 0 2 0 0 0</pose>
+      <link name="wall_3_link">
+        <collision name="wall_3_collision">
+          <geometry>
+            <box>
+              <size>0.1 10 4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="wall_3_visual">
+          <geometry>
+            <box>
+              <size>0.1 10 4</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+	      <name>Gazebo/Bricks</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Wall 4 (Right) -->
+    <model name="wall_4">
+      <static>true</static>
+      <pose>5 0 2 0 0 0</pose>
+      <link name="wall_4_link">
+        <collision name="wall_4_collision">
+          <geometry>
+            <box>
+              <size>0.1 10 4</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="wall_4_visual">
+          <geometry>
+            <box>
+              <size>0.1 10 4</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Bricks</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>
