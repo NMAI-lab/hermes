@@ -1,0 +1,9 @@
+---
+rf_beacon_publisher_node:
+  ros__parameters:
+    publisher_topic: /rf_signal
+    subscription_topic: "/model_states"
+    publish_rate: 10.0
+    path_loss: 5.0
+    noise_mean: -40.0
+    noise_std: 0.1

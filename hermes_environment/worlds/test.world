@@ -2,7 +2,15 @@
 
 <sdf version="1.6">
   <world name="default">
-    <model name="custom_ground">
+    <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so"/>
+
+    <!-- Sun -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Ground -->
+    <model name="ground">
       <static>true</static>
       <pose>0 0 0 0 0 0</pose>
       <link name="ground_link">
@@ -22,7 +30,7 @@
           <material>
             <script>
               <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/White</name>  <!-- Can be Gazebo/Grass, Gazebo/Asphalt, etc. -->
+              <name>Gazebo/White</name>
             </script>
           </material>
         </visual>
@@ -106,7 +114,7 @@
           <material>
             <script>
               <uri>file://media/materials/scripts/gazebo.material</uri>
-	      <name>Gazebo/Bricks</name>
+	            <name>Gazebo/Bricks</name>
             </script>
           </material>
         </visual>
@@ -135,6 +143,49 @@
             <script>
               <uri>file://media/materials/scripts/gazebo.material</uri>
               <name>Gazebo/Bricks</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- RF Beacons -->
+    <model name="rf_beacon1">
+      <static>true</static>
+      <pose>0 0 4 0 0 0</pose>
+      <link name="body">
+        <!-- Visual appearance of the RF system -->
+        <visual name="beacon_visual">
+          <geometry>
+            <sphere>
+              <radius>0.1</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Red</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="rf_beacon2">
+      <static>true</static>
+      <pose>-5 0 4 0 0 0</pose>
+      <link name="body">
+        <!-- Visual appearance of the RF system -->
+        <visual name="beacon_visual">
+          <geometry>
+            <sphere>
+              <radius>0.1</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Red</name>
             </script>
           </material>
         </visual>

@@ -6,6 +6,9 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 
+import yaml
+import os
+
 ARGUMENTS = [
     DeclareLaunchArgument('rviz', default_value='true',
                           choices=['true', 'false'],
@@ -16,14 +19,17 @@ ARGUMENTS = [
     DeclareLaunchArgument('dock', default_value='true',
                           choices=['true', 'false'],
                           description='Spawn the standard dock model.'),
-    DeclareLaunchArgument('world_path', default_value='',
-                          description='Set world path, by default is empty.world'),
 ]
 
 for pose_element in ['x', 'y', 'z', 'yaw']:
     ARGUMENTS.append(DeclareLaunchArgument(pose_element, default_value='0.0',
                      description=f'{pose_element} component of the robot pose.'))
 
+
+def load_yaml_params(file_path):
+    """Load parameters from a YAML file."""
+    with open(file_path, 'r') as f:
+        return yaml.safe_load(f)
 
 def generate_launch_description():
     # Directories
@@ -47,10 +53,22 @@ def generate_launch_description():
     mock_params_yaml_file = PathJoinSubstitution(
         [pkg_hermes_environment, 'config', 'mock_params.yaml'])
 
+    beacon_params_yaml_file = os.path.join(
+        pkg_hermes_environment,
+        'config',
+        'beacon_params.yaml'
+    )
+    rf_beacon_params = load_yaml_params(beacon_params_yaml_file).get('rf_beacon_publisher_node', {}).get('ros__parameters', {})
+
     # Launch configurations
     x, y, z = LaunchConfiguration('x'), LaunchConfiguration('y'), LaunchConfiguration('z')
     yaw = LaunchConfiguration('yaw')
-    world_path = LaunchConfiguration('world_path')
+    world_path = PathJoinSubstitution(
+        [pkg_hermes_environment, 'worlds', 'test.world']
+    )
+    models_path = PathJoinSubstitution(
+        [pkg_hermes_environment, 'models']
+    )
 
     # Includes
     robot_description = IncludeLaunchDescription(
@@ -147,6 +165,24 @@ def generate_launch_description():
         output='screen',
     )
 
+    rf_beacon1_publisher = Node(
+        package='hermes_environment',
+        name='rf_beacon1',
+        executable='rf_beacon_publisher_node',
+        parameters=[rf_beacon_params,
+                    {'use_sim_time': True}],
+        output='screen',
+    )
+
+    rf_beacon2_publisher = Node(
+        package='hermes_environment',
+        name='rf_beacon2',
+        executable='rf_beacon_publisher_node',
+        parameters=[rf_beacon_params,
+                    {'use_sim_time': True}],
+        output='screen',
+    )
+
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
     # Include robot description
@@ -162,5 +198,7 @@ def generate_launch_description():
     ld.add_action(motion_control_node)
     ld.add_action(wheel_status_node)
     ld.add_action(mock_topics_node)
+    ld.add_action(rf_beacon1_publisher)
+    ld.add_action(rf_beacon2_publisher)
 
     return ld
