@@ -4,6 +4,11 @@ rf_beacon_publisher_node:
     publisher_topic: /rf_signal
     subscription_topic: "/model_states"
     publish_rate: 10.0
-    path_loss: 5.0
-    noise_mean: -40.0
-    noise_std: 0.1
+    path_loss: 3.0
+    min_range: 0.1
+    max_range: 8.0
+    tx_power: 4.0
+    noise_mean: 0.0
+    noise_std: 0.5
+    noise_max: 2.0
+    noise_min: -2.0

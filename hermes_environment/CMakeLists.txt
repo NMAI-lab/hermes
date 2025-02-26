@@ -21,9 +21,6 @@ find_package(gazebo_ros REQUIRED)
 find_package(irobot_create_control REQUIRED)
 find_package(hermes_create_description REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(tf2_ros REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(tf2_geometry_msgs REQUIRED)
 find_package(gazebo_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rclcpp_components REQUIRED)
@@ -37,9 +34,7 @@ target_sources(
 )
 target_include_directories(rf_beacon_publisher_lib PUBLIC include)
 ament_target_dependencies(rf_beacon_publisher_lib
-  rclcpp tf2_ros
-  geometry_msgs
-  tf2_geometry_msgs
+  rclcpp
   gazebo_msgs
   std_msgs
   rclcpp_components
