@@ -120,7 +120,16 @@ $ ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
 - The inspiration for this project came from another similar project I worked on. Make sure to check out [Carleton Mail Delivery Robot](https://github.com/bardia-p/carleton-mail-delivery-robot)!
 - The name Hermes is a nod to the previous major AgentSpeak projects namely, [Jason](https://github.com/jason-lang/jason) and [Peleus](https://github.com/meneguzzi/Peleus). I chose the name Hermes since the main purpose of this robot is to deliver mail from one place to another. 
 
+## Acknowledgements
+- [iRobot's Create 3 Simulator](https://github.com/iRobotEducation/create3_sim/tree/foxy) for the main robot simulator.
+- [Jason](https://github.com/jason-lang/jason) for the AgentSpeak implementation of the project.
+- [savi_ROS_BDI](https://github.com/NMAI-lab/savi_ros_bdi.git) for ROS and Jason's integration.
+- [ros2_java](https://github.com/ros2-java/ros2_java.git) for the ros2 and Jason integration (at commit 610299c65a9b4165ea8cde6bb2cf5f4602a8819c)
+- [Peleus](https://github.com/meneguzzi/Peleus) for connecting Jason to various planners.
+- [ENHSP](https://gitlab.com/enricos83/ENHSP-Public.git) for creating the robot plans.
+
 ## TO-DO
-- Add beacons to the simulator
 - Add custom map generation
 - Add a simple Jason implementation for the robot
+- Connect Peleus the ENHSP planner
+- Convert the project to a Docker container
