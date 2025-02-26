@@ -19,57 +19,45 @@ This robot is based on the [iRobot Create 3](https://edu.irobot.com/what-we-offe
 In addition to that, Hermes uses the popular AgentSpeak language [Jason](https://jason-lang.github.io/) to implement the BDI architecture.
 
 ## Installation
-1. Install the proper version of [ROS](https://docs.ros.org/en/foxy/Installation.html) on the appropriate Debian system
-(My setup is ROS Foxy on Ubuntu 20.04)
+1. Install [ROS Foxy](https://docs.ros.org/en/foxy/Installation.html) on an Ubuntu 20.04 system
 
-3. Make sure to source your installation:
+2. Make sure to source your installation:
 ```
-$ source /opt/ros/${ROS_DISTRO}>/setup.bash
+$ source /opt/ros/foxy/setup.bash
 ```
 
-3. Install ROS [Gazebo](https://gazebosim.org/docs/latest/ros_installation/):
+3. Install ROS [Gazebo 11](https://classic.gazebosim.org/tutorials?tut=ros2_installing):
 ```
-$ sudo apt-get install ros-${ROS_DISTRO}-ros-gz
+$ sudo apt install ros-foxy-gazebo-ros-pkgs
 ```
 
 4. Install [RViz2](https://github.com/ros2/rviz):
 ```
-$ sudo apt install ros-${ROS_DISTRO}-rviz2
+$ sudo apt install ros-foxy-rviz2
 ```
 
-5. Install [colcon-common-extensions](https://pypi.org/project/colcon-common-extensions/):
+5. Install all the required Python packages using:
 ```
-$ pip install colcon-common-extensions
-```
-
-6. Install [rosdep](https://pypi.org/project/rosdep/):
-```
-$ sudo pip install rosdep
+$ pip install -r requirements.txt
 ```
 
-7. Install [vcs](https://pypi.org/project/vcstool/):
-```
-$ pip install vcstool
-```
-
-8. Create a ROS workspace for your system. Such as:
+6. Create a ROS workspace for your system. Such as:
 ```
 $ mkdir -p ~/hermes_ws/src
 $ cd ~/hermes_ws/src
 ```
 
-9. Clone the appropriate version of [iRobot Create 3 Sim](https://github.com/iRobotEducation/create3_sim):
-```
-$ git clone -b ${ROS_DISTRO} git@github.com:iRobotEducation/create3_sim.git
-$ vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/create3_sim/dependencies.repos
-```
-
-10. Clone [hermes](https://github.com/bardia-p/hermes):
+7. Clone [hermes](https://github.com/bardia-p/hermes):
 ```
 $ git clone git@github.com:bardia-p/hermes.git
 ```
 
-11. Install the ROS dependencies:
+8. Clone the appropriate ROS dependencies:
+```
+$ vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/dependencies.repos
+```
+
+9. Install the ROS dependencies:
 ```
 $ cd ~/hermes_ws
 $ sudo rosdep init
@@ -77,15 +65,19 @@ $ rosdep update
 $ rosdep install --from-path src -yi
 ```
 
-12. Build all the ROS packages by doing:
+10. Build all the ROS packages by doing:
 ```
 $ colcon build --symlink-install
 ```
 
-13. Source your installation by doing:
+11. Source your installation by doing:
 ```
 $ source ~/hermes_ws/install/local_setup.bash
 ```
+
+**NOTE:** If at any point you face any issues with the installation process of these ROS dependencies, please refer to the README files of the appropriate repositories:
+- [create3_sim](https://github.com/iRobotEducation/create3_sim/tree/foxy)
+- [irobot_create_msgs](https://github.com/iRobotEducation/irobot_create_msgs)
 
 ## Running Hermes
 
