@@ -72,7 +72,7 @@ def generate_launch_description():
                    '-x', x_offset,
                    '-y', y,
                    '-z', z,
-                   '-Y', yaw_offset],
+                   '-Y', yaw],
         output='screen',
     )
 
@@ -83,7 +83,7 @@ def generate_launch_description():
         arguments=[x_offset, y, z,
                    # According to documentation (http://wiki.ros.org/tf2_ros):
                    # the order is yaw, pitch, roll
-                   yaw_offset, '0', '0',
+                   yaw, '0', '0',
                    'odom', 'std_dock_link'],
         output='screen',
     )

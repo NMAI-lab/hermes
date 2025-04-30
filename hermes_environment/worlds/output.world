@@ -1,0 +1,1036 @@
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<sdf version="1.6">
+    <world name="default">
+        <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so"/>
+
+        <!-- Sun -->
+        <include>
+            <uri>model://sun</uri>
+        </include>
+
+        <!-- Ground -->
+        <model name="ground">
+            <static>true</static>
+            <pose>0 0 0 0 0 0</pose>
+            <link name="ground_link">
+                <collision name="ground_collision">
+                    <geometry>
+                        <plane>
+                            <size>100 100</size>
+                        </plane>
+                    </geometry>
+                </collision>
+                <visual name="ground_visual">
+                    <geometry>
+                        <plane>
+                            <size>100 100</size>
+                        </plane>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/White</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Beacon - I1 -->
+        <model name="I1">
+            <static>true</static>
+            <pose>0 0 2 0 0 0</pose>
+            <link name="body">
+                <!-- Visual appearance of the RF system -->
+                <visual name="beacon_visual">
+                    <geometry>
+                        <sphere>
+                            <radius>0.1</radius>
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Red</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I1_north_l -->
+        <model name="wall_I1_north_l">
+            <static>true</static>
+            <pose>-2.5 5.0 1 0 0 0</pose>
+            <link name="wall_I1_north_l_link">
+                <collision name="wall_I1_north_l_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I1_north_l_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I1_north_r -->
+        <model name="wall_I1_north_r">
+            <static>true</static>
+            <pose>2.5 5.0 1 0 0 0</pose>
+            <link name="wall_I1_north_r_link">
+                <collision name="wall_I1_north_r_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I1_north_r_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I1_east_l -->
+        <model name="wall_I1_east_l">
+            <static>true</static>
+            <pose>5.0 -2.5 1 0 0 0</pose>
+            <link name="wall_I1_east_l_link">
+                <collision name="wall_I1_east_l_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I1_east_l_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I1_east_r -->
+        <model name="wall_I1_east_r">
+            <static>true</static>
+            <pose>5.0 2.5 1 0 0 0</pose>
+            <link name="wall_I1_east_r_link">
+                <collision name="wall_I1_east_r_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I1_east_r_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I1_south_l -->
+        <model name="wall_I1_south_l">
+            <static>true</static>
+            <pose>-2.5 -5.0 1 0 0 0</pose>
+            <link name="wall_I1_south_l_link">
+                <collision name="wall_I1_south_l_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I1_south_l_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I1_south_r -->
+        <model name="wall_I1_south_r">
+            <static>true</static>
+            <pose>2.5 -5.0 1 0 0 0</pose>
+            <link name="wall_I1_south_r_link">
+                <collision name="wall_I1_south_r_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I1_south_r_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I1_west_l -->
+        <model name="wall_I1_west_l">
+            <static>true</static>
+            <pose>-5.0 -2.5 1 0 0 0</pose>
+            <link name="wall_I1_west_l_link">
+                <collision name="wall_I1_west_l_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I1_west_l_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I1_west_r -->
+        <model name="wall_I1_west_r">
+            <static>true</static>
+            <pose>-5.0 2.5 1 0 0 0</pose>
+            <link name="wall_I1_west_r_link">
+                <collision name="wall_I1_west_r_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I1_west_r_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Beacon - I2 -->
+        <model name="I2">
+            <static>true</static>
+            <pose>0 10 2 0 0 0</pose>
+            <link name="body">
+                <!-- Visual appearance of the RF system -->
+                <visual name="beacon_visual">
+                    <geometry>
+                        <sphere>
+                            <radius>0.1</radius>
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Red</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I2_north_l -->
+        <model name="wall_I2_north_l">
+            <static>true</static>
+            <pose>-2.5 15.0 1 0 0 0</pose>
+            <link name="wall_I2_north_l_link">
+                <collision name="wall_I2_north_l_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I2_north_l_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I2_north_r -->
+        <model name="wall_I2_north_r">
+            <static>true</static>
+            <pose>2.5 15.0 1 0 0 0</pose>
+            <link name="wall_I2_north_r_link">
+                <collision name="wall_I2_north_r_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I2_north_r_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I2_east_l -->
+        <model name="wall_I2_east_l">
+            <static>true</static>
+            <pose>5.0 7.5 1 0 0 0</pose>
+            <link name="wall_I2_east_l_link">
+                <collision name="wall_I2_east_l_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I2_east_l_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I2_east_r -->
+        <model name="wall_I2_east_r">
+            <static>true</static>
+            <pose>5.0 12.5 1 0 0 0</pose>
+            <link name="wall_I2_east_r_link">
+                <collision name="wall_I2_east_r_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I2_east_r_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I2_south_l -->
+        <model name="wall_I2_south_l">
+            <static>true</static>
+            <pose>-2.5 5.0 1 0 0 0</pose>
+            <link name="wall_I2_south_l_link">
+                <collision name="wall_I2_south_l_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I2_south_l_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I2_south_r -->
+        <model name="wall_I2_south_r">
+            <static>true</static>
+            <pose>2.5 5.0 1 0 0 0</pose>
+            <link name="wall_I2_south_r_link">
+                <collision name="wall_I2_south_r_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I2_south_r_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - I2_west_t -->
+        <model name="wall_I2_west_t">
+            <static>true</static>
+            <pose>-2.5 10 1 0 0 0</pose>
+            <link name="wall_I2_west_t_link">
+                <collision name="wall_I2_west_t_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_I2_west_t_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Beacon - B1 -->
+        <model name="B1">
+            <static>true</static>
+            <pose>10 0 2 0 0 0</pose>
+            <link name="body">
+                <!-- Visual appearance of the RF system -->
+                <visual name="beacon_visual">
+                    <geometry>
+                        <sphere>
+                            <radius>0.1</radius>
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Red</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B1_west_l -->
+        <model name="wall_B1_west_l">
+            <static>true</static>
+            <pose>7.5 -2.5 1 0 0 0</pose>
+            <link name="wall_B1_west_l_link">
+                <collision name="wall_B1_west_l_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B1_west_l_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B1_west_r -->
+        <model name="wall_B1_west_r">
+            <static>true</static>
+            <pose>7.5 2.5 1 0 0 0</pose>
+            <link name="wall_B1_west_r_link">
+                <collision name="wall_B1_west_r_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B1_west_r_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B1_east_t -->
+        <model name="wall_B1_east_t">
+            <static>true</static>
+            <pose>10 0 1 0 0 0</pose>
+            <link name="wall_B1_east_t_link">
+                <collision name="wall_B1_east_t_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B1_east_t_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Beacon - B2 -->
+        <model name="B2">
+            <static>true</static>
+            <pose>0 -10 2 0 0 0</pose>
+            <link name="body">
+                <!-- Visual appearance of the RF system -->
+                <visual name="beacon_visual">
+                    <geometry>
+                        <sphere>
+                            <radius>0.1</radius>
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Red</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B2_north_l -->
+        <model name="wall_B2_north_l">
+            <static>true</static>
+            <pose>-2.5 -7.5 1 0 0 0</pose>
+            <link name="wall_B2_north_l_link">
+                <collision name="wall_B2_north_l_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B2_north_l_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B2_north_r -->
+        <model name="wall_B2_north_r">
+            <static>true</static>
+            <pose>2.5 -7.5 1 0 0 0</pose>
+            <link name="wall_B2_north_r_link">
+                <collision name="wall_B2_north_r_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B2_north_r_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B2_south_t -->
+        <model name="wall_B2_south_t">
+            <static>true</static>
+            <pose>0 -10 1 0 0 0</pose>
+            <link name="wall_B2_south_t_link">
+                <collision name="wall_B2_south_t_collision">
+                    <geometry>
+                        <box>
+                            <size>5 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B2_south_t_visual">
+                    <geometry>
+                        <box>
+                            <size>5 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Beacon - B3 -->
+        <model name="B3">
+            <static>true</static>
+            <pose>-10 0 2 0 0 0</pose>
+            <link name="body">
+                <!-- Visual appearance of the RF system -->
+                <visual name="beacon_visual">
+                    <geometry>
+                        <sphere>
+                            <radius>0.1</radius>
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Red</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B3_east_l -->
+        <model name="wall_B3_east_l">
+            <static>true</static>
+            <pose>-7.5 -2.5 1 0 0 0</pose>
+            <link name="wall_B3_east_l_link">
+                <collision name="wall_B3_east_l_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B3_east_l_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B3_east_r -->
+        <model name="wall_B3_east_r">
+            <static>true</static>
+            <pose>-7.5 2.5 1 0 0 0</pose>
+            <link name="wall_B3_east_r_link">
+                <collision name="wall_B3_east_r_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B3_east_r_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B3_west_t -->
+        <model name="wall_B3_west_t">
+            <static>true</static>
+            <pose>-10 0 1 0 0 0</pose>
+            <link name="wall_B3_west_t_link">
+                <collision name="wall_B3_west_t_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B3_west_t_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Beacon - B4 -->
+        <model name="B4">
+            <static>true</static>
+            <pose>0 20 2 0 0 0</pose>
+            <link name="body">
+                <!-- Visual appearance of the RF system -->
+                <visual name="beacon_visual">
+                    <geometry>
+                        <sphere>
+                            <radius>0.1</radius>
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Red</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B4_south_l -->
+        <model name="wall_B4_south_l">
+            <static>true</static>
+            <pose>-2.5 17.5 1 0 0 0</pose>
+            <link name="wall_B4_south_l_link">
+                <collision name="wall_B4_south_l_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B4_south_l_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B4_south_r -->
+        <model name="wall_B4_south_r">
+            <static>true</static>
+            <pose>2.5 17.5 1 0 0 0</pose>
+            <link name="wall_B4_south_r_link">
+                <collision name="wall_B4_south_r_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B4_south_r_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5.0 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B4_north_t -->
+        <model name="wall_B4_north_t">
+            <static>true</static>
+            <pose>0 20 1 0 0 0</pose>
+            <link name="wall_B4_north_t_link">
+                <collision name="wall_B4_north_t_collision">
+                    <geometry>
+                        <box>
+                            <size>5 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B4_north_t_visual">
+                    <geometry>
+                        <box>
+                            <size>5 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Beacon - B5 -->
+        <model name="B5">
+            <static>true</static>
+            <pose>10 10 2 0 0 0</pose>
+            <link name="body">
+                <!-- Visual appearance of the RF system -->
+                <visual name="beacon_visual">
+                    <geometry>
+                        <sphere>
+                            <radius>0.1</radius>
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Red</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B5_west_l -->
+        <model name="wall_B5_west_l">
+            <static>true</static>
+            <pose>7.5 7.5 1 0 0 0</pose>
+            <link name="wall_B5_west_l_link">
+                <collision name="wall_B5_west_l_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B5_west_l_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B5_west_r -->
+        <model name="wall_B5_west_r">
+            <static>true</static>
+            <pose>7.5 12.5 1 0 0 0</pose>
+            <link name="wall_B5_west_r_link">
+                <collision name="wall_B5_west_r_collision">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B5_west_r_visual">
+                    <geometry>
+                        <box>
+                            <size>5.0 0.1 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <!-- Wall - B5_east_t -->
+        <model name="wall_B5_east_t">
+            <static>true</static>
+            <pose>10 10 1 0 0 0</pose>
+            <link name="wall_B5_east_t_link">
+                <collision name="wall_B5_east_t_collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 5 2</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_B5_east_t_visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 5 2</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+    </world>
+</sdf>

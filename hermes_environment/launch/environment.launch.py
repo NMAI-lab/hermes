@@ -1,6 +1,6 @@
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
+from launch.actions import OpaqueFunction, DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -8,30 +8,218 @@ from launch_ros.actions import Node
 
 import yaml
 import os
-
-ARGUMENTS = [
-    DeclareLaunchArgument('rviz', default_value='true',
-                          choices=['true', 'false'],
-                          description='Start rviz.'),
-    DeclareLaunchArgument('gui', default_value='true',
-                          choices=['true', 'false'],
-                          description='Set "false" to run gazebo headless.'),
-    DeclareLaunchArgument('dock', default_value='true',
-                          choices=['true', 'false'],
-                          description='Spawn the standard dock model.'),
-]
-
-for pose_element in ['x', 'y', 'z', 'yaw']:
-    ARGUMENTS.append(DeclareLaunchArgument(pose_element, default_value='0.0',
-                     description=f'{pose_element} component of the robot pose.'))
-
+import json
 
 def load_yaml_params(file_path):
     """Load parameters from a YAML file."""
     with open(file_path, 'r') as f:
         return yaml.safe_load(f)
 
-def generate_launch_description():
+world_header = """
+<?xml version="1.0" encoding="utf-8"?>
+
+<sdf version="1.6">
+    <world name="default">
+        <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so"/>
+
+        <!-- Sun -->
+        <include>
+            <uri>model://sun</uri>
+        </include>
+
+        <!-- Ground -->
+        <model name="ground">
+            <static>true</static>
+            <pose>0 0 0 0 0 0</pose>
+            <link name="ground_link">
+                <collision name="ground_collision">
+                    <geometry>
+                        <plane>
+                            <size>100 100</size>
+                        </plane>
+                    </geometry>
+                </collision>
+                <visual name="ground_visual">
+                    <geometry>
+                        <plane>
+                            <size>100 100</size>
+                        </plane>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/White</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+"""
+
+world_footer = """
+    </world>
+</sdf>
+"""
+
+beacon_template = """
+        <!-- Beacon - {name} -->
+        <model name="{name}">
+            <static>true</static>
+            <pose>{x} {y} {z} 0 0 0</pose>
+            <link name="body">
+                <!-- Visual appearance of the RF system -->
+                <visual name="beacon_visual">
+                    <geometry>
+                        <sphere>
+                            <radius>0.1</radius>
+                        </sphere>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Red</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+"""
+
+wall_template = """
+        <!-- Wall - {beacon}_{direction}_{side} -->
+        <model name="wall_{beacon}_{direction}_{side}">
+            <static>true</static>
+            <pose>{x} {y} {z} 0 0 0</pose>
+            <link name="wall_{beacon}_{direction}_{side}_link">
+                <collision name="wall_{beacon}_{direction}_{side}_collision">
+                    <geometry>
+                        <box>
+                            <size>{width} {length} {height}</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="wall_{beacon}_{direction}_{side}_visual">
+                    <geometry>
+                        <box>
+                            <size>{width} {length} {height}</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <script>
+                            <uri>file://media/materials/scripts/gazebo.material</uri>
+                            <name>Gazebo/Bricks</name>
+                        </script>
+                    </material>
+                </visual>
+            </link>
+        </model>
+"""
+
+world_name = "output.world"
+
+wall_height = 2
+tunnel_width = 5
+wall_thickness = 0.1
+dock_offset = 2
+pi = 3.1416
+
+def generate_world(input_file, start_beacon, end_beacon):
+    with open(input_file) as json_data:
+        world_body = ""
+        parsed_map = json.load(json_data)
+        beacons_dicts = parsed_map['beacons']
+        origin_beacon = parsed_map['origin']
+        beacons = dict()
+        robot_position = None
+        dock_position = None
+        
+        to_visit = [(origin_beacon, 0, 0)]
+
+        while len(to_visit) != 0:
+            curr_beacon, x, y = to_visit.pop(0)
+
+            world_body += beacon_template.format(name=curr_beacon, x=x, y=y, z=wall_height)
+
+            curr_beacon_dict = beacons_dicts[curr_beacon]
+
+            if curr_beacon_dict["type"] == "intersection":
+                beacons[curr_beacon] = (x, y, 0, 0)
+                if "north" in curr_beacon_dict:
+                    distance = curr_beacon_dict["north"]["distance"]
+                    world_body += wall_template.format(beacon=curr_beacon, direction="north", side="l", x=x-tunnel_width/2, y=y+tunnel_width/2+distance/4, z=wall_height//2, width=wall_thickness, length=distance/2, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="north", side="r", x=x+tunnel_width/2, y=y+tunnel_width/2+distance/4, z=wall_height//2,width=wall_thickness, length=distance/2, height=wall_height)
+                    if curr_beacon_dict["north"]["name"] not in beacons:
+                        to_visit.append((curr_beacon_dict["north"]["name"], x, y + curr_beacon_dict["north"]["distance"]))
+                else:
+                    world_body += wall_template.format(beacon=curr_beacon, direction="north", side="t", x=x, y=y+tunnel_width/2, z=wall_height//2, width=tunnel_width, length=wall_thickness, height=wall_height)
+
+                if "east" in curr_beacon_dict:
+                    world_body += wall_template.format(beacon=curr_beacon, direction="east", side="l", x=x+tunnel_width/2+distance/4, y=y-tunnel_width/2, z=wall_height//2, width=distance/2, length=wall_thickness, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="east", side="r", x=x+tunnel_width/2+distance/4, y=y+tunnel_width/2, z=wall_height//2,width=distance/2, length=wall_thickness, height=wall_height)
+                    if curr_beacon_dict["east"]["name"] not in beacons:
+                        to_visit.append((curr_beacon_dict["east"]["name"], x + curr_beacon_dict["east"]["distance"], y))
+                else:
+                    world_body += wall_template.format(beacon=curr_beacon, direction="east", side="t", x=x+tunnel_width/2, y=y, z=wall_height//2, width=wall_thickness, length=tunnel_width, height=wall_height)
+
+                if "south" in curr_beacon_dict:
+                    world_body += wall_template.format(beacon=curr_beacon, direction="south", side="l", x=x-tunnel_width/2, y=y-tunnel_width/2-distance/4, z=wall_height//2, width=wall_thickness, length=distance/2, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="south", side="r", x=x+tunnel_width/2, y=y-tunnel_width/2-distance/4, z=wall_height//2,width=wall_thickness, length=distance/2, height=wall_height)
+                    if curr_beacon_dict["south"]["name"] not in beacons:
+                        to_visit.append((curr_beacon_dict["south"]["name"], x, y - curr_beacon_dict["south"]["distance"]))
+                else:
+                    world_body += wall_template.format(beacon=curr_beacon, direction="south", side="t", x=x, y=y-tunnel_width/2, z=wall_height//2, width=tunnel_width, length=wall_thickness, height=wall_height)
+
+                if "west" in curr_beacon_dict:
+                    world_body += wall_template.format(beacon=curr_beacon, direction="west", side="l", x=x-tunnel_width/2-distance/4, y=y-tunnel_width/2, z=wall_height//2, width=distance/2, length=wall_thickness, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="west", side="r", x=x-tunnel_width/2-distance/4, y=y+tunnel_width/2, z=wall_height//2,width=distance/2, length=wall_thickness, height=wall_height)
+                    if curr_beacon_dict["west"]["name"] not in beacons:
+                        to_visit.append((curr_beacon_dict["west"]["name"], x - curr_beacon_dict["west"]["distance"], y))
+                else:
+                    world_body += wall_template.format(beacon=curr_beacon, direction="west", side="t", x=x-tunnel_width/2, y=y, z=wall_height//2, width=wall_thickness, length=tunnel_width, height=wall_height)
+            elif curr_beacon_dict["type"] == "destination":
+                if "north" in curr_beacon_dict:
+                    beacons[curr_beacon] = (x, y+dock_offset, 0, pi/2)
+                    distance = curr_beacon_dict["north"]["distance"]
+                    world_body += wall_template.format(beacon=curr_beacon, direction="north", side="l", x=x-tunnel_width/2, y=y+distance/4, z=wall_height//2, width=wall_thickness, length=distance/2, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="north", side="r", x=x+tunnel_width/2, y=y+distance/4, z=wall_height//2,width=wall_thickness, length=distance/2, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="south", side="t", x=x, y=y, z=wall_height//2, width=tunnel_width, length=wall_thickness, height=wall_height)
+
+                elif "east" in curr_beacon_dict:
+                    beacons[curr_beacon] = (x+dock_offset, y, 0, 0)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="east", side="l", x=x+distance/4, y=y-tunnel_width/2, z=wall_height//2, width=distance/2, length=wall_thickness, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="east", side="r", x=x+distance/4, y=y+tunnel_width/2, z=wall_height//2,width=distance/2, length=wall_thickness, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="west", side="t", x=x, y=y, z=wall_height//2, width=wall_thickness, length=tunnel_width, height=wall_height)
+
+                elif "south" in curr_beacon_dict:
+                    beacons[curr_beacon] = (x, y-dock_offset, 0, -pi/2)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="south", side="l", x=x-tunnel_width/2, y=y-distance/4, z=wall_height//2, width=wall_thickness, length=distance/2, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="south", side="r", x=x+tunnel_width/2, y=y-distance/4, z=wall_height//2,width=wall_thickness, length=distance/2, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="north", side="t", x=x, y=y, z=wall_height//2, width=tunnel_width, length=wall_thickness, height=wall_height)
+
+                elif "west" in curr_beacon_dict:
+                    beacons[curr_beacon] = (x-dock_offset, y, 0, pi)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="west", side="l", x=x-distance/4, y=y-tunnel_width/2, z=wall_height//2, width=distance/2, length=wall_thickness, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="west", side="r", x=x-distance/4, y=y+tunnel_width/2, z=wall_height//2,width=distance/2, length=wall_thickness, height=wall_height)
+                    world_body += wall_template.format(beacon=curr_beacon, direction="east", side="t", x=x, y=y, z=wall_height//2, width=wall_thickness, length=tunnel_width, height=wall_height)
+
+        pkg_hermes_environment = get_package_share_directory('hermes_environment')
+        hermes_world_filepath = os.path.join(
+            pkg_hermes_environment,
+            'worlds',
+            world_name
+        )
+        output_file = open(hermes_world_filepath, "w")
+        output_file.write(world_header + world_body + world_footer)
+        output_file.close()
+
+        if start_beacon in beacons:
+            robot_position = (str(beacons[start_beacon][0]), str(beacons[start_beacon][1]), str(beacons[start_beacon][2]), str(beacons[start_beacon][3]))
+
+        dock_position = (str(beacons[end_beacon][0]), str(beacons[end_beacon][1]), str(beacons[end_beacon][2]), str(beacons[end_beacon][3]))
+        
+        return robot_position, dock_position, list(beacons.keys())
+
+def launch_setup(context, *args, **kwargs):
     # Directories
     pkg_create3_control = get_package_share_directory('irobot_create_control')
     pkg_create3_description = get_package_share_directory('hermes_create_description')
@@ -63,8 +251,23 @@ def generate_launch_description():
     # Launch configurations
     x, y, z = LaunchConfiguration('x'), LaunchConfiguration('y'), LaunchConfiguration('z')
     yaw = LaunchConfiguration('yaw')
+
+    world_configuration_json_file = os.path.join(
+        pkg_hermes_environment,
+        'worlds',
+        LaunchConfiguration('world').perform(context)
+    )
+
+    robot_position, dock_position, beacons = generate_world(world_configuration_json_file,
+                                                            LaunchConfiguration('start').perform(context),
+                                                            LaunchConfiguration('end').perform(context))
+
+    # In case no initial beacon was provided.
+    if robot_position == None:
+        robot_position = (x, y, z, yaw)
+
     world_path = PathJoinSubstitution(
-        [pkg_hermes_environment, 'worlds', 'test.world']
+        [pkg_hermes_environment, 'worlds', world_name]
     )
     models_path = PathJoinSubstitution(
         [pkg_hermes_environment, 'models']
@@ -79,9 +282,8 @@ def generate_launch_description():
     )
     spawn_dock = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([dock_launch_file]),
-        condition=IfCondition(LaunchConfiguration('dock')),
         # The robot starts docked
-        launch_arguments={'x': x, 'y': y, 'z': z, 'yaw': yaw}.items(),
+        launch_arguments={'x': dock_position[0], 'y': dock_position[1], 'z': dock_position[2], 'yaw': dock_position[3]}.items(),
     )
 
     # Gazebo server
@@ -109,10 +311,10 @@ def generate_launch_description():
                    'create3',
                    '-topic',
                    'robot_description',
-                   '-x', x,
-                   '-y', y,
-                   '-z', z,
-                   '-Y', yaw],
+                   '-x', robot_position[0],
+                   '-y', robot_position[1],
+                   '-z', robot_position[2],
+                   '-Y', robot_position[3]],
         output='screen',
     )
 
@@ -165,40 +367,57 @@ def generate_launch_description():
         output='screen',
     )
 
-    rf_beacon1_publisher = Node(
-        package='hermes_environment',
-        name='rf_beacon1',
-        executable='rf_beacon_publisher_node',
-        parameters=[rf_beacon_params,
-                    {'use_sim_time': True}],
-        output='screen',
-    )
+    beacon_publishers = []
 
-    rf_beacon2_publisher = Node(
-        package='hermes_environment',
-        name='rf_beacon2',
-        executable='rf_beacon_publisher_node',
-        parameters=[rf_beacon_params,
-                    {'use_sim_time': True}],
-        output='screen',
-    )
+    for beacon in beacons:
+        beacon_publishers.append(Node(
+            package='hermes_environment',
+            name=beacon,
+            executable='rf_beacon_publisher_node',
+            parameters=[rf_beacon_params,
+                        {'use_sim_time': True}],
+            output='screen',
+        ))
 
-    # Define LaunchDescription variable
-    ld = LaunchDescription(ARGUMENTS)
-    # Include robot description
-    ld.add_action(robot_description)
-    ld.add_action(diffdrive_controller)
-    # Add nodes to LaunchDescription
-    ld.add_action(gzserver)
-    ld.add_action(gzclient)
-    ld.add_action(spawn_robot)
-    ld.add_action(spawn_dock)
-    ld.add_action(hazards_vector_node)
-    ld.add_action(ir_intensity_vector_node)
-    ld.add_action(motion_control_node)
-    ld.add_action(wheel_status_node)
-    ld.add_action(mock_topics_node)
-    ld.add_action(rf_beacon1_publisher)
-    ld.add_action(rf_beacon2_publisher)
+    nodes = [
+        # Include robot description
+        robot_description,
+        diffdrive_controller,
+        # Add nodes to LaunchDescription
+        gzserver,
+        gzclient,
+        spawn_robot,
+        spawn_dock,
+        hazards_vector_node,
+        ir_intensity_vector_node,
+        motion_control_node,
+        wheel_status_node,
+        mock_topics_node
+    ]
 
-    return ld
+    for beacon_publisher in beacon_publishers:
+        nodes.append(beacon_publisher)
+
+    return nodes
+
+def generate_launch_description():
+    ARGUMENTS = [
+        DeclareLaunchArgument('rviz', default_value='true',
+                              choices=['true', 'false'], 
+                              description='Start rviz.'),
+        DeclareLaunchArgument('gui', default_value='true',
+                              choices=['true', 'false'],
+                              description='Set "false" to run gazebo headless.'),
+        DeclareLaunchArgument('world', default_value='test.json',
+                              description='The environment description'),
+        DeclareLaunchArgument('start', default_value='',
+                              description='The initial beacon for the robot'),
+        DeclareLaunchArgument('end', default_value='',
+                              description='The final beacon for the robot'),
+    ]
+
+    for pose_element in ['x', 'y', 'z', 'yaw']:
+        ARGUMENTS.append(DeclareLaunchArgument(pose_element, default_value='0.0',
+                                               description=f'{pose_element} component of the robot pose.'))
+
+    return LaunchDescription(ARGUMENTS + [OpaqueFunction(function=launch_setup)]) 

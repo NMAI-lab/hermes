@@ -1,0 +1,76 @@
+{
+    "origin": "I1",
+    "beacons": {
+        "I1": {
+            "type": "intersection",
+            "north": {
+                "name": "I2",
+                "type": "intersection",
+                "distance": 10
+            },
+            "east": {
+                "name": "B1",
+                "distance": 10
+            },
+            "south": {
+                "name": "B2",
+                "distance": 10
+            },
+            "west": {
+                "name": "B3",
+                "distance": 10
+            }
+        },
+        "I2": {
+            "name": "I2",
+            "type": "intersection",
+            "north": {
+                "name": "B4",
+                "distance": 10
+            },
+            "east": {
+                "name": "B5",
+                "distance": 10
+            },
+            "south": {
+                "name": "I1",
+                "distance": 10
+            }
+        },
+        "B1": {
+            "type": "destination",
+            "west": {
+                "name": "I1",
+                "distance": 10
+            }
+        },
+        "B2": {
+            "type": "destination",
+            "north": {
+                "name": "I1",
+                "distance": 10
+            }
+        },
+        "B3": {
+            "type": "destination",
+            "east": {
+                "name": "I1",
+                "distance": 10
+            }
+        },
+        "B4": {
+            "type": "destination",
+            "south": {
+                "name": "I2",
+                "distance": 10
+            }
+        },
+        "B5": {
+            "type": "destination",
+            "west": {
+                "name": "I2",
+                "distance": 10
+            }
+        }
+    }
+}
