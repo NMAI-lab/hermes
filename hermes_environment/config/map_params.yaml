@@ -1,0 +1,8 @@
+---
+# The name of the file for the generated world
+world_name: "output.world"
+wall_height: 2
+tunnel_width: 5
+wall_thickness: 0.1
+# The distance between the dock station and its beacon
+dock_offset: 1.5

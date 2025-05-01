@@ -9,6 +9,7 @@ from launch_ros.actions import Node
 import yaml
 import os
 import json
+import math
 
 def load_yaml_params(file_path):
     """Load parameters from a YAML file."""
@@ -115,15 +116,7 @@ wall_template = """
         </model>
 """
 
-world_name = "output.world"
-
-wall_height = 2
-tunnel_width = 5
-wall_thickness = 0.1
-dock_offset = 2
-pi = 3.1416
-
-def generate_world(input_file, start_beacon, end_beacon):
+def generate_world(input_file, start_beacon, end_beacon, map_params):
     with open(input_file) as json_data:
         world_body = ""
         parsed_map = json.load(json_data)
@@ -134,6 +127,12 @@ def generate_world(input_file, start_beacon, end_beacon):
         dock_position = None
         
         to_visit = [(origin_beacon, 0, 0)]
+
+        world_name = map_params['world_name']
+        wall_height = map_params['wall_height']
+        tunnel_width = map_params['tunnel_width']
+        wall_thickness = map_params['wall_thickness']
+        dock_offset = map_params['dock_offset']
 
         while len(to_visit) != 0:
             curr_beacon, x, y = to_visit.pop(0)
@@ -178,7 +177,7 @@ def generate_world(input_file, start_beacon, end_beacon):
                     world_body += wall_template.format(beacon=curr_beacon, direction="west", side="t", x=x-tunnel_width/2, y=y, z=wall_height//2, width=wall_thickness, length=tunnel_width, height=wall_height)
             elif curr_beacon_dict["type"] == "destination":
                 if "north" in curr_beacon_dict:
-                    beacons[curr_beacon] = (x, y+dock_offset, 0, pi/2)
+                    beacons[curr_beacon] = (x, y+dock_offset, 0, math.pi/2)
                     distance = curr_beacon_dict["north"]["distance"]
                     world_body += wall_template.format(beacon=curr_beacon, direction="north", side="l", x=x-tunnel_width/2, y=y+distance/4, z=wall_height//2, width=wall_thickness, length=distance/2, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="north", side="r", x=x+tunnel_width/2, y=y+distance/4, z=wall_height//2,width=wall_thickness, length=distance/2, height=wall_height)
@@ -191,13 +190,13 @@ def generate_world(input_file, start_beacon, end_beacon):
                     world_body += wall_template.format(beacon=curr_beacon, direction="west", side="t", x=x, y=y, z=wall_height//2, width=wall_thickness, length=tunnel_width, height=wall_height)
 
                 elif "south" in curr_beacon_dict:
-                    beacons[curr_beacon] = (x, y-dock_offset, 0, -pi/2)
+                    beacons[curr_beacon] = (x, y-dock_offset, 0, -math.pi/2)
                     world_body += wall_template.format(beacon=curr_beacon, direction="south", side="l", x=x-tunnel_width/2, y=y-distance/4, z=wall_height//2, width=wall_thickness, length=distance/2, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="south", side="r", x=x+tunnel_width/2, y=y-distance/4, z=wall_height//2,width=wall_thickness, length=distance/2, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="north", side="t", x=x, y=y, z=wall_height//2, width=tunnel_width, length=wall_thickness, height=wall_height)
 
                 elif "west" in curr_beacon_dict:
-                    beacons[curr_beacon] = (x-dock_offset, y, 0, pi)
+                    beacons[curr_beacon] = (x-dock_offset, y, 0, math.pi)
                     world_body += wall_template.format(beacon=curr_beacon, direction="west", side="l", x=x-distance/4, y=y-tunnel_width/2, z=wall_height//2, width=distance/2, length=wall_thickness, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="west", side="r", x=x-distance/4, y=y+tunnel_width/2, z=wall_height//2,width=distance/2, length=wall_thickness, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="east", side="t", x=x, y=y, z=wall_height//2, width=wall_thickness, length=tunnel_width, height=wall_height)
@@ -240,13 +239,20 @@ def launch_setup(context, *args, **kwargs):
         [pkg_hermes_environment, 'config', 'wheel_status_params.yaml'])
     mock_params_yaml_file = PathJoinSubstitution(
         [pkg_hermes_environment, 'config', 'mock_params.yaml'])
-
     beacon_params_yaml_file = os.path.join(
         pkg_hermes_environment,
         'config',
         'beacon_params.yaml'
     )
+    map_params_yaml_file = os.path.join(
+        pkg_hermes_environment,
+        'config',
+        'map_params.yaml'
+    )
+
+    # Loading the yaml config files
     rf_beacon_params = load_yaml_params(beacon_params_yaml_file).get('rf_beacon_publisher_node', {}).get('ros__parameters', {})
+    map_params = load_yaml_params(map_params_yaml_file)
 
     # Launch configurations
     x, y, z = LaunchConfiguration('x'), LaunchConfiguration('y'), LaunchConfiguration('z')
@@ -260,14 +266,15 @@ def launch_setup(context, *args, **kwargs):
 
     robot_position, dock_position, beacons = generate_world(world_configuration_json_file,
                                                             LaunchConfiguration('start').perform(context),
-                                                            LaunchConfiguration('end').perform(context))
+                                                            LaunchConfiguration('end').perform(context),
+                                                            map_params)
 
     # In case no initial beacon was provided.
     if robot_position == None:
         robot_position = (x, y, z, yaw)
 
     world_path = PathJoinSubstitution(
-        [pkg_hermes_environment, 'worlds', world_name]
+        [pkg_hermes_environment, 'worlds', map_params['world_name']]
     )
     models_path = PathJoinSubstitution(
         [pkg_hermes_environment, 'models']
@@ -367,8 +374,8 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
     )
 
+    # Loading the beacons
     beacon_publishers = []
-
     for beacon in beacons:
         beacon_publishers.append(Node(
             package='hermes_environment',
@@ -379,6 +386,7 @@ def launch_setup(context, *args, **kwargs):
             output='screen',
         ))
 
+    # Adding all the nodes
     nodes = [
         # Include robot description
         robot_description,
