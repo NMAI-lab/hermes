@@ -116,24 +116,61 @@ wall_template = """
         </model>
 """
 
+obstacle_template = """
+        <!-- Obstacle - {number} -->
+        <model name="Obstacle - {number}">
+            <static>true</static>
+            <link name="obstacle_{number}_link">
+                <pose>{x} {y} {z} 0 0 0</pose>
+                
+                <visual name="rock_visual">
+                    <geometry>
+                        <cylinder>
+                            <radius>{radius}</radius>
+                            <length>{height}</length>
+                        </cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.3 0.25 0.2 1</ambient>
+                        <diffuse>0.5 0.4 0.3 1</diffuse>
+                    </material>
+                </visual>
+
+                <collision name="obstacle_{number}_collision">
+                    <geometry>
+                        <cylinder>
+                            <radius>{radius}</radius>
+                            <length>{height}</length>
+                        </cylinder>
+                    </geometry>
+                </collision>
+            </link>
+        </model>
+"""
+
 def generate_world(input_file, start_beacon, end_beacon, map_params):
     with open(input_file) as json_data:
         world_body = ""
         parsed_map = json.load(json_data)
         beacons_dicts = parsed_map['beacons']
         origin_beacon = parsed_map['origin']
+        obstacles = parsed_map['obstacles']
         beacons = dict()
         robot_position = None
         dock_position = None
         
         to_visit = [(origin_beacon, 0, 0)]
 
+        # Map constants
         world_name = map_params['world_name']
         wall_height = map_params['wall_height']
         tunnel_width = map_params['tunnel_width']
         wall_thickness = map_params['wall_thickness']
         dock_offset = map_params['dock_offset']
+        obstacle_height = map_params['obstacle_height']
+        obstacle_radius = map_params['obstacle_radius']
 
+        # Adding the walls and beacons.
         while len(to_visit) != 0:
             curr_beacon, x, y = to_visit.pop(0)
 
@@ -200,6 +237,14 @@ def generate_world(input_file, start_beacon, end_beacon, map_params):
                     world_body += wall_template.format(beacon=curr_beacon, direction="west", side="l", x=x-distance/4, y=y-tunnel_width/2, z=wall_height//2, width=distance/2, length=wall_thickness, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="west", side="r", x=x-distance/4, y=y+tunnel_width/2, z=wall_height//2,width=distance/2, length=wall_thickness, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="east", side="t", x=x, y=y, z=wall_height//2, width=wall_thickness, length=tunnel_width, height=wall_height)
+
+        # Adding the obstacles.
+        for i in range(len(obstacles)):
+            o = obstacles[i]
+            beacon_x, beacon_y, _, _ = beacons[o['from']]
+            obstacle_x = beacon_x + o['position']['x']
+            obstacle_y = beacon_y + o['position']['y']
+            world_body += obstacle_template.format(number=i+1, x=obstacle_x, y=obstacle_y, z=obstacle_height/2, radius=obstacle_radius, height=obstacle_height)
 
         pkg_hermes_environment = get_package_share_directory('hermes_environment')
         hermes_world_filepath = os.path.join(
