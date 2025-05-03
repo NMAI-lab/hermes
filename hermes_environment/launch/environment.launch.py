@@ -121,7 +121,7 @@ obstacle_template = """
         <model name="Obstacle - {number}">
             <static>true</static>
             <link name="obstacle_{number}_link">
-                <pose>{x} {y} {z} 0 0 0</pose>
+                <pose>{x} {y} {z} {yaw} {pitch} 0</pose>
                 
                 <visual name="rock_visual">
                     <geometry>
@@ -244,7 +244,9 @@ def generate_world(input_file, start_beacon, end_beacon, map_params):
             beacon_x, beacon_y, _, _ = beacons[o['from']]
             obstacle_x = beacon_x + o['position']['x']
             obstacle_y = beacon_y + o['position']['y']
-            world_body += obstacle_template.format(number=i+1, x=obstacle_x, y=obstacle_y, z=obstacle_height/2, radius=obstacle_radius, height=obstacle_height)
+            obstacle_yaw = o['position']['yaw']
+            obstacle_pitch = o['position']['pitch']
+            world_body += obstacle_template.format(number=i+1, x=obstacle_x, y=obstacle_y, z=obstacle_height/2, radius=obstacle_radius, height=obstacle_height, yaw=obstacle_yaw, pitch=obstacle_pitch)
 
         pkg_hermes_environment = get_package_share_directory('hermes_environment')
         hermes_world_filepath = os.path.join(
