@@ -317,6 +317,8 @@ def launch_setup(context, *args, **kwargs):
     # In case no initial beacon was provided.
     if robot_position == None:
         robot_position = (x, y, z, yaw)
+    else:
+        robot_position = (robot_position[0], robot_position[1], robot_position[2], yaw)
 
     world_path = PathJoinSubstitution(
         [pkg_hermes_environment, 'worlds', map_params['world_name']]
