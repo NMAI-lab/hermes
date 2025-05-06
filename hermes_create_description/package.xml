@@ -4,10 +4,6 @@
   <name>hermes_create_description</name>
   <version>0.0.1</version>
   <description>Provides the model description for the iRobot(R) Create(R) 3 Educational Robot.</description>
-  <maintainer email="ekumen@irbt.onmicrosoft.com">Ekumen</maintainer>
-  <license>BSD</license>
-
-  <author>iRobot</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
