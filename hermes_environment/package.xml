@@ -4,6 +4,8 @@
   <name>hermes_environment</name>
   <version>0.0.1</version>
   <description>Provides the description for the simulation environment.</description>
+  <maintainer email="bardiaparmoun@cmail.carleton.ca">Bardia Parmoun</maintainer>
+  <license>BSD</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
