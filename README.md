@@ -84,7 +84,7 @@ $ source ~/hermes_ws/install/local_setup.bash
 First try to fire up the simulator by doing:
 ```
 $ source ~/hermes_ws/install/local_setup.bash
-$ ros2 launch hermes_simulator robot.launch.py start:=I1 end:=B1
+$ ros2 launch hermes_simulator simulator.launch.py start:=I1 end:=B1
 ```
 
 You should see the Gazebo and RViz windows pop up:

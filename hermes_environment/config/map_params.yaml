@@ -1,6 +1,6 @@
 ---
 # The name of the file for the generated world
-world_name: "output.world"
+world_name: output.world
 wall_height: 2
 tunnel_width: 5
 wall_thickness: 0.1

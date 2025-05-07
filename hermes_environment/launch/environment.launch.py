@@ -308,7 +308,7 @@ def launch_setup(context, *args, **kwargs):
     world_configuration_json_file = os.path.join(
         pkg_hermes_environment,
         'worlds',
-        LaunchConfiguration('world').perform(context)
+        LaunchConfiguration('map').perform(context)
     )
 
     robot_position, dock_position, beacons = generate_world(world_configuration_json_file,
@@ -465,7 +465,7 @@ def generate_launch_description():
         DeclareLaunchArgument('gui', default_value='true',
                               choices=['true', 'false'],
                               description='Set "false" to run gazebo headless.'),
-        DeclareLaunchArgument('world', default_value='test.json',
+        DeclareLaunchArgument('map', default_value='map.json',
                               description='The environment description'),
         DeclareLaunchArgument('start', default_value='',
                               description='The initial beacon for the robot'),
