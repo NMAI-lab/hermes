@@ -2,7 +2,7 @@
 rf_beacon_publisher_node:
   ros__parameters:
     publisher_topic: /rf_signal
-    subscription_topic: "/model_states"
+    subscription_topic: /model_states
     publish_rate: 10.0
     path_loss: 3.0
     min_range: 0.1

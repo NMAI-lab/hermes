@@ -24,6 +24,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'lidar_sensor = hermes_simulator.perceptions.lidar_sensor:main',
+            'beacon_sensor = hermes_simulator.perceptions.beacon_sensor:main'
         ],
     },
 )

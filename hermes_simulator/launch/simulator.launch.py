@@ -6,8 +6,27 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 
+import os
+
 def launch_setup(context, *args, **kwargs):
     pkg_hermes_environment = get_package_share_directory('hermes_environment')
+
+    # Environment config files.
+    lidar_params_yaml_file = os.path.join(
+        pkg_hermes_environment,
+        'config',
+        'lidar_params.yaml'
+    )
+    beacon_params_yaml_file = os.path.join(
+        pkg_hermes_environment,
+        'config',
+        'beacon_params.yaml'
+    )
+    map_params_yaml_file = os.path.join(
+        pkg_hermes_environment,
+        'config',
+        'map_params.yaml'
+    )
 
     environment_launch_file = PathJoinSubstitution(
         [pkg_hermes_environment, 'launch', 'environment.launch.py'])
@@ -28,7 +47,23 @@ def launch_setup(context, *args, **kwargs):
     
     # Adding all the nodes
     nodes = [
-        robot_environment
+        robot_environment,
+        Node(package='hermes_simulator',
+             namespace='perceptions',
+             executable='lidar_sensor',
+             name='lidar_sensor',
+             output='log',
+             parameters=[lidar_params_yaml_file],
+             remappings=[('/perceptions/lidar', '/lidar')]
+        ),
+        Node(package='hermes_simulator',
+             namespace='perceptions',
+             executable='beacon_sensor',
+             name='beacon_sensor',
+             output='log',
+             parameters=[beacon_params_yaml_file],
+             remappings=[('/perceptions/beacon', '/beacon')]
+        ),
     ]
 
     return nodes

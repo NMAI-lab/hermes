@@ -2,7 +2,7 @@
 lidar_node:
   ros__parameters:
     # LiDAR sensor publisher topic
-    publisher_topic: scan
+    publisher_topic: /scan
     min_angle: -1.57
     max_angle: 1.57
     min_range: 0.1
