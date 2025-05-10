@@ -5,7 +5,7 @@
   <version>0.0.1</version>
   <description>Handles the sensor interpretation and the robot control of the simulator.</description>
   <maintainer email="bardiaparmoun@cmail.carleton.ca">Bardia Parmoun</maintainer>
-  <license>BSD</license>
+  <license>GPL</license>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
