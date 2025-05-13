@@ -10,7 +10,7 @@ setup(
     packages=[package_name],
     data_files=[
         ('share/ament_index/resource_index/packages',
-            ['config/' + package_name]),
+            ['config/' + package_name] + glob(os.path.join('config', '*.yaml'))),
         ('share/' + package_name, ['package.xml']),
         # Include the launch files.
         (os.path.join('share', package_name, 'launch'), glob(os.path.join('launch', '*.launch.py'))),

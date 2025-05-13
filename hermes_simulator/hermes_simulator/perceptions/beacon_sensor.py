@@ -44,7 +44,7 @@ class BeaconSensor(Node):
         Parameters:
         - rf_signal(String): The current signal for the beacon.
         '''
-        self.get_logger().info("I got a rf_signal: {}".format(rf_signal.data))
+        # self.get_logger().info("I got a rf_signal: {}".format(rf_signal.data))
 
 def main(args=None):
     '''

@@ -10,12 +10,18 @@ import os
 
 def launch_setup(context, *args, **kwargs):
     pkg_hermes_environment = get_package_share_directory('hermes_environment')
+    pkg_hermes_simulator = get_package_share_directory('hermes_simulator')
 
     # Environment config files.
     lidar_params_yaml_file = os.path.join(
         pkg_hermes_environment,
         'config',
         'lidar_params.yaml'
+    )
+    lidar_sensor_params_yaml_file = os.path.join(
+        pkg_hermes_simulator,
+        'config',
+        'lidar_sensor_params.yaml'
     )
     beacon_params_yaml_file = os.path.join(
         pkg_hermes_environment,
@@ -53,7 +59,10 @@ def launch_setup(context, *args, **kwargs):
              executable='lidar_sensor',
              name='lidar_sensor',
              output='log',
-             parameters=[lidar_params_yaml_file],
+             parameters=[
+                {'sensor_params': lidar_sensor_params_yaml_file},
+                {'lidar_params': lidar_params_yaml_file}
+            ],
              remappings=[('/perceptions/lidar', '/lidar')]
         ),
         Node(package='hermes_simulator',

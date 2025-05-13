@@ -1,0 +1,6 @@
+---
+subscriber_topic: /scan
+publisher_topic: /lidar
+wall_follow_min_angle: -110
+wall_follow_max_angle: 30
+update_rate: 10
