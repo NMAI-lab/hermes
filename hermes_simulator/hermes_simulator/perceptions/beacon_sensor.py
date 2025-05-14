@@ -22,7 +22,7 @@ class BeaconSensor(Node):
         Parameters:
         - params(dict): The beacon parameters.
         '''
-        super().__init__('beacon_sensor')
+        super().__init__('beacon_sensor_node')
 
         # Declare parameters with defaults
         self.declare_parameter('publisher_topic', '/rf_signal')
@@ -31,7 +31,7 @@ class BeaconSensor(Node):
         published_topic = self.get_parameter('publisher_topic').get_parameter_value().string_value
 
         # The publishers for the node.
-        self.publisher_ = self.create_publisher(String, 'beacon' , 10)
+        self.publisher = self.create_publisher(String, 'beacon' , 10)
         
         # The subscribers for the node.
         self.beacon_info_sub = self.create_subscription(String, published_topic, self.rf_signal_callback, qos_profile=rclpy.qos.qos_profile_sensor_data)

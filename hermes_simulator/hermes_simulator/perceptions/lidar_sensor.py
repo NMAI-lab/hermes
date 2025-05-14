@@ -4,7 +4,8 @@ from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
 
 import math
-import yaml
+
+from hermes_simulator.tools.yaml_parser import load_yaml
 
 class LidarSensor(Node):
     '''
@@ -20,9 +21,6 @@ class LidarSensor(Node):
         '''
         The constructor for the node.
         Defines the necessary publishers and subscribers.
-
-        Parameters:
-        - params(dict): The lidar parameters.
         '''
         super().__init__('lidar_sensor_node')
 
@@ -31,15 +29,15 @@ class LidarSensor(Node):
         self.declare_parameter('lidar_params')
 
         # Get the value from parameter server
-        self.sensor_params = self.load_yaml(self.get_parameter('sensor_params').get_parameter_value().string_value)
-        self.lidar_params = self.load_yaml(self.get_parameter('lidar_params').get_parameter_value().string_value)['lidar_node']['ros__parameters']
+        self.sensor_params = load_yaml(self.get_parameter('sensor_params').get_parameter_value().string_value)
+        self.lidar_params = load_yaml(self.get_parameter('lidar_params').get_parameter_value().string_value)['lidar_node']['ros__parameters']
 
         publisher_topic = self.sensor_params['publisher_topic']
         subscriber_topic = self.sensor_params['subscriber_topic']
         update_rate = self.sensor_params['update_rate']
 
         # The publishers for the node.
-        self.publisher_ = self.create_publisher(String, publisher_topic , update_rate)
+        self.publisher = self.create_publisher(String, publisher_topic, update_rate)
         
         # The subscribers for the node.
         self.lidar_info_sub = self.create_subscription(LaserScan, subscriber_topic, self.scan_callback,         
@@ -58,9 +56,9 @@ class LidarSensor(Node):
         calc = String()
         
         right_wall_dist, right_wall_angle  = self.calculate(scan)
-        calc.data = str(right_wall_dist) + ":" + str(right_wall_angle)
+        calc.data = str(right_wall_dist) + ':' + str(right_wall_angle)
 
-        self.publisher_.publish(calc)
+        self.publisher.publish(calc)
         # self.get_logger().info('right_wall_distance: {}, right_wall_angle: {}'.format(right_wall_dist, right_wall_angle))
 
     def calculate(self, scan):
@@ -94,9 +92,7 @@ class LidarSensor(Node):
 
         return min_distance, angle_with_wall
 
-    def load_yaml(self, path):
-        with open(path, 'r') as f:
-            return yaml.safe_load(f)
+
 
 def main(args=None):
     '''

@@ -1,0 +1,6 @@
+---
+subscriber_topic: /actions
+movement_publisher_topic: /cmd_vel
+dock_publisher_topic: /dock
+undock_publisher_topic: /undock
+update_rate: 10

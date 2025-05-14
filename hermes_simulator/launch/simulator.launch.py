@@ -18,11 +18,6 @@ def launch_setup(context, *args, **kwargs):
         'config',
         'lidar_params.yaml'
     )
-    lidar_sensor_params_yaml_file = os.path.join(
-        pkg_hermes_simulator,
-        'config',
-        'lidar_sensor_params.yaml'
-    )
     beacon_params_yaml_file = os.path.join(
         pkg_hermes_environment,
         'config',
@@ -32,6 +27,21 @@ def launch_setup(context, *args, **kwargs):
         pkg_hermes_environment,
         'config',
         'map_params.yaml'
+    )
+    lidar_sensor_params_yaml_file = os.path.join(
+        pkg_hermes_simulator,
+        'config',
+        'lidar_sensor_params.yaml'
+    )
+    action_translator_params_yaml_file = os.path.join(
+        pkg_hermes_simulator,
+        'config',
+        'action_translator_params.yaml'
+    )
+    belief_generator_params_yaml_file = os.path.join(
+        pkg_hermes_simulator,
+        'config',
+        'belief_generator_params.yaml'
     )
 
     environment_launch_file = PathJoinSubstitution(
@@ -62,16 +72,32 @@ def launch_setup(context, *args, **kwargs):
              parameters=[
                 {'sensor_params': lidar_sensor_params_yaml_file},
                 {'lidar_params': lidar_params_yaml_file}
-            ],
-             remappings=[('/perceptions/lidar', '/lidar')]
+            ]
         ),
         Node(package='hermes_simulator',
              namespace='perceptions',
              executable='beacon_sensor',
              name='beacon_sensor',
              output='log',
-             parameters=[beacon_params_yaml_file],
-             remappings=[('/perceptions/beacon', '/beacon')]
+             parameters=[beacon_params_yaml_file]
+        ),
+        Node(package='hermes_simulator',
+             namespace='control',
+             executable='action_translator',
+             name='action_translator',
+             output='log',
+             parameters=[
+                {'action_translator_params': action_translator_params_yaml_file}
+            ]
+        ),
+        Node(package='hermes_simulator',
+             namespace='control',
+             executable='belief_generator',
+             name='belief_generator',
+             output='log',
+             parameters=[
+                {'belief_generator_params': belief_generator_params_yaml_file}
+            ]
         ),
     ]
 

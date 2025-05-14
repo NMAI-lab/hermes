@@ -1,0 +1,5 @@
+---
+lidar_subscriber_topic: /lidar
+beacon_subscriber_topic: /beacon
+publisher_topic: /actions
+update_rate: 10

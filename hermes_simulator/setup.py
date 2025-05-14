@@ -10,8 +10,10 @@ setup(
     packages=[package_name],
     data_files=[
         ('share/ament_index/resource_index/packages',
-            ['config/' + package_name] + glob(os.path.join('config', '*.yaml'))),
+            ['config/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        # Include the config files.
+        (os.path.join('share', package_name, 'config'), glob(os.path.join('config', '*.yaml'))),
         # Include the launch files.
         (os.path.join('share', package_name, 'launch'), glob(os.path.join('launch', '*.launch.py'))),
     ],
@@ -25,7 +27,9 @@ setup(
     entry_points={
         'console_scripts': [
             'lidar_sensor = hermes_simulator.perceptions.lidar_sensor:main',
-            'beacon_sensor = hermes_simulator.perceptions.beacon_sensor:main'
+            'beacon_sensor = hermes_simulator.perceptions.beacon_sensor:main',
+            'action_translator = hermes_simulator.control.action_translator:main',
+            'belief_generator = hermes_simulator.control.belief_generator:main'
         ],
     },
 )
