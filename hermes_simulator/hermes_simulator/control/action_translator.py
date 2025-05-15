@@ -35,7 +35,7 @@ class ActionTranslator(Node):
 
         # The publishers for the node
         self.drive_publisher = self.create_publisher(Twist, self.action_translator_params['movement_publisher_topic'],
-                                                     2)
+                                                     self.action_translator_params['update_rate'])
         self.undock_publisher = self.create_publisher(Empty, self.action_translator_params['dock_publisher_topic'],
                                                       self.action_translator_params['update_rate'])
         self.dock_publisher = self.create_publisher(Empty, self.action_translator_params['undock_publisher_topic'],

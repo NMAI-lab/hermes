@@ -47,8 +47,6 @@ class BeliefGenerator(Node):
                                                          self.decode_lidar, 
                                                          self.belief_generator_params['update_rate'])
 
-        self.count = 0
-
     def decode_lidar(self, lidar_data):
         '''
         Decodes the lidar data and generates the right action.
@@ -58,33 +56,31 @@ class BeliefGenerator(Node):
 
         Publishes a wall follow message.
         '''
-        self.count += 1
 
-        if self.count % 10 == 0:
-            self.get_logger().info('decoding this lidar data {}'.format(lidar_data.data))
-            lidar_data_split = lidar_data.data.split(':')
-            distance = float(lidar_data_split[0])
-            angle = -1 * float(lidar_data_split[1])
+        self.get_logger().info('decoding this lidar data {}'.format(lidar_data.data))
+        lidar_data_split = lidar_data.data.split(':')
+        distance = float(lidar_data_split[0])
+        angle = 90 + float(lidar_data_split[1])
 
-            res_angle = 0
-            if distance > SET_POINT + ERROR:
-                res_angle = -1 * AIM_ANGLE + angle
-            elif distance < SET_POINT - ERROR:
-                res_angle = AIM_ANGLE + angle
-            else:
-                res_angle = angle
+        res_angle = 0
+        if distance > SET_POINT + ERROR:
+            res_angle = -1 * AIM_ANGLE + angle
+        elif distance < SET_POINT - ERROR:
+            res_angle = AIM_ANGLE + angle
+        else:
+            res_angle = angle
 
-            angular_speed = res_angle * math.pi / 180.0
+        angular_speed = res_angle * math.pi / 180.0
 
-            action_message = String()
-            # For minor changes avoid big arcs.
-            if abs(angular_speed) > ANGLE_CHANGE_THRESHOLD:
-                linear_speed = SPEED / 2
-            else:
-                linear_speed = SPEED
+        action_message = String()
+        # For minor changes avoid big arcs.
+        if abs(angular_speed) > ANGLE_CHANGE_THRESHOLD:
+            linear_speed = SPEED / 2
+        else:
+            linear_speed = SPEED
 
-            action_message.data = 'Twist:' + str(linear_speed) + ':' + str(angular_speed)
-            self.belief_publisher.publish(action_message)
+        action_message.data = 'Twist:' + str(linear_speed) + ':' + str(angular_speed)
+        self.belief_publisher.publish(action_message)
 
 def main(args=None):
     '''
