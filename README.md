@@ -65,12 +65,52 @@ $ rosdep update
 $ rosdep install --from-path src -yi
 ```
 
-10. Build all the ROS packages by doing:
+10. Install ROS2 Java:
+- Clone it into the src folder
+```
+curl -skL https://raw.githubusercontent.com/ros2-java/ros2_java/main/ros2_java_desktop.repos | vcs import src
+```
+
+- Go to the appropriate branches for the repos:
+```
+cd src/ros-java/ros2_java & git checkout ae5edaa
+cd src/ros2/common_interfaces/ & git checkout foxy
+cd src/ros2/example_interfaces/ & git checkout foxy
+cd src/ros2/rcl_interfaces/ & git checkout foxy
+cd src/ros2/rosidl_defaults/ & git checkout foxy
+cd src/ros2/unique_identifier_msgs/ & git checkout foxy
+```
+
+- Clone `test_interface_files`:
+```
+cd src/ros2 & git clone -b foxy git@github.com:ros2/test_interface_files.git
+```
+
+- Clone and build the `ament_gradle_plugin`:
+```
+cd src/ros2-java & git clone git@github.com:ros2-java/ament_gradle_plugin.git
+cd ament_gradle_plugin
+```
+
+- Open `build.gradle` and change the version for `com.android.tools.build:gradle` to `2.3.0`
+
+- Build and upload the plugin:
+```
+gradle build
+gradle uploadArchives
+```
+
+- Ensure the plugin path is installed to:
+```
+~/.m2/repository/gradle/plugin/org/ros2/tools/gradle/ament/0.8.0/
+```
+
+11. Build all the ROS packages by doing:
 ```
 $ colcon build --symlink-install
 ```
 
-11. Source your installation by doing:
+12. Source your installation by doing:
 ```
 $ source ~/hermes_ws/install/local_setup.bash
 ```

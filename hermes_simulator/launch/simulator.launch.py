@@ -11,6 +11,7 @@ import os
 def launch_setup(context, *args, **kwargs):
     pkg_hermes_environment = get_package_share_directory('hermes_environment')
     pkg_hermes_simulator = get_package_share_directory('hermes_simulator')
+    pkg_hermes_agent = get_package_share_directory('hermes_agent')
 
     # Environment config files.
     lidar_params_yaml_file = os.path.join(
@@ -43,6 +44,11 @@ def launch_setup(context, *args, **kwargs):
         'config',
         'belief_generator_params.yaml'
     )
+    agent_params_yaml_file = os.path.join(
+        pkg_hermes_agent,
+        'config',
+        'agent_params.yaml'
+    )
 
     environment_launch_file = PathJoinSubstitution(
         [pkg_hermes_environment, 'launch', 'environment.launch.py'])
@@ -61,6 +67,9 @@ def launch_setup(context, *args, **kwargs):
                           'yaw': LaunchConfiguration('yaw')}.items(),
     )
     
+    env = os.environ.copy()
+    env['AGENT_PARAMS'] = belief_generator_params_yaml_file
+
     # Adding all the nodes
     nodes = [
         robot_environment,
@@ -99,6 +108,13 @@ def launch_setup(context, *args, **kwargs):
                 {'belief_generator_params': belief_generator_params_yaml_file}
             ]
         ),
+        ExecuteProcess(
+            cmd=[
+                'ros2', 'run', 'hermes_agent', 'publisher_lambda'
+            ],
+            output='screen',
+            env=env
+        )
     ]
 
     return nodes
