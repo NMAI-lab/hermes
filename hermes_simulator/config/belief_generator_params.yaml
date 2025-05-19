@@ -1,5 +1,6 @@
 ---
 lidar_subscriber_topic: /lidar
 beacon_subscriber_topic: /beacon
-publisher_topic: /actions
-update_rate: 10
+publisher_topic: /beliefs
+queue_size: 10
+update_rate: 0.1

@@ -4,14 +4,9 @@ from rclpy.node import Node
 from std_msgs.msg import String
 
 import math
+import json
 
 from hermes_simulator.tools.yaml_parser import load_yaml
-
-SET_POINT = 0.8
-AIM_ANGLE = 60
-ANGLE_CHANGE_THRESHOLD = 0.1
-SPEED = 0.4
-ERROR  = SPEED * math.sin(AIM_ANGLE * math.pi / 180.0)
 
 class BeliefGenerator(Node):
     '''
@@ -31,21 +26,41 @@ class BeliefGenerator(Node):
         '''
         super().__init__('belief_generator_node')
 
+        self.goal = "wall_follow"
+        self.lidar_beliefs = []
+
         # Declare the parameters
         self.declare_parameter('belief_generator_params')
 
         # Get the value from parameter server
         self.belief_generator_params = load_yaml(self.get_parameter('belief_generator_params').get_parameter_value().string_value)
 
-        # The publisher for the node
-        self.belief_publisher = self.create_publisher(String, self.belief_generator_params['publisher_topic'],
-                                                      self.belief_generator_params['update_rate'])
+        # The publishers for the node
+        self.beliefs_publisher = self.create_publisher(String, self.belief_generator_params['publisher_topic'],
+                                                       self.belief_generator_params['queue_size'])
 
         # The subscribers for the node
         self.lidar_subscriber = self.create_subscription(String, 
                                                          self.belief_generator_params['lidar_subscriber_topic'],
                                                          self.decode_lidar, 
-                                                         self.belief_generator_params['update_rate'])
+                                                         self.belief_generator_params['queue_size'])
+
+        # A timer to send a status update
+        self.update_timer = self.create_timer(self.belief_generator_params['update_rate'], self.send_update)
+
+
+    def send_update(self):
+        '''
+        Sends an update of the current snapshot of the system.
+
+        Publishes a state update message.
+        '''
+        update_message = String()
+        update_dict = {'goal': self.goal}
+        update_dict['beliefs'] = self.lidar_beliefs
+        update_message.data = json.dumps(update_dict)
+        self.get_logger().info('Simulator state update {}'.format(update_message.data))
+        self.beliefs_publisher.publish(update_message)
 
     def decode_lidar(self, lidar_data):
         '''
@@ -56,12 +71,12 @@ class BeliefGenerator(Node):
 
         Publishes a wall follow message.
         '''
-
-        self.get_logger().info('decoding this lidar data {}'.format(lidar_data.data))
-        lidar_data_split = lidar_data.data.split(':')
-        distance = float(lidar_data_split[0])
-        angle = float(lidar_data_split[1])
-
+        lidar_data = json.loads(lidar_data.data)
+        self.lidar_beliefs = ['facing_wall({distance}, {angle})'.format(distance=lidar_data['right_wall_dist'], angle=lidar_data['right_wall_angle'])]
+        '''
+        distance = lidar_data['right_wall_dist']
+        angle = lidar_data['right_wall_angle']
+        
         res_angle = 0
         if distance > SET_POINT + ERROR:
             res_angle = -1 * AIM_ANGLE + angle
@@ -79,8 +94,17 @@ class BeliefGenerator(Node):
         else:
             linear_speed = SPEED
 
-        action_message.data = 'Twist:' + str(linear_speed) + ':' + str(angular_speed)
+        action_message.data = json.dumps({
+            'name': 'Twist',
+            'linear_x': linear_speed,
+            'linear_y': 0,
+            'linear_z': 0,
+            'angular_x': 0,
+            'angular_y': 0,
+            'angular_z': angular_speed,
+        })
         self.belief_publisher.publish(action_message)
+        '''
 
 def main(args=None):
     '''

@@ -5,6 +5,7 @@ from std_msgs.msg import String, Empty
 from geometry_msgs.msg import Twist
 
 import math
+import json
 
 from hermes_simulator.tools.yaml_parser import load_yaml
 
@@ -35,16 +36,16 @@ class ActionTranslator(Node):
 
         # The publishers for the node
         self.drive_publisher = self.create_publisher(Twist, self.action_translator_params['movement_publisher_topic'],
-                                                     self.action_translator_params['update_rate'])
+                                                     self.action_translator_params['queue_size'])
         self.undock_publisher = self.create_publisher(Empty, self.action_translator_params['dock_publisher_topic'],
-                                                      self.action_translator_params['update_rate'])
+                                                      self.action_translator_params['queue_size'])
         self.dock_publisher = self.create_publisher(Empty, self.action_translator_params['undock_publisher_topic'],
-                                                    self.action_translator_params['update_rate'])
+                                                    self.action_translator_params['queue_size'])
 
         # The subscribers for the node
         self.actionSubscriber = self.create_subscription(String, self.action_translator_params['subscriber_topic'],
                                                          self.decode_action, 
-                                                         self.action_translator_params['update_rate'])
+                                                         self.action_translator_params['queue_size'])
 
     def decode_action(self, action):
         '''
@@ -55,13 +56,17 @@ class ActionTranslator(Node):
 
         Publishes the appropriate action message.
         '''
-        action_split = action.data.split(':')
+        action_data = json.loads(action.data)
         self.get_logger().info('decoding this action {}'.format(action.data))
 
-        if action_split[0] == 'Twist':
+        if action_data['name'] == 'Twist':
             message = Twist()
-            message.linear.x = float(action_split[1])
-            message.angular.z = float(action_split[2])
+            message.linear.x = action_data['linear_x']
+            message.linear.y = action_data['linear_y']
+            message.linear.z = action_data['linear_z']
+            message.angular.x = action_data['angular_x']
+            message.angular.y = action_data['angular_y']
+            message.angular.z = action_data['angular_z']
             self.drive_publisher.publish(message)
 
 

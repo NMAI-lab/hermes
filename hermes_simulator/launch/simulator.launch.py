@@ -112,9 +112,8 @@ def launch_setup(context, *args, **kwargs):
             ]
         ),
         ExecuteProcess(
-            cmd=[
-                'ros2', 'run', 'hermes_agent', 'publisher_lambda'
-            ],
+            cmd=['ros2', 'run', 'hermes_agent', 'hermes_agent'],
+            name='hermes_agent',
             output='screen',
             env=agent_environment
         )

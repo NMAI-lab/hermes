@@ -1,8 +1,23 @@
 apply plugin: 'java'
 apply plugin: 'org.ros2.tools.gradle'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.ros2.tools.gradle:ament:0.8.0'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
+    }
+}
 
 sourceSets {
     main {
@@ -15,32 +30,26 @@ sourceSets {
     }
 }
 
-buildscript {
-  repositories {
+repositories {
     jcenter()
     mavenCentral()
     mavenLocal()
     maven { url "https://plugins.gradle.org/m2/" }
-  }
-
-  dependencies {
-    classpath 'org.ros2.tools.gradle:ament:0.8.0'
-  }
-}
-
-repositories {
-   mavenCentral()
 }
 
 dependencies {
     implementation 'io.github.jason-lang:jason-interpreter:3.2.0'
+    implementation 'org.json:json:20231013'
 }
 
-// Use the same syntax as the entry points for the Python examples
+shadowJar {
+    classifier = ''
+}
+
 ament {
     entryPoints {
         consoleScripts = [
-            'publisher_lambda = org.ros2.hermes.agent.publisher.PublisherLambda'
+            'hermes_agent = org.ros2.hermes.agent.HermesAgent'
         ]
     }
 }
@@ -49,6 +58,18 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     destinationDir = new java.io.File(ament.installSpace + "/share/" + ament.packageManifestName + "/java")
     from sourceSets.main.allSource
+}
+
+tasks.getByName('sourcesJar') {
+    dependsOn shadowJar
+
+    doLast {
+        copy {
+            from(shadowJar.archivePath)
+            into "${ament.installSpace}/share/${ament.packageManifestName}/java"
+            rename { 'hermes_agent.jar' }
+        }
+    }
 }
 
 artifacts {
