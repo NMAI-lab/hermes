@@ -23,46 +23,46 @@ In addition to that, Hermes uses the popular AgentSpeak language [Jason](https:/
 
 2. Make sure to source your installation:
 ```
-$ source /opt/ros/foxy/setup.bash
+source /opt/ros/foxy/setup.bash
 ```
 
 3. Install ROS [Gazebo 11](https://classic.gazebosim.org/tutorials?tut=ros2_installing):
 ```
-$ sudo apt install ros-foxy-gazebo-ros-pkgs
+sudo apt install ros-foxy-gazebo-ros-pkgs
 ```
 
 4. Install [RViz2](https://github.com/ros2/rviz):
 ```
-$ sudo apt install ros-foxy-rviz2
+sudo apt install ros-foxy-rviz2
 ```
 
 5. Install all the required Python packages using:
 ```
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 6. Create a ROS workspace for your system. Such as:
 ```
-$ mkdir -p ~/hermes_ws/src
-$ cd ~/hermes_ws/src
+mkdir -p ~/hermes_ws/src
+cd ~/hermes_ws/src
 ```
 
 7. Clone [hermes](https://github.com/bardia-p/hermes):
 ```
-$ git clone git@github.com:bardia-p/hermes.git
+git clone git@github.com:bardia-p/hermes.git
 ```
 
 8. Clone the appropriate ROS dependencies:
 ```
-$ vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/dependencies.repos
+vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/dependencies.repos
 ```
 
 9. Install the ROS dependencies:
 ```
-$ cd ~/hermes_ws
-$ sudo rosdep init
-$ rosdep update
-$ rosdep install --from-path src -yi
+cd ~/hermes_ws
+sudo rosdep init
+rosdep update
+rosdep install --from-path src -yi
 ```
 
 10. Install the ROS2 ament Java gradle plugin:
@@ -73,12 +73,12 @@ gradle uploadArchives
 
 11. Build all the ROS packages by doing:
 ```
-$ colcon build --symlink-install
+colcon build --symlink-install
 ```
 
 12. Source your installation by doing:
 ```
-$ source ~/hermes_ws/install/local_setup.bash
+source ~/hermes_ws/install/local_setup.bash
 ```
 
 **NOTE:** If at any point you face any issues with the installation process of these ROS dependencies, please refer to the README files of the appropriate repositories:
@@ -89,8 +89,8 @@ $ source ~/hermes_ws/install/local_setup.bash
 
 First try to fire up the simulator by doing:
 ```
-$ source ~/hermes_ws/install/local_setup.bash
-$ ros2 launch hermes_simulator simulator.launch.py start:=I1 end:=B1
+source ~/hermes_ws/install/local_setup.bash
+ros2 launch hermes_simulator simulator.launch.py start:=I1 end:=B1
 ```
 
 You should see the Gazebo and RViz windows pop up:
@@ -102,20 +102,20 @@ In a separate window try controlling the robot by running a few ROS commands:
 
 - **Moving the robot:** in a separate terminal try:
 ```
-$ source ~/hermes_ws/install/local_setup.bash
-$ ros2 topic pub -r 20 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
+source ~/hermes_ws/install/local_setup.bash
+ros2 topic pub -r 20 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
 ```
 
 - **Docking the robot:** in a separate terminal try:
 ```
-$ source ~/hermes_ws/install/local_setup.bash
-$ ros2 action send_goal /dock irobot_create_msgs/action/DockServo "{}"
+source ~/hermes_ws/install/local_setup.bash
+ros2 action send_goal /dock irobot_create_msgs/action/DockServo "{}"
 ```
 
 - **Undocking the robot:** in a separate terminal try:
 ```
-$ source ~/hermes_ws/install/local_setup.bash
-$ ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
+source ~/hermes_ws/install/local_setup.bash
+ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
 ```
 
 ## Project Structure
