@@ -29,6 +29,13 @@ def launch_setup(context, *args, **kwargs):
         'config',
         'map_params.yaml'
     )
+    map_file = os.path.join(
+        pkg_hermes_environment,
+        'worlds',
+        'map.json'
+    )
+
+    # Simulator config files.
     lidar_sensor_params_yaml_file = os.path.join(
         pkg_hermes_simulator,
         'config',
@@ -43,11 +50,6 @@ def launch_setup(context, *args, **kwargs):
         pkg_hermes_simulator,
         'config',
         'belief_generator_params.yaml'
-    )
-    agent_params_yaml_file = os.path.join(
-        pkg_hermes_agent,
-        'config',
-        'agent_params.yaml'
     )
 
     environment_launch_file = PathJoinSubstitution(
@@ -67,8 +69,9 @@ def launch_setup(context, *args, **kwargs):
                           'yaw': LaunchConfiguration('yaw')}.items(),
     )
     
-    env = os.environ.copy()
-    env['AGENT_PARAMS'] = belief_generator_params_yaml_file
+    # Setting the environment variables
+    agent_environment = os.environ.copy()
+    agent_environment['map_params'] = map_file
 
     # Adding all the nodes
     nodes = [
@@ -113,7 +116,7 @@ def launch_setup(context, *args, **kwargs):
                 'ros2', 'run', 'hermes_agent', 'publisher_lambda'
             ],
             output='screen',
-            env=env
+            env=agent_environment
         )
     ]
 

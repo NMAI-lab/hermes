@@ -33,7 +33,7 @@ public class PublisherLambda extends BaseComposableNode {
     public PublisherLambda() {
         super("minmal_publisher");
         this.count = 0;
-        String agentParams = System.getenv().getOrDefault("AGENT_PARAMS", "default.yaml");
+        String agentParams = System.getenv().getOrDefault("map_file", "map.json");
         System.out.println("AGENT_PARAMS env var: " + agentParams);
         
         // Publishers are type safe, make sure to pass the message type

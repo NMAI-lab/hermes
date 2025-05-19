@@ -65,44 +65,10 @@ $ rosdep update
 $ rosdep install --from-path src -yi
 ```
 
-10. Install ROS2 Java:
-- Clone it into the src folder
+10. Install the ROS2 ament Java gradle plugin:
 ```
-curl -skL https://raw.githubusercontent.com/ros2-java/ros2_java/main/ros2_java_desktop.repos | vcs import src
-```
-
-- Go to the appropriate branches for the repos:
-```
-cd src/ros-java/ros2_java & git checkout ae5edaa
-cd src/ros2/common_interfaces/ & git checkout foxy
-cd src/ros2/example_interfaces/ & git checkout foxy
-cd src/ros2/rcl_interfaces/ & git checkout foxy
-cd src/ros2/rosidl_defaults/ & git checkout foxy
-cd src/ros2/unique_identifier_msgs/ & git checkout foxy
-```
-
-- Clone `test_interface_files`:
-```
-cd src/ros2 & git clone -b foxy git@github.com:ros2/test_interface_files.git
-```
-
-- Clone and build the `ament_gradle_plugin`:
-```
-cd src/ros2-java & git clone git@github.com:ros2-java/ament_gradle_plugin.git
-cd ament_gradle_plugin
-```
-
-- Open `build.gradle` and change the version for `com.android.tools.build:gradle` to `2.3.0`
-
-- Build and upload the plugin:
-```
-gradle build
+cd src/ros2-java/ament_gradle_plugin
 gradle uploadArchives
-```
-
-- Ensure the plugin path is installed to:
-```
-~/.m2/repository/gradle/plugin/org/ros2/tools/gradle/ament/0.8.0/
 ```
 
 11. Build all the ROS packages by doing:
@@ -164,7 +130,7 @@ $ ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
 - [iRobot's Create 3 Simulator](https://github.com/iRobotEducation/create3_sim/tree/foxy) for the main robot simulator.
 - [Jason](https://github.com/jason-lang/jason) for the AgentSpeak implementation of the project.
 - [savi_ROS_BDI](https://github.com/NMAI-lab/savi_ros_bdi.git) for ROS and Jason's integration.
-- [ros2_java](https://github.com/ros2-java/ros2_java.git) for the ros2 and Jason integration (at commit 610299c65a9b4165ea8cde6bb2cf5f4602a8819c)
+- [ros2_java](https://github.com/ros2-java/ros2_java.git) for the ros2 and Jason integration (at commit 434e6f55253bfe2cb9ce34799fe548bbf4998d0e)
 - [Peleus](https://github.com/meneguzzi/Peleus) for connecting Jason to various planners.
 - [ENHSP](https://gitlab.com/enricos83/ENHSP-Public.git) for creating the robot plans.
 

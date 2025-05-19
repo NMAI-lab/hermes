@@ -69,7 +69,7 @@ class LidarSensor(Node):
         - scan: The current lidar scan.
 
         Returns:
-        - (float, float): the distance and angle with the right wall.
+        - (float, float): the distance and the relative angle with the right wall.
         '''
         sample_index = 0
         min_distance = self.lidar_params['max_range']
@@ -90,7 +90,7 @@ class LidarSensor(Node):
                 min_distance = curr_distance
                 angle_with_wall = angle_degrees
 
-        return min_distance, angle_with_wall
+        return min_distance, angle_with_wall + 90
 
 
 

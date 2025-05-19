@@ -60,7 +60,7 @@ class BeliefGenerator(Node):
         self.get_logger().info('decoding this lidar data {}'.format(lidar_data.data))
         lidar_data_split = lidar_data.data.split(':')
         distance = float(lidar_data_split[0])
-        angle = 90 + float(lidar_data_split[1])
+        angle = float(lidar_data_split[1])
 
         res_angle = 0
         if distance > SET_POINT + ERROR:
