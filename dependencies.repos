@@ -1,12 +1,32 @@
 repositories:
-  create3_sim:
+  irobot_create/create3_sim:
     type: git
     url: https://github.com/iRobotEducation/create3_sim.git
     version: foxy
-  irobot_create_msgs:
+  irobot_create/irobot_create_msgs:
     type: git
     url: https://github.com/iRobotEducation/irobot_create_msgs.git
     version: foxy
+  ros-controls/ros2_control:
+    type: git
+    url: https://github.com/ros-controls/ros2_control.git
+    version: foxy
+  ros-controls/ros2_controllers:
+    type: git
+    url: https://github.com/ros-controls/ros2_controllers.git
+    version: foxy
+  ros-controls/control_msgs:
+    type: git
+    url: https://github.com/ros-controls/control_msgs.git
+    version: foxy-devel
+  ros-controls/gazebo_ros2_control:
+    type: git
+    url: https://github.com/ros-controls/gazebo_ros2_control.git
+    version: foxy
+  ros-controls/realtime_tools:
+    type: git
+    url: https://github.com/ros-controls/realtime_tools.git
+    version: foxy-devel
   ros2/common_interfaces:
     type: git
     url: https://github.com/ros2/common_interfaces.git
