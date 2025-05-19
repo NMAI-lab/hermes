@@ -1,12 +1,11 @@
-from std_msgs.msg import String
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 
 import math
-import json
 
 from hermes_simulator.tools.yaml_parser import load_yaml
+from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get_msg_content_as_dict
 
 class BeliefGenerator(Node):
     '''
@@ -55,10 +54,9 @@ class BeliefGenerator(Node):
 
         Publishes a state update message.
         '''
-        update_message = String()
         update_dict = {'goal': self.goal}
         update_dict['beliefs'] = self.lidar_beliefs
-        update_message.data = json.dumps(update_dict)
+        update_message = create_string_msg_from(update_dict)
         self.get_logger().info('Simulator state update {}'.format(update_message.data))
         self.beliefs_publisher.publish(update_message)
 
@@ -71,7 +69,7 @@ class BeliefGenerator(Node):
 
         Publishes a wall follow message.
         '''
-        lidar_data = json.loads(lidar_data.data)
+        lidar_data = get_msg_content_as_dict(lidar_data)
         self.lidar_beliefs = ['facing_wall({distance}, {angle})'.format(distance=lidar_data['right_wall_dist'], angle=lidar_data['right_wall_angle'])]
         '''
         distance = lidar_data['right_wall_dist']

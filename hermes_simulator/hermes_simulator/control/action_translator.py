@@ -1,13 +1,12 @@
-from std_msgs.msg import String
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String, Empty
 from geometry_msgs.msg import Twist
 
 import math
-import json
 
 from hermes_simulator.tools.yaml_parser import load_yaml
+from hermes_simulator.tools.string_msg_helper import get_msg_content_as_dict
 
 class ActionTranslator(Node):
     '''
@@ -56,7 +55,7 @@ class ActionTranslator(Node):
 
         Publishes the appropriate action message.
         '''
-        action_data = json.loads(action.data)
+        action_data = get_msg_content_as_dict(action)
         self.get_logger().info('decoding this action {}'.format(action.data))
 
         if action_data['name'] == 'Twist':

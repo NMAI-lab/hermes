@@ -1,12 +1,12 @@
-from std_msgs.msg import String
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
+from std_msgs.msg import String
 
 import math
-import json
 
 from hermes_simulator.tools.yaml_parser import load_yaml
+from hermes_simulator.tools.string_msg_helper import create_string_msg_from
 
 class LidarSensor(Node):
     '''
@@ -51,11 +51,9 @@ class LidarSensor(Node):
         - scan(LaserScan): The current lidar scan.
 
         Publishes a scan update to /lidar.
-        '''
-        calc = String()
-        
+        '''        
         right_wall_dist, right_wall_angle  = self.calculate(scan)
-        calc.data = json.dumps({
+        calc = create_string_msg_from({
             'right_wall_dist': right_wall_dist,
             'right_wall_angle': right_wall_angle
         })
@@ -92,8 +90,6 @@ class LidarSensor(Node):
                 angle_with_wall = angle_degrees
 
         return min_distance, angle_with_wall + 90
-
-
 
 def main(args=None):
     '''
