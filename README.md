@@ -26,57 +26,67 @@ In addition to that, Hermes uses the popular AgentSpeak language [Jason](https:/
 source /opt/ros/foxy/setup.bash
 ```
 
-3. Install ROS [Gazebo 11](https://classic.gazebosim.org/tutorials?tut=ros2_installing):
+3. Install the Open-JDK:
+```
+sudo apt install default-jdk
+```
+
+4. Install gradle:
+```
+sudo apt install gradle
+```
+
+5. Install ROS [Gazebo 11](https://classic.gazebosim.org/tutorials?tut=ros2_installing):
 ```
 sudo apt install ros-foxy-gazebo-ros-pkgs
 ```
 
-4. Install [RViz2](https://github.com/ros2/rviz):
+6. Install [RViz2](https://github.com/ros2/rviz):
 ```
 sudo apt install ros-foxy-rviz2
 ```
 
-5. Install all the required Python packages using:
+7. Install all the required Python packages using:
 ```
 pip install -r requirements.txt
 ```
 
-6. Create a ROS workspace for your system. Such as:
+8. Create a ROS workspace for your system. Such as:
 ```
 mkdir -p ~/hermes_ws/src
 cd ~/hermes_ws/src
 ```
 
-7. Clone [hermes](https://github.com/bardia-p/hermes):
+9. Clone [hermes](https://github.com/bardia-p/hermes):
 ```
 git clone git@github.com:bardia-p/hermes.git
 ```
 
-8. Clone the appropriate ROS dependencies:
+10. Clone the appropriate ROS dependencies:
 ```
 vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/dependencies.repos
 ```
 
-9. Install the ROS dependencies:
+11. Install the ROS dependencies:
 ```
 cd ~/hermes_ws
 sudo rosdep init
 rosdep update
-rosdep install --from-path src -yi
+rosdep install --from-path src -yi --skip-keys "ament_tools"
 ```
 
-10. Install the ROS2 ament Java gradle plugin:
+12. Install the ROS2 ament Java gradle plugin:
 ```
 cd src/ros2-java/ament_gradle_plugin
 gradle uploadArchives
 ```
 
-11. Build all the ROS packages by doing:
+13. Build all the ROS packages by doing:
 ```
 colcon build --symlink-install
 ```
 
-12. Source your installation by doing:
+14. Source your installation by doing:
 ```
 source ~/hermes_ws/install/local_setup.bash
 ```
@@ -84,6 +94,7 @@ source ~/hermes_ws/install/local_setup.bash
 **NOTE:** If at any point you face any issues with the installation process of these ROS dependencies, please refer to the README files of the appropriate repositories:
 - [create3_sim](https://github.com/iRobotEducation/create3_sim/tree/foxy)
 - [irobot_create_msgs](https://github.com/iRobotEducation/irobot_create_msgs)
+- [ros2_java](https://github.com/ros2-java/ros2_java)
 
 ## Running Hermes
 
@@ -120,7 +131,9 @@ ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
 
 ## Project Structure
 - **hermes_create_description:** This package includes the Gazebo descriptions for the robotcs, sensors, and the dock station. It also includes the appropriate launch files for spawning these objects.
-- **hermes_environment:** This package includes the implementation for the simulator environment with the various configs for loading the robot map.
+- **hermes_environment:** This package includes the implementation of the simulation environment with the various configs for loading the robot map.
+- **hermes_agent:** This package includes the implementation of the agent which is in charge of parsing the agent brain files.
+- **hermes_simulator:** This package includes the implementation of the simulator with the various sensors for interpreting the environment. This package invokes the environment, the agent, and the sensors.
 
 ## Notes
 - The inspiration for this project came from another similar project I worked on. Make sure to check out [Carleton Mail Delivery Robot](https://github.com/bardia-p/carleton-mail-delivery-robot)!
@@ -129,13 +142,12 @@ ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
 ## Acknowledgements
 - [iRobot's Create 3 Simulator](https://github.com/iRobotEducation/create3_sim/tree/foxy) for the main robot simulator.
 - [Jason](https://github.com/jason-lang/jason) for the AgentSpeak implementation of the project.
-- [savi_ROS_BDI](https://github.com/NMAI-lab/savi_ros_bdi.git) for ROS and Jason's integration.
-- [ros2_java](https://github.com/ros2-java/ros2_java.git) for the ros2 and Jason integration (at commit 434e6f55253bfe2cb9ce34799fe548bbf4998d0e)
+- [ros2_java](https://github.com/ros2-java/ros2_java.git) for the ros2 and Jason integration.
 - [Peleus](https://github.com/meneguzzi/Peleus) for connecting Jason to various planners.
 - [ENHSP](https://gitlab.com/enricos83/ENHSP-Public.git) for creating the robot plans.
 
 ## TO-DO
-- Add custom map generation
-- Add a simple Jason implementation for the robot
-- Connect Peleus the ENHSP planner
-- Convert the project to a Docker container
+- Add a simple Jason implementation for wall following
+- Connect Peleus and the ENHSP planner for this behaviour
+- Add state machines and subsumption
+- Add intersection handling

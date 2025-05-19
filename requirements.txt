@@ -1,4 +1,6 @@
 colcon-common-extensions
 vcstool
 rosdep
+colcon-ros-gradle
+colcon-gradle
 PyYAML
