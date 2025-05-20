@@ -24,13 +24,13 @@ sourceSets {
         java {
             srcDirs = ['src/main/java']
         }
-        resources {
-            srcDirs = ['config/']
-        }
     }
 }
 
 repositories {
+    flatDir {
+        dirs 'libs'
+    }
     jcenter()
     mavenCentral()
     mavenLocal()
@@ -38,7 +38,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.github.jason-lang:jason-interpreter:3.2.0'
+    implementation name: 'jason-2.6.3'
     implementation 'org.json:json:20231013'
 }
 

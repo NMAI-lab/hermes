@@ -11,7 +11,8 @@ import os
 def launch_setup(context, *args, **kwargs):
     pkg_hermes_environment = get_package_share_directory('hermes_environment')
     pkg_hermes_simulator = get_package_share_directory('hermes_simulator')
-    pkg_hermes_agent = get_package_share_directory('hermes_agent')
+    pkg_hermes_agent = os.path.abspath(os.path.join(get_package_share_directory('hermes_agent'), '..', '..', 
+                                       '..', '..', 'src', 'hermes', 'hermes_agent'))
 
     # Environment config files.
     lidar_params_yaml_file = os.path.join(
@@ -52,6 +53,16 @@ def launch_setup(context, *args, **kwargs):
         'belief_generator_params.yaml'
     )
 
+    # Hermes agent config files
+    agent_definitions_folder = os.path.join(
+        pkg_hermes_agent,
+        'agents'
+    )
+    hermes_agent_config_folder = os.path.join(
+        pkg_hermes_agent,
+        'config'
+    )
+
     environment_launch_file = PathJoinSubstitution(
         [pkg_hermes_environment, 'launch', 'environment.launch.py'])
 
@@ -72,6 +83,8 @@ def launch_setup(context, *args, **kwargs):
     # Setting the environment variables
     agent_environment = os.environ.copy()
     agent_environment['map_params'] = map_file
+    agent_environment['agent_definitions'] = agent_definitions_folder
+    agent_environment['config'] = hermes_agent_config_folder
 
     # Adding all the nodes
     nodes = [

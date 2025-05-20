@@ -2,5 +2,5 @@
 wall_follow_distance_setpoint: 0.8
 wall_follow_aim_angle: 60
 wall_follow_angle_change_tolerance: 0.1
-wall_follow_speed = 0.4
+wall_follow_speed: 0.4
 ERROR: SPEED * math.sin(AIM_ANGLE * math.pi / 180.0)
