@@ -3,5 +3,5 @@
 +!start 
     <-
     .print("hi");
-    cmd_vel(0, 1, 2, 3, 4, 5);
+    cmd_vel(1, 0, 0, 0, 0, 0);
     !start.

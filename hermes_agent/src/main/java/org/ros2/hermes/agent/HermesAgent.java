@@ -38,6 +38,7 @@ public class HermesAgent extends AgArch implements Runnable {
 
     // General params
     private Map<String, Object> nodeConstants;
+    private JSONObject currentPerceptions;
 
     // Constants
     public static final String ASL_FILE = "jason_agent/hermes_agent.asl";
@@ -47,6 +48,7 @@ public class HermesAgent extends AgArch implements Runnable {
         this.node = RCLJava.createNode("hermes_agent");
         this.pendingActions = new ArrayList<>();
         this.reasoningTime = 0;
+        this.currentPerceptions = null;
 
         String mapsFile = System.getenv().getOrDefault("map_file", "");
         String agentDefinitionsFolder = System.getenv().getOrDefault("agent_definitions", "");
@@ -63,12 +65,11 @@ public class HermesAgent extends AgArch implements Runnable {
         }
 
         // Node publishers
-        this.actionPublisher = this.node.<std_msgs.msg.String>createPublisher(std_msgs.msg.String.class, 
-                                                                              (String)this.nodeConstants.get("actions_publisher_topic"));
+        this.actionPublisher = this.node.<std_msgs.msg.String>createPublisher(std_msgs.msg.String.class, (String)this.nodeConstants.get("actions_publisher_topic"));
 
         // Node subscribers
-        this.beliefSubscription = this.node.<std_msgs.msg.String>createSubscription(std_msgs.msg.String.class,
-                                                                                    (String)this.nodeConstants.get("beliefs_subscriber_topic"), this::beliefCallback);
+        this.beliefSubscription = this.node.<std_msgs.msg.String>createSubscription(std_msgs.msg.String.class, (String)this.nodeConstants.get("beliefs_subscriber_topic"),
+                                                                                    this::beliefCallback);
         this.actionStatusSubscription = this.node.<std_msgs.msg.String>createSubscription(std_msgs.msg.String.class,
                                                                                           (String)this.nodeConstants.get("action_status_subscriber_topic"), this::actionStatusCallback);
 
@@ -109,7 +110,29 @@ public class HermesAgent extends AgArch implements Runnable {
     public List<Literal> perceive() {
         getTS().getLogger().info("Agent " + getAgName() + " is perceiving...");
         List<Literal> l = new ArrayList<Literal>();
-        l.add(Literal.parseLiteral("x(10)"));
+
+        // Generating beliefs from the perceptions
+        if (this.currentPerceptions != null) {
+            if (this.currentPerceptions.has("right_wall_dist") && this.currentPerceptions.has("right_wall_angle")) {
+                l.add(Literal.parseLiteral("facing_wall(" + Double.toString(this.currentPerceptions.getDouble("right_wall_dist")) + "," +  Double.toString(this.currentPerceptions.getDouble("right_wall_angle")) + ")"));
+            }
+        }
+
+        // Loading the constants
+        Double wall_follow_distance_setpoint = (Double)this.nodeConstants.get("wall_follow_distance_setpoint");
+        Double wall_follow_aim_angle = (Double)this.nodeConstants.get("wall_follow_aim_angle");
+        Double wall_follow_speed = (Double)this.nodeConstants.get("wall_follow_speed");
+        Double wall_follow_angle_change_tolerance = (Double)this.nodeConstants.get("wall_follow_angle_change_tolerance");
+        Double error = wall_follow_speed * Math.sin(wall_follow_aim_angle * Math.PI / 180.0);
+
+        l.add(Literal.parseLiteral("wall_follow_distance_setpoint(" + Double.toString(wall_follow_distance_setpoint) + ")"));
+        l.add(Literal.parseLiteral("wall_follow_aim_angle(" + Double.toString(wall_follow_aim_angle) + ")"));
+        l.add(Literal.parseLiteral("wall_follow_angle_change_tolerance(" + Double.toString(wall_follow_angle_change_tolerance) + ")"));
+        l.add(Literal.parseLiteral("wall_follow_speed(" + Double.toString(wall_follow_speed) + ")"));
+        l.add(Literal.parseLiteral("wall_follow_distance_tolerance(" + Double.toString(error) + ")"));
+    
+        getTS().getLogger().info("Agent " + getAgName() + " beliefs are: " + l);
+
         return l;
     }
 
@@ -148,8 +171,7 @@ public class HermesAgent extends AgArch implements Runnable {
     }
 
     private void beliefCallback(final std_msgs.msg.String msg){
-        JSONObject obj = new JSONObject(msg.getData());
-        //System.out.println("Beliefs: " + obj.toString());
+        this.currentPerceptions = new JSONObject(msg.getData());
     }
 
     private void actionStatusCallback(final std_msgs.msg.String msg){

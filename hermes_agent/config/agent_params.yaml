@@ -3,6 +3,6 @@ beliefs_subscriber_topic: /beliefs
 action_status_subscriber_topic: /action_status
 actions_publisher_topic: /actions
 wall_follow_distance_setpoint: 0.8
-wall_follow_aim_angle: 60
+wall_follow_aim_angle: 60.0
 wall_follow_angle_change_tolerance: 0.1
 wall_follow_speed: 0.4
