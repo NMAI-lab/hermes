@@ -69,38 +69,6 @@ class BeliefGenerator(Node):
         Publishes a wall follow message.
         '''
         self.lidar_beliefs = get_msg_content_as_dict(lidar_data)
-        '''
-        distance = lidar_data['right_wall_dist']
-        angle = lidar_data['right_wall_angle']
-        
-        res_angle = 0
-        if distance > SET_POINT + ERROR:
-            res_angle = -1 * AIM_ANGLE + angle
-        elif distance < SET_POINT - ERROR:
-            res_angle = AIM_ANGLE + angle
-        else:
-            res_angle = angle
-
-        angular_speed = res_angle * math.pi / 180.0
-
-        action_message = String()
-        # For minor changes avoid big arcs.
-        if abs(angular_speed) > ANGLE_CHANGE_THRESHOLD:
-            linear_speed = SPEED / 2
-        else:
-            linear_speed = SPEED
-
-        action_message.data = json.dumps({
-            'name': 'Twist',
-            'linear_x': linear_speed,
-            'linear_y': 0,
-            'linear_z': 0,
-            'angular_x': 0,
-            'angular_y': 0,
-            'angular_z': angular_speed,
-        })
-        self.belief_publisher.publish(action_message)
-        '''
 
 def main(args=None):
     '''

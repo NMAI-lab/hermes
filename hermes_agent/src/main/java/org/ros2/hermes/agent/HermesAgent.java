@@ -92,6 +92,7 @@ public class HermesAgent extends AgArch implements Runnable {
                 getTS().reasoningCycle();
                 long endTime = System.currentTimeMillis();
                 reasoningTime = endTime - startTime;
+                getTS().getLogger().info("Reasoning Time: " + Long.toString(reasoningTime));
 
                 if (getTS().canSleep()) {
                     getTS().getLogger().info("Agent sleeping...");
@@ -108,14 +109,15 @@ public class HermesAgent extends AgArch implements Runnable {
 
     @Override
     public List<Literal> perceive() {
-        getTS().getLogger().info("Agent " + getAgName() + " is perceiving...");
         List<Literal> l = new ArrayList<Literal>();
+        getTS().getLogger().info("Agent " + getAgName() + " is perceiving...");
 
         // Generating beliefs from the perceptions
         if (this.currentPerceptions != null) {
             if (this.currentPerceptions.has("right_wall_dist") && this.currentPerceptions.has("right_wall_angle")) {
                 l.add(Literal.parseLiteral("facing_wall(" + Double.toString(this.currentPerceptions.getDouble("right_wall_dist")) + "," +  Double.toString(this.currentPerceptions.getDouble("right_wall_angle")) + ")"));
             }
+            this.currentPerceptions = null;
         }
 
         // Loading the constants
@@ -130,7 +132,7 @@ public class HermesAgent extends AgArch implements Runnable {
         l.add(Literal.parseLiteral("wall_follow_angle_change_tolerance(" + Double.toString(wall_follow_angle_change_tolerance) + ")"));
         l.add(Literal.parseLiteral("wall_follow_speed(" + Double.toString(wall_follow_speed) + ")"));
         l.add(Literal.parseLiteral("wall_follow_distance_tolerance(" + Double.toString(error) + ")"));
-    
+        
         getTS().getLogger().info("Agent " + getAgName() + " beliefs are: " + l);
 
         return l;
