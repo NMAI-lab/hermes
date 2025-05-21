@@ -55,6 +55,14 @@ world_header = """
                 </visual>
             </link>
         </model>
+
+        <!-- Top Down Camera View -->
+        <gui>
+            <camera name="user_camera">
+                <pose>0 0 10 0 1.5708 0</pose> <!-- Top-down view -->
+                <view_controller>orbit</view_controller>
+            </camera>
+        </gui>
 """
 
 world_footer = """
