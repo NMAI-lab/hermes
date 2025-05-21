@@ -1,54 +1,51 @@
 !start.
 
 /* Rules */
-too_far_from_wall(DISTANCE) :-
+
+too_far_from_wall(Distance) :-
     wall_follow_distance_setpoint(SETPOINT) &
     wall_follow_distance_tolerance(ERROR) &
-    DISTANCE > SETPOINT + ERROR.
+    Distance > SETPOINT + ERROR.
 
-too_close_to_wall(DISTANCE) :-
+too_close_to_wall(Distance) :-
     wall_follow_distance_setpoint(SETPOINT) &
     wall_follow_distance_tolerance(ERROR) &
-    DISTANCE < SETPOINT - ERROR.
+    Distance < SETPOINT - ERROR.
 
-appropriate_distance_from_wall(DISTANCE) :-
-    wall_follow_distance_setpoint(SETPOINT) &
-    wall_follow_distance_tolerance(ERROR) &
-    DISTANCE <= SETPOINT + ERROR &
-    DISTANCE >= SETPOINT - ERROR.
-
-big_angle_change(ANGLE) :-
+about_to_do_big_angle_change(Angle) :-
     wall_follow_angle_change_tolerance(TOLERANCE) &
-    math.abs(ANGLE) > TOLERANCE.
+    math.abs(Angle) > TOLERANCE.
+
+to_radian(Angle, Result) :- Result = Angle * math.pi / 180.0.
 
 /* Plans */
 
-+!start: facing_wall(Distance,Angle) & appropriate_distance_from_wall(Distance)
++!start: facing_wall(Distance, Angle) & not too_far_from_wall(Distance) & not too_close_to_wall(Distance)
     <-
     .print("appropriate distance from wall; wall following");
-    !wall_follow(Angle * math.pi / 180.0).
+    !wall_follow(Angle).
 
-+!start: facing_wall(Distance,Angle) & too_far_from_wall(Distance) & wall_follow_aim_angle(AIM_ANGLE)
++!start: facing_wall(Distance, Angle) & too_far_from_wall(Distance) & wall_follow_aim_angle(AIM_ANGLE)
     <-
     .print("too far from the wall!");
-    !wall_follow((-1 * AIM_ANGLE + Angle) * math.pi / 180.0).
+    !wall_follow(-1 * AIM_ANGLE + Angle).
 
-+!start: facing_wall(Distance,Angle) & too_close_to_wall(Distance) & wall_follow_aim_angle(AIM_ANGLE)
++!start: facing_wall(Distance, Angle) & too_close_to_wall(Distance) & wall_follow_aim_angle(AIM_ANGLE)
     <-
     .print("too close to the wall!");
-    !wall_follow((AIM_ANGLE + Angle) * math.pi / 180.0).
+    !wall_follow(AIM_ANGLE + Angle).
 
 +!start: true
     <-
-    .print("STUCK");
+    .print("Cannot wall follow! Need perceptions.");
     !start.
 
-+!wall_follow(Angle): wall_follow_speed(SPEED) & big_angle_change(Angle)
++!wall_follow(Angle): wall_follow_speed(SPEED) & about_to_do_big_angle_change(Angle) & to_radian(Angle, Radian_angle)
     <-
-    cmd_vel(SPEED, 0, 0, 0, 0, Angle);
+    cmd_vel(SPEED, 0, 0, 0, 0, Radian_angle);
     !start.
 
-+!wall_follow(Angle): wall_follow_speed(SPEED) & not big_angle_change(Angle)
++!wall_follow(Angle): wall_follow_speed(SPEED) & not about_to_do_big_angle_change(Angle) & to_radian(Angle, Radian_angle)
     <-
-    cmd_vel(SPEED / 2, 0, 0, 0, 0, Angle);
+    cmd_vel(SPEED / 2, 0, 0, 0, 0, Radian_angle);
     !start.

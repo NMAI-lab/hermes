@@ -113,11 +113,12 @@ public class HermesAgent extends AgArch implements Runnable {
         getTS().getLogger().info("Agent " + getAgName() + " is perceiving...");
 
         // Generating beliefs from the perceptions
-        if (this.currentPerceptions != null) {
-            if (this.currentPerceptions.has("right_wall_dist") && this.currentPerceptions.has("right_wall_angle")) {
-                l.add(Literal.parseLiteral("facing_wall(" + Double.toString(this.currentPerceptions.getDouble("right_wall_dist")) + "," +  Double.toString(this.currentPerceptions.getDouble("right_wall_angle")) + ")"));
+        JSONObject currentPerceptions = getPerceptions();
+        if (currentPerceptions != null) {
+            if (currentPerceptions.has("right_wall_dist") && currentPerceptions.has("right_wall_angle")) {
+                l.add(Literal.parseLiteral("facing_wall(" + Double.toString(currentPerceptions.getDouble("right_wall_dist")) + "," +  Double.toString(currentPerceptions.getDouble("right_wall_angle")) + ")"));
             }
-            this.currentPerceptions = null;
+            resetPerceptions();
         }
 
         // Loading the constants
@@ -173,7 +174,19 @@ public class HermesAgent extends AgArch implements Runnable {
     }
 
     private void beliefCallback(final std_msgs.msg.String msg){
-        this.currentPerceptions = new JSONObject(msg.getData());
+        updatePerceptions(new JSONObject(msg.getData()));
+    }
+
+    private synchronized void updatePerceptions(JSONObject newPercepts) {
+        this.currentPerceptions = newPercepts;
+    }
+
+    private synchronized void resetPerceptions() {
+        this.currentPerceptions = null;
+    }
+
+    private synchronized JSONObject getPerceptions(){
+        return this.currentPerceptions;
     }
 
     private void actionStatusCallback(final std_msgs.msg.String msg){
