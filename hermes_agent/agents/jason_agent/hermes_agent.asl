@@ -43,7 +43,7 @@ about_to_do_big_angle_change(Angle) :-
 
 +!start: true
     <-
-    //.print("Cannot wall follow! Need perceptions.");
+    .print("Cannot wall follow! Need perceptions.");
     !start.
 
 +!wall_follow(Angle): wall_follow_speed(SPEED) & about_to_do_big_angle_change(Angle) & convert_to_radian(Angle, RadianAngle)
