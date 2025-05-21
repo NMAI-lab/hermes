@@ -26,7 +26,7 @@ class BeliefGenerator(Node):
         super().__init__('belief_generator_node')
 
         self.goal = "wall_follow"
-        self.lidar_beliefs = []
+        self.lidar_beliefs = {}
 
         # Declare the parameters
         self.declare_parameter('belief_generator_params')
@@ -54,8 +54,7 @@ class BeliefGenerator(Node):
 
         Publishes a state update message.
         '''
-        update_dict = {'goal': self.goal}
-        update_dict['beliefs'] = self.lidar_beliefs
+        update_dict = self.lidar_beliefs
         update_message = create_string_msg_from(update_dict)
         self.get_logger().info('Simulator state update {}'.format(update_message.data))
         self.beliefs_publisher.publish(update_message)
@@ -69,8 +68,7 @@ class BeliefGenerator(Node):
 
         Publishes a wall follow message.
         '''
-        lidar_data = get_msg_content_as_dict(lidar_data)
-        self.lidar_beliefs = ['facing_wall({distance}, {angle})'.format(distance=lidar_data['right_wall_dist'], angle=lidar_data['right_wall_angle'])]
+        self.lidar_beliefs = get_msg_content_as_dict(lidar_data)
         '''
         distance = lidar_data['right_wall_dist']
         angle = lidar_data['right_wall_angle']
