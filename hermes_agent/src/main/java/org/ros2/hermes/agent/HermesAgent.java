@@ -32,18 +32,26 @@ public class HermesAgent extends AgArch implements Runnable {
     private Publisher<std_msgs.msg.String> actionPublisher;
 
     // Jason related parameters
+    // A list of pending Jason's actions. These actions are pending the `executed` confirmation.
     private List<ActionExec> pendingActions;
+    // Whether an action was performed or not.
     private boolean actionPerformed;
+    // Jason's reasoning time.
     private long reasoningTime;
 
     // General params
     private Map<String, Object> nodeConstants;
+    // The current perceptions of the agent.
     private JSONObject currentPerceptions;
 
     // Constants
     public static final String ASL_FILE = "jason_agent/hermes_agent.asl";
     public static final String AGENT_PARAMS_FILE = "agent_params.yaml";
 
+    /**
+     * The main constructor for the agent.
+     * Sets up all the ROS connections and starts a JASON agent.
+     */
     public HermesAgent() {
         this.node = RCLJava.createNode("hermes_agent");
         this.pendingActions = new ArrayList<>();
@@ -83,6 +91,9 @@ public class HermesAgent extends AgArch implements Runnable {
         }
     }
 
+    /**
+     * The run function for the JASON thread; in charge of communicating with JASON.
+     */
     public void run() {
         try {
             while (isRunning()) {
@@ -107,6 +118,14 @@ public class HermesAgent extends AgArch implements Runnable {
         }
     }
 
+    // JASON METHODS
+
+    /**
+     * The callback for JASON's beliefs retrieval function.
+     * Converts the current beliefs of the system to JASON interpretable literals.
+     * 
+     * @return the beliefs as a list of literals.
+     */
     @Override
     public List<Literal> perceive() {
         List<Literal> l = new ArrayList<Literal>();
@@ -137,7 +156,10 @@ public class HermesAgent extends AgArch implements Runnable {
         return l;
     }
 
-    // this method get the agent actions
+    /**
+     * The callback for when JASON has published an action.
+     * Publishes the given action over ROS.
+     */
     @Override
     public void act(ActionExec action) {
         getTS().getLogger().info("Agent " + getAgName() + " is doing: " + action.getActionTerm());
@@ -151,42 +173,60 @@ public class HermesAgent extends AgArch implements Runnable {
         this.actionPublisher.publish(message);
     }
 
+    /**
+     * The method in charge of deciding whether the JASON agent can sleep or not.
+     * The agent will only sleep after performing an action.
+     */
     @Override
     public boolean canSleep() {
         return actionPerformed;
     }
 
+    /**
+     * The method indicating that the agent is running.
+     */
     @Override
     public boolean isRunning() {
         return true;
     }
 
+    /**
+     * The method to handle that agent's sleep.
+     */
     public void sleep() {
         try {
             Thread.sleep(1000 - reasoningTime);
         } catch (InterruptedException e) {}
     }
 
+    /**
+     * Returns the name of the agent.
+     * 
+     * @return the agent name in string format.
+     */
     public String getAgName() {
         return "hermes";
     }
 
+    // ROS METHODS
+
+    /**
+     * The callback for ROS' /beliefs subscription.
+     * Stores the beliefs it just received.
+     * 
+     * @param msg: the belief that was received through ROS 
+     */
     private void beliefCallback(final std_msgs.msg.String msg){
         updatePerceptions(new JSONObject(msg.getData()));
     }
 
-    private synchronized void updatePerceptions(JSONObject newPercepts) {
-        this.currentPerceptions = newPercepts;
-    }
-
-    private synchronized void resetPerceptions() {
-        this.currentPerceptions = null;
-    }
-
-    private synchronized JSONObject getPerceptions(){
-        return this.currentPerceptions;
-    }
-
+    /**
+     * The call for ROS' /action_status subscription.
+     * Verifies that the action was received by the `action_translator` node
+     * and removes it from the list of pending actions.
+     * 
+     * @param msg: the action status received through ROS.
+     */
     private void actionStatusCallback(final std_msgs.msg.String msg){
         JSONObject obj = new JSONObject(msg.getData());
         
@@ -207,10 +247,48 @@ public class HermesAgent extends AgArch implements Runnable {
         pendingActions.remove(executedAction);
     }
 
+    /**
+     * Obtains the ROS node for the class.
+     * 
+     * @return the ros node.
+     */
     public Node getNode() {
         return this.node;
     }
 
+
+    // Internal Methods
+
+    /**
+     * A synchronized method for updating the current perceptions.
+     * 
+     * @param newPercepts: new perceptions to add to the class.
+     */
+    private synchronized void updatePerceptions(JSONObject newPercepts) {
+        this.currentPerceptions = newPercepts;
+    }
+
+    /**
+     * A synchronized method for resetting the current perceptions.
+     * Sets the perceptions as null.
+     */
+    private synchronized void resetPerceptions() {
+        this.currentPerceptions = null;
+    }
+
+    /**
+     * A synchronized method for obtaining the current perceptions.
+     * 
+     * @return the current perceptions.
+     */
+    private synchronized JSONObject getPerceptions(){
+        return this.currentPerceptions;
+    }
+
+    /**
+     * The entry point for the process.
+     * Initializes the ROS node and spins up the agent thread.
+     */
     public static void main(String[] args) throws InterruptedException {
         // Initialize RCL
         RCLJava.rclJavaInit();
