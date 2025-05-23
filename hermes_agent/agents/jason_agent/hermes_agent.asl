@@ -14,7 +14,7 @@ calculate_wall_distance_error(Error) :-
     wall_follow_speed(SPEED) &
     wall_follow_aim_angle(AIM_ANGLE) &
     convert_to_radian(AIM_ANGLE, AimAngleRadian) &
-    Error = SPEED * math.sin(AimAngleRadian).
+    Error = SPEED * math.sin(AimAngleRadian) / 2.
 
 too_far_from_wall(Distance) :-
     wall_follow_distance_setpoint(SETPOINT) &
