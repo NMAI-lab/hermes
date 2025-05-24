@@ -2,7 +2,7 @@
 beliefs_subscriber_topic: /beliefs
 action_status_subscriber_topic: /action_status
 actions_publisher_topic: /actions
+speed: 0.4 # in meters per second
+angle_change_tolerance: 5.0 # in degrees
 wall_follow_distance_setpoint: 0.8 # in meters
-wall_follow_aim_angle: 60.0 # in degrees
-wall_follow_angle_change_tolerance: 0.1 # in radians
-wall_follow_speed: 0.4 # in meters per second
+wall_follow_aim_angle: 45.0 # in degrees

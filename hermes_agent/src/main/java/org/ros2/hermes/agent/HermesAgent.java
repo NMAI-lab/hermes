@@ -141,15 +141,15 @@ public class HermesAgent extends AgArch implements Runnable {
         }
 
         // Loading the constants
+        Double speed = (Double)this.nodeConstants.get("speed");
+        Double angle_change_tolerance = (Double)this.nodeConstants.get("angle_change_tolerance");
         Double wall_follow_distance_setpoint = (Double)this.nodeConstants.get("wall_follow_distance_setpoint");
         Double wall_follow_aim_angle = (Double)this.nodeConstants.get("wall_follow_aim_angle");
-        Double wall_follow_speed = (Double)this.nodeConstants.get("wall_follow_speed");
-        Double wall_follow_angle_change_tolerance = (Double)this.nodeConstants.get("wall_follow_angle_change_tolerance");
 
+        l.add(Literal.parseLiteral("speed(" + Double.toString(speed) + ")"));
+        l.add(Literal.parseLiteral("angle_change_tolerance(" + Double.toString(angle_change_tolerance) + ")"));
         l.add(Literal.parseLiteral("wall_follow_distance_setpoint(" + Double.toString(wall_follow_distance_setpoint) + ")"));
         l.add(Literal.parseLiteral("wall_follow_aim_angle(" + Double.toString(wall_follow_aim_angle) + ")"));
-        l.add(Literal.parseLiteral("wall_follow_angle_change_tolerance(" + Double.toString(wall_follow_angle_change_tolerance) + ")"));
-        l.add(Literal.parseLiteral("wall_follow_speed(" + Double.toString(wall_follow_speed) + ")"));
         
         getTS().getLogger().info("Agent " + getAgName() + " beliefs are: " + l);
 
