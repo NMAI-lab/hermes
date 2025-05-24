@@ -33,20 +33,17 @@ too_close_to_wall(Distance) :-
 +!wall_follow(Distance, Angle): not too_far_from_wall(Distance) & not too_close_to_wall(Distance)
     <-
     .print("Appropriate distance from wall; wall following");
-    !turn(Angle);
-    !start.
+    !turn(Angle).
 
 +!wall_follow(Distance, Angle): too_far_from_wall(Distance) & wall_follow_aim_angle(AIM_ANGLE)
     <-
     .print("Too far from the wall!");
-    !turn(-1 * AIM_ANGLE + Angle);
-    !start.
+    !turn(-1 * AIM_ANGLE + Angle).
 
 +!wall_follow(Distance, Angle): too_close_to_wall(Distance) & wall_follow_aim_angle(AIM_ANGLE)
     <-
     .print("Too close to the wall!");
-    !turn(AIM_ANGLE + Angle);
-    !start.
+    !turn(AIM_ANGLE + Angle).
 
 /* Helpers */
 
