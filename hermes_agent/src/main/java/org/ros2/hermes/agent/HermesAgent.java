@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.io.FileInputStream;
 import java.io.IOException;
-
 import org.yaml.snakeyaml.Yaml;
 import org.json.JSONObject;
 
@@ -35,9 +35,7 @@ public class HermesAgent extends AgArch implements Runnable {
     // A list of pending Jason's actions. These actions are pending the `executed` confirmation.
     private List<ActionExec> pendingActions;
     // Whether an action was performed or not.
-    private boolean actionPerformed;
-    // Jason's reasoning time.
-    private long reasoningTime;
+    private AtomicBoolean performedAction;
 
     // General params
     private Map<String, Object> nodeConstants;
@@ -47,6 +45,7 @@ public class HermesAgent extends AgArch implements Runnable {
     // Constants
     public static final String ASL_FILE = "jason_agent/hermes_agent.asl";
     public static final String AGENT_PARAMS_FILE = "agent_params.yaml";
+    public static final long AGENT_SLEEP_DURATION = 100; // in miliseconds
 
     /**
      * The main constructor for the agent.
@@ -55,8 +54,8 @@ public class HermesAgent extends AgArch implements Runnable {
     public HermesAgent() {
         this.node = RCLJava.createNode("hermes_agent");
         this.pendingActions = new ArrayList<>();
-        this.reasoningTime = 0;
-        this.currentPerceptions = null;
+        this.currentPerceptions = new JSONObject();
+        this.performedAction = new AtomicBoolean(false);
 
         String mapsFile = System.getenv().getOrDefault("map_file", "");
         String agentDefinitionsFolder = System.getenv().getOrDefault("agent_definitions", "");
@@ -102,13 +101,12 @@ public class HermesAgent extends AgArch implements Runnable {
                 long startTime = System.currentTimeMillis();
                 getTS().reasoningCycle();
                 long endTime = System.currentTimeMillis();
-                reasoningTime = endTime - startTime;
+                long reasoningTime = endTime - startTime;
                 getTS().getLogger().info("Reasoning Time: " + Long.toString(reasoningTime));
 
                 if (getTS().canSleep()) {
                     getTS().getLogger().info("Agent sleeping...");
-                    actionPerformed = false;
-                    sleep();
+                    sleep(reasoningTime);
                 } else {
                     getTS().getLogger().info("Agent cannot sleep...");
                 }
@@ -132,12 +130,15 @@ public class HermesAgent extends AgArch implements Runnable {
         getTS().getLogger().info("Agent " + getAgName() + " is perceiving...");
 
         // Generating beliefs from the perceptions
-        JSONObject currentPerceptions = getPerceptions();
-        if (currentPerceptions != null) {
-            if (currentPerceptions.has("right_wall_dist") && currentPerceptions.has("right_wall_angle")) {
-                l.add(Literal.parseLiteral("facing_wall(" + Double.toString(currentPerceptions.getDouble("right_wall_dist")) + "," +  Double.toString(currentPerceptions.getDouble("right_wall_angle")) + ")"));
+        JSONObject perceptions = new JSONObject();
+        synchronized(this.currentPerceptions) {
+            perceptions = this.currentPerceptions;
+            this.currentPerceptions = new JSONObject();;
+        }
+        if (perceptions.length() != 0) {
+            if (perceptions.has("right_wall_dist") && perceptions.has("right_wall_angle")) {
+                l.add(Literal.parseLiteral("facingWall(" + Double.toString(perceptions.getDouble("right_wall_dist")) + "," +  Double.toString(perceptions.getDouble("right_wall_angle")) + ")"));
             }
-            resetPerceptions();
         }
 
         // Loading the constants
@@ -147,9 +148,9 @@ public class HermesAgent extends AgArch implements Runnable {
         Double wall_follow_aim_angle = (Double)this.nodeConstants.get("wall_follow_aim_angle");
 
         l.add(Literal.parseLiteral("speed(" + Double.toString(speed) + ")"));
-        l.add(Literal.parseLiteral("angle_change_tolerance(" + Double.toString(angle_change_tolerance) + ")"));
-        l.add(Literal.parseLiteral("wall_follow_distance_setpoint(" + Double.toString(wall_follow_distance_setpoint) + ")"));
-        l.add(Literal.parseLiteral("wall_follow_aim_angle(" + Double.toString(wall_follow_aim_angle) + ")"));
+        l.add(Literal.parseLiteral("angleChangeTolerance(" + Double.toString(angle_change_tolerance) + ")"));
+        l.add(Literal.parseLiteral("wallFollowDistanceSetpoint(" + Double.toString(wall_follow_distance_setpoint) + ")"));
+        l.add(Literal.parseLiteral("wallFollowAimAngle(" + Double.toString(wall_follow_aim_angle) + ")"));
         
         getTS().getLogger().info("Agent " + getAgName() + " beliefs are: " + l);
 
@@ -163,6 +164,7 @@ public class HermesAgent extends AgArch implements Runnable {
     @Override
     public void act(ActionExec action) {
         getTS().getLogger().info("Agent " + getAgName() + " is doing: " + action.getActionTerm());
+        this.performedAction.set(true);
         pendingActions.add(action);
 
         std_msgs.msg.String message = new std_msgs.msg.String();
@@ -179,7 +181,7 @@ public class HermesAgent extends AgArch implements Runnable {
      */
     @Override
     public boolean canSleep() {
-        return actionPerformed;
+        return this.performedAction.get();
     }
 
     /**
@@ -192,10 +194,13 @@ public class HermesAgent extends AgArch implements Runnable {
 
     /**
      * The method to handle that agent's sleep.
+     * 
+     * @param reasoningTime: the reasoning time for the agent.
      */
-    public void sleep() {
+    public void sleep(long reasoningTime) {
         try {
-            Thread.sleep(1000 - reasoningTime);
+            this.performedAction.set(false);
+            Thread.sleep(((Integer)this.nodeConstants.get("sleep_duration")).longValue() - reasoningTime);
         } catch (InterruptedException e) {}
     }
 
@@ -217,7 +222,9 @@ public class HermesAgent extends AgArch implements Runnable {
      * @param msg: the belief that was received through ROS 
      */
     private void beliefCallback(final std_msgs.msg.String msg){
-        updatePerceptions(new JSONObject(msg.getData()));
+        synchronized(this.currentPerceptions) {
+            this.currentPerceptions = new JSONObject(msg.getData());
+        }
     }
 
     /**
@@ -241,7 +248,6 @@ public class HermesAgent extends AgArch implements Runnable {
         }
 
         // set that the execution was ok
-        actionPerformed = true;
         executedAction.setResult(true);
         actionExecuted(executedAction);
         pendingActions.remove(executedAction);
@@ -255,35 +261,7 @@ public class HermesAgent extends AgArch implements Runnable {
     public Node getNode() {
         return this.node;
     }
-
-
-    // Internal Methods
-
-    /**
-     * A synchronized method for updating the current perceptions.
-     * 
-     * @param newPercepts: new perceptions to add to the class.
-     */
-    private synchronized void updatePerceptions(JSONObject newPercepts) {
-        this.currentPerceptions = newPercepts;
-    }
-
-    /**
-     * A synchronized method for resetting the current perceptions.
-     * Sets the perceptions as null.
-     */
-    private synchronized void resetPerceptions() {
-        this.currentPerceptions = null;
-    }
-
-    /**
-     * A synchronized method for obtaining the current perceptions.
-     * 
-     * @return the current perceptions.
-     */
-    private synchronized JSONObject getPerceptions(){
-        return this.currentPerceptions;
-    }
+   
 
     /**
      * The entry point for the process.
