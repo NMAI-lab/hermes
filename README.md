@@ -19,6 +19,16 @@ This robot is based on the [iRobot Create 3](https://edu.irobot.com/what-we-offe
 In addition to that, Hermes uses the popular AgentSpeak language [Jason](https://jason-lang.github.io/) to implement the BDI architecture.
 
 ## Installation
+
+### Docker Installation
+
+Build a local container using:
+```
+docker build -t hermes-ros2 .
+```
+
+### Manual Installation
+
 1. Install [ROS Foxy](https://docs.ros.org/en/foxy/Installation.html) on an Ubuntu 20.04 system
 
 2. Make sure to source your installation:
@@ -102,6 +112,15 @@ source ~/hermes_ws/install/local_setup.bash
 - [ament_gradle_plugin](https://github.com/bardia-p/ament_gradle_plugin)
 
 ## Running Hermes
+
+### Running Hermes in Docker
+
+Make sure you have built the `hermes-ros2` docker container. Then run:
+```
+docker run -it --rm hermes-ros2
+```
+
+### Running Hermes Locally 
 
 First try to fire up the simulator by doing:
 ```
