@@ -92,9 +92,14 @@ source ~/hermes_ws/install/local_setup.bash
 ```
 
 **NOTE:** If at any point you face any issues with the installation process of these ROS dependencies, please refer to the README files of the appropriate repositories:
-- [create3_sim](https://github.com/iRobotEducation/create3_sim/tree/foxy)
-- [irobot_create_msgs](https://github.com/iRobotEducation/irobot_create_msgs)
+- [create3_sim](https://github.com/iRobotEducation/create3_sim/)
 - [ros2_java](https://github.com/ros2-java/ros2_java)
+
+**NOTE:** The ensure an easy build process, the project comes with pre-built jar files of some of these libraries. These jar files have been customized to include custom behaviour for the project. The custom jar files are created from the forks of these libraries located at:
+- [Jason](https://github.com/bardia-p/jason/tree/jason_hermes)
+- [Peleus](https://github.com/bardia-p/Peleus/tree/peleus_hermes)
+- [JPDDLPLUS](https://github.com/bardia-p/jpddlplus)
+- [ament_gradle_plugin](https://github.com/bardia-p/ament_gradle_plugin)
 
 ## Running Hermes
 
@@ -140,14 +145,13 @@ ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
 - The name Hermes is a nod to the previous major AgentSpeak projects namely, [Jason](https://github.com/jason-lang/jason) and [Peleus](https://github.com/meneguzzi/Peleus). I chose the name Hermes since the main purpose of this robot is to deliver mail from one place to another. 
 
 ## Acknowledgements
-- [iRobot's Create 3 Simulator](https://github.com/iRobotEducation/create3_sim/tree/foxy) for the main robot simulator.
-- [Jason](https://github.com/jason-lang/jason) for the AgentSpeak implementation of the project.
-- [ros2_java](https://github.com/ros2-java/ros2_java.git) for the ros2 and Jason integration.
+- [iRobot's Create 3 Simulator](https://github.com/iRobotEducation/create3_sim) for the main robot simulator.
+- [ros2_java](https://github.com/ros2-java/ros2_java) to integrate ROS2 with the Java agent implementations.
+- [Jason](https://github.com/jason-lang/jason) an AgentSpeak interpreter for the agent definitions.
 - [Peleus](https://github.com/meneguzzi/Peleus) for connecting Jason to various planners.
-- [ENHSP](https://gitlab.com/enricos83/ENHSP-Public.git) for creating the robot plans.
+- [JPDDLPLUS](https://github.com/hstairs/jpddlplus) for generating PDDL plans using its builtin ENHSP planner.
 
 ## TO-DO
-- Add a simple Jason implementation for wall following
 - Connect Peleus and the ENHSP planner for this behaviour
 - Add state machines and subsumption
 - Add intersection handling
