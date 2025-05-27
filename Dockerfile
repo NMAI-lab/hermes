@@ -20,6 +20,9 @@ RUN apt update && apt install -y \
     && locale-gen en_US en_US.UTF-8 \
     && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
+# Add GitHub's SSH key to known_hosts to avoid interactive trust prompt
+RUN mkdir -p ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
+
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
@@ -48,6 +51,9 @@ WORKDIR /root/hermes_ws/src
 # Clone Hermes
 RUN --mount=type=ssh git clone git@github.com:bardia-p/hermes.git
 
+# Install Python dependencies
+RUN pip3 install --upgrade pip && pip3 install -r /root/hermes_ws/src/hermes/requirements.txt
+
 # Import dependencies
 RUN vcs import /root/hermes_ws/src/ < /root/hermes_ws/src/hermes/dependencies.repos
 
@@ -59,9 +65,6 @@ RUN apt update && apt install -y python3-rosdep \
 # Install ROS 2 dependencies
 WORKDIR /root/hermes_ws
 RUN rosdep install --from-path src -yi --skip-keys "ament_tools"
-
-# Install Python dependencies
-RUN pip3 install --upgrade pip && pip3 install -r src/hermes/requirements.txt
 
 # Build and install Java gradle plugin
 WORKDIR /root/hermes_ws/src/ros2-java/ament_gradle_plugin

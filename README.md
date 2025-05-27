@@ -24,7 +24,9 @@ In addition to that, Hermes uses the popular AgentSpeak language [Jason](https:/
 
 Build a local container using:
 ```
-docker build -t hermes-ros2 .
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa # or whatever ssh key you use
+DOCKER_BUILDKIT=1 docker buildx build --ssh=default -t hermes .
 ```
 
 ### Manual Installation
@@ -56,20 +58,21 @@ sudo apt install ros-foxy-gazebo-ros-pkgs
 sudo apt install ros-foxy-rviz2
 ```
 
-7. Install all the required Python packages using:
-```
-pip install -r requirements.txt
-```
-
-8. Create a ROS workspace for your system. Such as:
+7. Create a ROS workspace for your system. Such as:
 ```
 mkdir -p ~/hermes_ws/src
 cd ~/hermes_ws/src
 ```
 
-9. Clone [hermes](https://github.com/bardia-p/hermes):
+8. Clone [hermes](https://github.com/bardia-p/hermes):
 ```
 git clone git@github.com:bardia-p/hermes.git
+```
+
+9. Install all the required Python packages using:
+```
+cd ~/hermes_ws/src/hermes
+pip install -r requirements.txt
 ```
 
 10. Clone the appropriate ROS dependencies:
@@ -117,7 +120,7 @@ source ~/hermes_ws/install/local_setup.bash
 
 Make sure you have built the `hermes-ros2` docker container. Then run:
 ```
-docker run -it --rm hermes-ros2
+docker run -it --rm hermes
 ```
 
 ### Running Hermes Locally 
