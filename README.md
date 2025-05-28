@@ -118,9 +118,26 @@ source ~/hermes_ws/install/local_setup.bash
 
 ### Running Hermes in Docker
 
-Make sure you have built the `hermes-ros2` docker container. Then run:
+Make sure you have built the `hermes-ros2` docker container.
+
+- Connect `xhost` to docker:
 ```
-docker run -it --rm hermes
+xhost +local:docker
+```
+
+- Start the docker container:
+```
+docker run -it \
+  --env DISPLAY=$DISPLAY \
+  --env QT_X11_NO_MITSHM=1 \
+  --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  hermes
+```
+
+- Start the simulator in the container:
+```
+source ~/hermes_ws/install/local_setup.bash
+ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1
 ```
 
 ### Running Hermes Locally 
@@ -128,7 +145,7 @@ docker run -it --rm hermes
 First try to fire up the simulator by doing:
 ```
 source ~/hermes_ws/install/local_setup.bash
-ros2 launch hermes_simulator simulator.launch.py start:=I1 end:=B1
+ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1
 ```
 
 You should see the Gazebo and RViz windows pop up:

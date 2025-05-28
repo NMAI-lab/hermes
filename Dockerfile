@@ -50,7 +50,6 @@ RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 RUN echo "IGNITION_VERSION=fortress" >> ~/.bashrc
 
 # Create workspace
-ARG CACHEBUST=1
 RUN mkdir -p /root/hermes_ws/src
 WORKDIR /root/hermes_ws/src
 
