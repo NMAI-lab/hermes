@@ -134,7 +134,7 @@ docker run -it \
   hermes
 ```
 
-- Start the simulator in the container:
+- Launch the simulator in the container:
 ```
 source ~/hermes_ws/install/local_setup.bash
 ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1
