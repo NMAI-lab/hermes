@@ -36,6 +36,10 @@ RUN apt update && apt install -y \
     ros-foxy-desktop \
     ros-foxy-gazebo-ros-pkgs \
     ros-foxy-rviz2 \
+    ros-foxy-ackermann-msgs \
+    ros-foxy-joint-state-publisher \
+    ros-foxy-control-toolbox \
+    ros-foxy-xacro \
     default-jdk \
     gradle \
     && rm -rf /var/lib/apt/lists/*
