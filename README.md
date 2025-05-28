@@ -85,7 +85,7 @@ vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/dependencies.repos
 cd ~/hermes_ws
 sudo rosdep init
 rosdep update
-rosdep install --from-path src -yi --skip-keys "ament_tools"
+rosdep install --from-paths src -yi --skip-keys "ament_tools"
 ```
 
 12. Install the ROS2 ament Java gradle plugin:

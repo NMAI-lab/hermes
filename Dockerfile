@@ -42,9 +42,11 @@ RUN apt update && apt install -y \
 
 # Source ROS setup
 SHELL ["/bin/bash", "-c"]
-RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
+RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+RUN echo "IGNITION_VERSION=fortress" >> ~/.bashrc
 
 # Create workspace
+ARG CACHEBUST=1
 RUN mkdir -p /root/hermes_ws/src
 WORKDIR /root/hermes_ws/src
 
@@ -59,12 +61,14 @@ RUN vcs import /root/hermes_ws/src/ < /root/hermes_ws/src/hermes/dependencies.re
 
 # Install rosdep and initialize
 RUN apt update && apt install -y python3-rosdep \
-    && rosdep init \
+    && source /opt/ros/foxy/setup.bash \
+    && sudo rosdep init \
     && rosdep update
 
 # Install ROS 2 dependencies
 WORKDIR /root/hermes_ws
-RUN rosdep install --from-path src -yi --skip-keys "ament_tools"
+RUN source /opt/ros/foxy/setup.bash && \
+    rosdep install --from-paths src -yi --skip-keys "ament_tools"
 
 # Build and install Java gradle plugin
 WORKDIR /root/hermes_ws/src/ros2-java/ament_gradle_plugin
@@ -72,7 +76,8 @@ RUN gradle uploadArchives
 
 # Build ROS 2 workspace
 WORKDIR /root/hermes_ws
-RUN colcon build --symlink-install
+RUN source /opt/ros/foxy/setup.bash && \
+    colcon build --symlink-install
 
 # Source workspace
 RUN echo "source /root/hermes_ws/install/local_setup.bash" >> ~/.bashrc
