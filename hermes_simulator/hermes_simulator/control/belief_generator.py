@@ -25,8 +25,8 @@ class BeliefGenerator(Node):
         '''
         super().__init__('belief_generator_node')
 
-        self.goal = "wall_follow"
         self.lidar_beliefs = {}
+        self.beacon_beliefs = {}
 
         # Declare the parameters
         self.declare_parameter('belief_generator_params')
@@ -43,6 +43,10 @@ class BeliefGenerator(Node):
                                                          self.belief_generator_params['lidar_subscriber_topic'],
                                                          self.decode_lidar, 
                                                          self.belief_generator_params['queue_size'])
+        self.beacon_subscriber = self.create_subscription(String, 
+                                                          self.belief_generator_params['beacon_subscriber_topic'],
+                                                          self.decode_beacon, 
+                                                          self.belief_generator_params['queue_size'])
 
         # A timer to send a status update
         self.update_timer = self.create_timer(self.belief_generator_params['update_rate'], self.send_update)
@@ -55,20 +59,29 @@ class BeliefGenerator(Node):
         Publishes a state update message.
         '''
         update_dict = self.lidar_beliefs
+        update_dict.update(self.beacon_beliefs)
+        
         update_message = create_string_msg_from(update_dict)
         self.get_logger().info('Simulator state update {}'.format(update_message.data))
         self.beliefs_publisher.publish(update_message)
 
     def decode_lidar(self, lidar_data):
         '''
-        Decodes the lidar data and generates the right action.
+        Decodes the lidar data and saves the belief.
 
         Parameters:
         - lidar_data(String): the lidar distances and angles.
-
-        Publishes a wall follow message.
         '''
         self.lidar_beliefs = get_msg_content_as_dict(lidar_data)
+
+    def decode_beacon(self, beacon_data):
+        '''
+        Decodes the beacon data and saves the belief.
+
+        Parameters:
+        - beacon_data(String): the beacon name.
+        '''
+        self.beacon_beliefs = get_msg_content_as_dict(beacon_data)
 
 def main(args=None):
     '''

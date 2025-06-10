@@ -1,0 +1,5 @@
+---
+subscriber_topic: /rf_signal
+publisher_topic: /beacon
+beacon_detection_rssi_threshold: -20
+queue_size: 10

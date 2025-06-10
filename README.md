@@ -173,6 +173,13 @@ source ~/hermes_ws/install/local_setup.bash
 ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
 ```
 
+### Cleaning Up After the Simulator
+
+A cleanup script has been included to ensure a proper cleanup of the shared memory and any leftover processes. If you run into any issues with the simulator, simply run:
+```
+./perform_cleanup.sh
+``` 
+
 ## Project Structure
 - **hermes_create_description:** This package includes the Gazebo descriptions for the robotcs, sensors, and the dock station. It also includes the appropriate launch files for spawning these objects.
 - **hermes_environment:** This package includes the implementation of the simulation environment with the various configs for loading the robot map.

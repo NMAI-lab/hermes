@@ -4,6 +4,9 @@ from std_msgs.msg import String
 
 import math
 
+from hermes_simulator.tools.yaml_parser import load_yaml
+from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get_msg_content_as_dict
+
 class BeaconSensor(Node):
     '''
     The Node in charge of listening to the beacons.
@@ -18,23 +21,21 @@ class BeaconSensor(Node):
         '''
         The constructor for the node.
         Defines the necessary publishers and subscribers.
-
-        Parameters:
-        - params(dict): The beacon parameters.
         '''
         super().__init__('beacon_sensor_node')
 
-        # Declare parameters with defaults
-        self.declare_parameter('publisher_topic', '/rf_signal')
+        # Declare the parameters
+        self.declare_parameter('sensor_params')
 
         # Get the value from parameter server
-        published_topic = self.get_parameter('publisher_topic').get_parameter_value().string_value
+        self.sensor_params = load_yaml(self.get_parameter('sensor_params').get_parameter_value().string_value)
 
         # The publishers for the node.
-        self.publisher = self.create_publisher(String, 'beacon' , 10)
+        self.publisher = self.create_publisher(String, self.sensor_params['publisher_topic'], self.sensor_params['queue_size'])
         
         # The subscribers for the node.
-        self.beacon_info_sub = self.create_subscription(String, published_topic, self.rf_signal_callback, qos_profile=rclpy.qos.qos_profile_sensor_data)
+        self.beacon_info_sub = self.create_subscription(String, self.sensor_params['subscriber_topic'], 
+                                                        self.rf_signal_callback, qos_profile=rclpy.qos.qos_profile_sensor_data)
 
     def rf_signal_callback(self, rf_signal):
         '''
@@ -44,7 +45,12 @@ class BeaconSensor(Node):
         Parameters:
         - rf_signal(String): The current signal for the beacon.
         '''
-        # self.get_logger().info("I got a rf_signal: {}".format(rf_signal.data))
+        beacon_data = get_msg_content_as_dict(rf_signal)
+
+        if beacon_data['SignalStrength'] >= self.sensor_params['beacon_detection_rssi_threshold']:
+            self.publisher.publish(create_string_msg_from({
+                'beacon': beacon_data['Beacon'],
+            }))
 
 def main(args=None):
     '''

@@ -72,7 +72,7 @@ private:
         // Publish RF signal data
         auto msg = std::make_shared<std_msgs::msg::String>();
         std::ostringstream oss;
-        oss << "Beacon=" << this->get_name() << ";SignalStrength=" << signal_strength;
+        oss << "{\"Beacon\": \"" << this->get_name() << "\", \"SignalStrength\": " << signal_strength << "}";
         msg->data = oss.str();
 
         rf_signal_pub_->publish(*msg);

@@ -139,6 +139,10 @@ public class HermesAgent extends AgArch implements Runnable {
             if (perceptions.has("right_wall_dist") && perceptions.has("right_wall_angle")) {
                 l.add(Literal.parseLiteral("facingWall(" + Double.toString(perceptions.getDouble("right_wall_dist")) + "," +  Double.toString(perceptions.getDouble("right_wall_angle")) + ")"));
             }
+
+            if (perceptions.has("beacon")) {
+                l.add(Literal.parseLiteral("beacon(" + perceptions.getString("beacon") + ")"));
+            }
         }
 
         // Loading the constants

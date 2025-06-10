@@ -53,12 +53,10 @@ class LidarSensor(Node):
         Publishes a scan update to /lidar.
         '''        
         right_wall_dist, right_wall_angle  = self.calculate(scan)
-        calc = create_string_msg_from({
+        self.publisher.publish(create_string_msg_from({
             'right_wall_dist': right_wall_dist,
             'right_wall_angle': right_wall_angle
-        })
-
-        self.publisher.publish(calc)
+        }))
 
     def calculate(self, scan):
         '''

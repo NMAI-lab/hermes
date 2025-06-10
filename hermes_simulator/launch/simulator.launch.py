@@ -42,6 +42,11 @@ def launch_setup(context, *args, **kwargs):
         'config',
         'lidar_sensor_params.yaml'
     )
+    beacon_sensor_params_yaml_file = os.path.join(
+        pkg_hermes_simulator,
+        'config',
+        'beacon_sensor_params.yaml'
+    )
     action_translator_params_yaml_file = os.path.join(
         pkg_hermes_simulator,
         'config',
@@ -104,7 +109,9 @@ def launch_setup(context, *args, **kwargs):
              executable='beacon_sensor',
              name='beacon_sensor',
              output='log',
-             parameters=[beacon_params_yaml_file]
+             parameters=[
+                {'sensor_params': beacon_sensor_params_yaml_file}
+             ]
         ),
         Node(package='hermes_simulator',
              namespace='control',
