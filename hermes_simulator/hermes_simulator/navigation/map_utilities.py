@@ -28,7 +28,17 @@ DIRECTIONS = {
 }
 
 class MapUtilities():
+    '''
+    The class in charge of handling all the map related actions.
+    It will also maintain a path.
+    '''
     def __init__(self, beacons):
+        '''
+        The constructor for the class.
+
+        Parameters:
+        - beacons(Dict): a network of beacons essentially acting as an adjaceny matrix.
+        '''
         self.beacons = beacons
         self.current_path = []
     
@@ -67,9 +77,9 @@ class MapUtilities():
                         heapq.heappush(to_visit_queue, (distance, next_beacon))
                         previous_nodes[next_beacon] = current_beacon
 
-        # Could not find a path
+        # Could not find a path!
         if previous_nodes[end] is None:
-            return []
+            raise Exception(f"COULD NOT CALCULATE A PATH FROM {start} TO {end}!".format(start=start, end=end))
 
         path = []
         current = end
@@ -99,7 +109,6 @@ class MapUtilities():
         if prev_beacon != None:
             curr_orientation = self.calculate_orientation(curr_beacon, prev_beacon)
 
-        print(curr_orientation)
         # NO previous beacon was provided or the previous and current beacons were NOT neighbours
         # A new orientation will be assumed.
         if curr_orientation is None:
@@ -108,9 +117,6 @@ class MapUtilities():
         # The cached path cannot be reused! A new path is calculated.
         if len(self.current_path) == 0 or curr_beacon != self.current_path[0] or destination != self.current_path[-1]:
             self.current_path = self.find_shortest_path(curr_beacon, destination)[1:]
-
-        if len(self.current_path) == 0:
-            raise Exception(f"COULD NOT CALCULATE A PATH FROM {curr_beacon} TO {destination}!".format(curr_beacon=curr_beacon, destination=destination))
 
         next_beacon = self.current_path.pop(0)
         new_orientation = self.calculate_orientation(curr_beacon, next_beacon)
