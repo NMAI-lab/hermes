@@ -32,14 +32,16 @@ class MapUtilities():
     The class in charge of handling all the map related actions.
     It will also maintain a path.
     '''
-    def __init__(self, beacons):
+    def __init__(self, beacons, logger):
         '''
         The constructor for the class.
 
         Parameters:
         - beacons(Dict): a network of beacons essentially acting as an adjaceny matrix.
+        - logger(Logger): the logger for the node.
         '''
         self.beacons = beacons
+        self.logger = logger
         self.current_path = []
     
     def find_shortest_path(self, start, end):
@@ -105,6 +107,11 @@ class MapUtilities():
         - If the previous and current beacons are not neighbours, a new orientation will be assumed.
         - If cached path is applicable, curr_beacon will be removed from it.
         '''
+        # Already at the destination
+        if curr_beacon == destination:
+            self.path = []
+            return "DOCK"
+
         curr_orientation = None
         if prev_beacon != None:
             curr_orientation = self.calculate_orientation(curr_beacon, prev_beacon)
@@ -113,18 +120,21 @@ class MapUtilities():
         # A new orientation will be assumed.
         if curr_orientation is None:
             curr_orientation = list(set(self.beacons[curr_beacon]).intersection(DIRECTIONS))[0]
+            self.logger.info("Could not calculate the robot's orientation. Assuming {}..".format(curr_orientation))
 
         # The cached path cannot be reused! A new path is calculated.
         if len(self.current_path) == 0 or curr_beacon != self.current_path[0] or destination != self.current_path[-1]:
+            self.logger.info("Either no cached path or the robot has been moved!")
             self.current_path = self.find_shortest_path(curr_beacon, destination)[1:]
-
+        
         next_beacon = self.current_path.pop(0)
         new_orientation = self.calculate_orientation(curr_beacon, next_beacon)
 
         if new_orientation is None:
-            raise Exception(f"COULD NOT GET AN ORIENTATION BETWEEN {curr_beacon} AND {next_beacon}".format(curr_beacon=curr_beacon, next_beacon=next_beacon))
+            self.logger.info("COULD NOT GET AN ORIENTATION BETWEEN {} AND {}".format(curr_beacon, next_beacon))
+            raise Exception("COULD NOT GET AN ORIENTATION BETWEEN {} AND {}".format(curr_beacon, next_beacon))
 
-        print(self.current_path, curr_orientation, new_orientation, curr_beacon, next_beacon)
+        self.logger.info("Robot is at {} entering from {} about to head {}..".format(curr_beacon, curr_orientation, new_orientation))
 
         return DIRECTIONS[curr_orientation][new_orientation]
 
@@ -147,81 +157,3 @@ class MapUtilities():
                 # The beacons are neighbours and was able to find a good orientation
                 return direction
         return None
-
-beacons = {
-        "I1": {
-            "type": "intersection",
-            "north": {
-                "name": "I2",
-                "type": "intersection",
-                "distance": 10
-            },
-            "east": {
-                "name": "B1",
-                "distance": 10
-            },
-            "south": {
-                "name": "B2",
-                "distance": 10
-            },
-            "west": {
-                "name": "B3",
-                "distance": 10
-            }
-        },
-        "I2": {
-            "name": "I2",
-            "type": "intersection",
-            "north": {
-                "name": "B4",
-                "distance": 10
-            },
-            "east": {
-                "name": "B5",
-                "distance": 10
-            },
-            "south": {
-                "name": "I1",
-                "distance": 10
-            }
-        },
-        "B1": {
-            "type": "destination",
-            "west": {
-                "name": "I1",
-                "distance": 10
-            }
-        },
-        "B2": {
-            "type": "destination",
-            "north": {
-                "name": "I1",
-                "distance": 10
-            }
-        },
-        "B3": {
-            "type": "destination",
-            "east": {
-                "name": "I1",
-                "distance": 10
-            }
-        },
-        "B4": {
-            "type": "destination",
-            "south": {
-                "name": "I2",
-                "distance": 10
-            }
-        },
-        "B5": {
-            "type": "destination",
-            "west": {
-                "name": "I2",
-                "distance": 10
-            }
-        }
-}
-
-print(MapUtilities(beacons).find_shortest_path("B3", "B5"))
-print(MapUtilities(beacons).get_turn_direction(curr_beacon="I1", destination="B5", prev_beacon="B3"))
-print(MapUtilities(beacons).get_turn_direction(curr_beacon="I2", destination="B5", prev_beacon="I1"))

@@ -1,0 +1,5 @@
+---
+subscriber_topic: /beacon
+publisher_topic: /navigation
+beacon_observation_stack_size: 5
+queue_size: 10

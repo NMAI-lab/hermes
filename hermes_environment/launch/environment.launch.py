@@ -86,7 +86,7 @@ beacon_template = """
                     <material>
                         <script>
                             <uri>file://media/materials/scripts/gazebo.material</uri>
-                            <name>Gazebo/Red</name>
+                            <name>Gazebo/{colour}</name>
                         </script>
                     </material>
                 </visual>
@@ -182,9 +182,9 @@ def generate_world(input_file, start_beacon, end_beacon, map_params):
         while len(to_visit) != 0:
             curr_beacon, x, y = to_visit.pop(0)
 
-            world_body += beacon_template.format(name=curr_beacon, x=x, y=y, z=wall_height)
-
             curr_beacon_dict = beacons_dicts[curr_beacon]
+
+            world_body += beacon_template.format(name=curr_beacon, x=x, y=y, z=wall_height, colour='Red' if curr_beacon_dict['type'] == 'intersection' else 'Blue')
 
             if curr_beacon_dict["type"] == "intersection":
                 beacons[curr_beacon] = (x, y, 0, 0)

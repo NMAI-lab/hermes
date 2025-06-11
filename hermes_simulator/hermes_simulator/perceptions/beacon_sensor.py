@@ -2,8 +2,6 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 
-import math
-
 from hermes_simulator.tools.yaml_parser import load_yaml
 from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get_msg_content_as_dict
 
@@ -46,7 +44,6 @@ class BeaconSensor(Node):
         - rf_signal(String): The current signal for the beacon.
         '''
         beacon_data = get_msg_content_as_dict(rf_signal)
-
         if beacon_data['SignalStrength'] >= self.sensor_params['beacon_detection_rssi_threshold']:
             self.publisher.publish(create_string_msg_from({
                 'beacon': beacon_data['Beacon'],

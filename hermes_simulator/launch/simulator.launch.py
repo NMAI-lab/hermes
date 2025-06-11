@@ -47,6 +47,11 @@ def launch_setup(context, *args, **kwargs):
         'config',
         'beacon_sensor_params.yaml'
     )
+    navigator_params_yaml_file = os.path.join(
+        pkg_hermes_simulator,
+        'config',
+        'navigator_params.yaml'
+    )
     action_translator_params_yaml_file = os.path.join(
         pkg_hermes_simulator,
         'config',
@@ -111,6 +116,17 @@ def launch_setup(context, *args, **kwargs):
              output='log',
              parameters=[
                 {'sensor_params': beacon_sensor_params_yaml_file}
+             ]
+        ),
+        Node(package='hermes_simulator',
+             namespace='navigation',
+             executable='navigator',
+             name='navigator',
+             output='log',
+             parameters=[
+                {'navigator_params': navigator_params_yaml_file},
+                {'map_file': map_file},
+                {'destination': LaunchConfiguration('end')}
              ]
         ),
         Node(package='hermes_simulator',

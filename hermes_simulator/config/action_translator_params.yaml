@@ -1,7 +1,9 @@
 ---
 subscriber_topic: /actions
 action_status_publisher_topic: /action_status
+robot_availability_topic: /robot_description
 movement_publisher_topic: /cmd_vel
 dock_publisher_topic: /dock
 undock_publisher_topic: /undock
+idle_sleep_duration: 1.0
 queue_size: 10
