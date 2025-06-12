@@ -3,8 +3,6 @@ from rclpy.node import Node
 from std_msgs.msg import String, Empty
 from geometry_msgs.msg import Twist
 
-import time 
-
 from hermes_simulator.tools.yaml_parser import load_yaml
 from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get_msg_content_as_dict
 
@@ -48,12 +46,6 @@ class ActionTranslator(Node):
         self.action_subscriber = self.create_subscription(String, self.action_translator_params['subscriber_topic'],
                                                           self.decode_action, 
                                                           self.action_translator_params['queue_size'])
-
-        # Wait for the robot to launch
-        while self.count_publishers(self.action_translator_params['robot_availability_topic']) == 0:
-            self.get_logger().info('Waiting for for the robot to launch...')
-            time.sleep(self.action_translator_params['idle_sleep_duration'])
-
     def decode_action(self, action):
         '''
         Decodes the given action and sends it.

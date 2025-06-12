@@ -1,6 +1,8 @@
 ---
 subscriber_topic: /scan
 publisher_topic: /lidar
+robot_availability_topic: /robot_description
 wall_follow_min_angle: -110
 wall_follow_max_angle: -30
+idle_sleep_duration: 1.0
 queue_size: 10

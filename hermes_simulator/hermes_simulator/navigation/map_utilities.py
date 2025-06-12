@@ -120,11 +120,11 @@ class MapUtilities():
         # A new orientation will be assumed.
         if curr_orientation is None:
             curr_orientation = list(set(self.beacons[curr_beacon]).intersection(DIRECTIONS))[0]
-            self.logger.info("Could not calculate the robot's orientation. Assuming {}..".format(curr_orientation))
+            self.logger.info("Could not calculate the Hermes' orientation. Assuming {}..".format(curr_orientation))
 
         # The cached path cannot be reused! A new path is calculated.
         if len(self.current_path) == 0 or curr_beacon != self.current_path[0] or destination != self.current_path[-1]:
-            self.logger.info("Either no cached path or the robot has been moved!")
+            self.logger.info("Either no cached path or Hermes is lost!")
             self.current_path = self.find_shortest_path(curr_beacon, destination)[1:]
         
         next_beacon = self.current_path.pop(0)
@@ -134,7 +134,7 @@ class MapUtilities():
             self.logger.info("COULD NOT GET AN ORIENTATION BETWEEN {} AND {}".format(curr_beacon, next_beacon))
             raise Exception("COULD NOT GET AN ORIENTATION BETWEEN {} AND {}".format(curr_beacon, next_beacon))
 
-        self.logger.info("Robot is at {} entering from {} about to head {}..".format(curr_beacon, curr_orientation, new_orientation))
+        self.logger.info("Hermes is at {} entering from {} about to head {}..".format(curr_beacon, curr_orientation, new_orientation))
 
         return DIRECTIONS[curr_orientation][new_orientation]
 

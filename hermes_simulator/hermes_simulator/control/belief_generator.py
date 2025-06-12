@@ -2,8 +2,6 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 
-import time
-
 from hermes_simulator.tools.yaml_parser import load_yaml
 from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get_msg_content_as_dict
 
@@ -50,11 +48,6 @@ class BeliefGenerator(Node):
 
         # A timer to send a status update
         self.update_timer = self.create_timer(self.belief_generator_params['update_rate'], self.send_update)
-
-        # Wait for the robot to launch
-        while self.count_publishers(self.belief_generator_params['robot_availability_topic']) == 0:
-            self.get_logger().info('Waiting for for the robot to launch...')
-            time.sleep(self.belief_generator_params['idle_sleep_duration'])
 
     def send_update(self):
         '''

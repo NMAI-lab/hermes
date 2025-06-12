@@ -1,8 +1,6 @@
 ---
 lidar_subscriber_topic: /lidar
 navigation_subscriber_topic: /navigation
-robot_availability_topic: /robot_description
 publisher_topic: /beliefs
-idle_sleep_duration: 1.0
 update_rate: 0.1
 queue_size: 10

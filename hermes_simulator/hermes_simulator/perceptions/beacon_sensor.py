@@ -2,6 +2,8 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 
+import time
+
 from hermes_simulator.tools.yaml_parser import load_yaml
 from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get_msg_content_as_dict
 
@@ -27,6 +29,11 @@ class BeaconSensor(Node):
 
         # Get the value from parameter server
         self.sensor_params = load_yaml(self.get_parameter('sensor_params').get_parameter_value().string_value)
+
+        # Wait for the robot to launch
+        while self.count_publishers(self.sensor_params['robot_availability_topic']) == 0:
+            self.get_logger().info('Waiting for the robot to launch...')
+            time.sleep(self.sensor_params['idle_sleep_duration'])
 
         # The publishers for the node.
         self.publisher = self.create_publisher(String, self.sensor_params['publisher_topic'], self.sensor_params['queue_size'])
