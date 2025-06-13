@@ -20,11 +20,6 @@ def launch_setup(context, *args, **kwargs):
         'config',
         'lidar_params.yaml'
     )
-    beacon_params_yaml_file = os.path.join(
-        pkg_hermes_environment,
-        'config',
-        'beacon_params.yaml'
-    )
     map_params_yaml_file = os.path.join(
         pkg_hermes_environment,
         'config',
@@ -92,7 +87,6 @@ def launch_setup(context, *args, **kwargs):
     
     # Setting the environment variables
     agent_environment = os.environ.copy()
-    agent_environment['map_params'] = map_file
     agent_environment['agent_definitions'] = agent_definitions_folder
     agent_environment['config'] = hermes_agent_config_folder
 
@@ -106,7 +100,8 @@ def launch_setup(context, *args, **kwargs):
              output='log',
              parameters=[
                 {'sensor_params': lidar_sensor_params_yaml_file},
-                {'lidar_params': lidar_params_yaml_file}
+                {'lidar_params': lidar_params_yaml_file},
+                {'map_params': map_params_yaml_file}
             ]
         ),
         Node(package='hermes_simulator',

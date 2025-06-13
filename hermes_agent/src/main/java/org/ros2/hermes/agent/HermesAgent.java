@@ -40,7 +40,7 @@ public class HermesAgent extends AgArch implements Runnable {
     // General params
     private Map<String, Object> nodeConstants;
     // The current perceptions of the agent.
-    private JSONObject currentPerceptions;
+    private List<JSONObject> currentPerceptions;
 
     // Constants
     public static final String ASL_FILE = "jason_agent/hermes_agent.asl";
@@ -54,10 +54,9 @@ public class HermesAgent extends AgArch implements Runnable {
     public HermesAgent() {
         this.node = RCLJava.createNode("hermes_agent");
         this.pendingActions = new ArrayList<>();
-        this.currentPerceptions = new JSONObject();
+        this.currentPerceptions = new ArrayList<>();
         this.performedAction = new AtomicBoolean(false);
 
-        String mapsFile = System.getenv().getOrDefault("map_file", "");
         String agentDefinitionsFolder = System.getenv().getOrDefault("agent_definitions", "");
         String configFolder = System.getenv().getOrDefault("config", "");
         
@@ -132,12 +131,19 @@ public class HermesAgent extends AgArch implements Runnable {
         // Generating beliefs from the perceptions
         JSONObject perceptions = new JSONObject();
         synchronized(this.currentPerceptions) {
-            perceptions = this.currentPerceptions;
-            this.currentPerceptions = new JSONObject();;
+            if (this.currentPerceptions.size() > 0) {
+                perceptions = this.currentPerceptions.remove(0);
+            }
         }
         if (perceptions.length() != 0) {
-            if (perceptions.has("right_wall_dist") && perceptions.has("right_wall_angle")) {
-                l.add(Literal.parseLiteral("facingWall(" + Double.toString(perceptions.getDouble("right_wall_dist")) + "," +  Double.toString(perceptions.getDouble("right_wall_angle")) + ")"));
+            if (perceptions.has("wall_following")) {
+                JSONObject wallFollowObject = perceptions.getJSONObject("wall_following");
+                l.add(Literal.parseLiteral("facingWall(" + Double.toString(wallFollowObject.getDouble("right_wall_dist")) + "," +  Double.toString(wallFollowObject.getDouble("right_wall_angle")) + ")"));
+            }
+
+            if (perceptions.has("intersection")) {
+                JSONObject intersectionObject = perceptions.getJSONObject("intersection");
+                l.add(Literal.parseLiteral("intersection(" + Double.toString(intersectionObject.getDouble("forward_distance")) + "," +  Double.toString(intersectionObject.getDouble("l_turn_distance")) + "," + Double.toString(intersectionObject.getDouble("u_turn_distance")) + ")"));
             }
 
             if (perceptions.has("navigation")) {
@@ -150,12 +156,16 @@ public class HermesAgent extends AgArch implements Runnable {
         Double angle_change_tolerance = (Double)this.nodeConstants.get("angle_change_tolerance");
         Double wall_follow_distance_setpoint = (Double)this.nodeConstants.get("wall_follow_distance_setpoint");
         Double wall_follow_aim_angle = (Double)this.nodeConstants.get("wall_follow_aim_angle");
+        Double l_turn_aim_angle = (Double)this.nodeConstants.get("l_turn_aim_angle");
+        Double u_turn_aim_angle = (Double)this.nodeConstants.get("u_turn_aim_angle");
 
         l.add(Literal.parseLiteral("speed(" + Double.toString(speed) + ")"));
         l.add(Literal.parseLiteral("angleChangeTolerance(" + Double.toString(angle_change_tolerance) + ")"));
         l.add(Literal.parseLiteral("wallFollowDistanceSetpoint(" + Double.toString(wall_follow_distance_setpoint) + ")"));
         l.add(Literal.parseLiteral("wallFollowAimAngle(" + Double.toString(wall_follow_aim_angle) + ")"));
-        
+        l.add(Literal.parseLiteral("lTurnAimAngle(" + Double.toString(l_turn_aim_angle) + ")"));
+        l.add(Literal.parseLiteral("uTurnAimAngle(" + Double.toString(u_turn_aim_angle) + ")"));
+
         getTS().getLogger().info("Agent " + getAgName() + " beliefs are: " + l);
 
         return l;
@@ -227,7 +237,7 @@ public class HermesAgent extends AgArch implements Runnable {
      */
     private void beliefCallback(final std_msgs.msg.String msg){
         synchronized(this.currentPerceptions) {
-            this.currentPerceptions = new JSONObject(msg.getData());
+            this.currentPerceptions.add(new JSONObject(msg.getData()));
         }
     }
 

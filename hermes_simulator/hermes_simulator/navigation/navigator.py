@@ -68,7 +68,7 @@ class Navigator(Node):
 
         # Consistently observed the same beacon
         if len(self.observations) == self.navigator_params['beacon_observation_stack_size'] and len(set(self.observations)) == 1:
-            self.get_logger().info("Hermes is passing {} beacon...".format(current_beacon))
+            self.get_logger().info("Hermes is passing beacon: {}...".format(current_beacon))
             # Observed a new intersection so a path is needed.
             # Make sure the beacon was not previously observed!
             if self.beacons[current_beacon]['type'] == 'intersection' and current_beacon != self.previous_beacon:

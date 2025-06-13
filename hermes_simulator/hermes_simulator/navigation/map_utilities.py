@@ -107,11 +107,6 @@ class MapUtilities():
         - If the previous and current beacons are not neighbours, a new orientation will be assumed.
         - If cached path is applicable, curr_beacon will be removed from it.
         '''
-        # Already at the destination
-        if curr_beacon == destination:
-            self.path = []
-            return "DOCK"
-
         curr_orientation = None
         if prev_beacon != None:
             curr_orientation = self.calculate_orientation(curr_beacon, prev_beacon)
@@ -125,16 +120,25 @@ class MapUtilities():
         # The cached path cannot be reused! A new path is calculated.
         if len(self.current_path) == 0 or curr_beacon != self.current_path[0] or destination != self.current_path[-1]:
             self.logger.info("Either no cached path or Hermes is lost!")
-            self.current_path = self.find_shortest_path(curr_beacon, destination)[1:]
+            self.current_path = self.find_shortest_path(curr_beacon, destination)
         
-        next_beacon = self.current_path.pop(0)
+        # Remove the current beacon
+        self.current_path.pop(0)
+
+        # Already at the destination
+        if len(self.current_path) == 0:
+            self.current_path = []
+            self.logger.info("Hermes is approaching its destination!")
+            return "DOCK"
+
+        next_beacon = self.current_path[0]
         new_orientation = self.calculate_orientation(curr_beacon, next_beacon)
 
         if new_orientation is None:
             self.logger.info("COULD NOT GET AN ORIENTATION BETWEEN {} AND {}".format(curr_beacon, next_beacon))
             raise Exception("COULD NOT GET AN ORIENTATION BETWEEN {} AND {}".format(curr_beacon, next_beacon))
 
-        self.logger.info("Hermes is at {} entering from {} about to head {}..".format(curr_beacon, curr_orientation, new_orientation))
+        self.logger.info("Hermes is at {} entering from {} about to head {}..\nThe current path for Hermes is: {}".format(curr_beacon, curr_orientation, new_orientation, self.current_path))
 
         return DIRECTIONS[curr_orientation][new_orientation]
 
