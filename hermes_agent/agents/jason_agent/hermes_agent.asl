@@ -2,22 +2,16 @@
 
 /* Main Behaviour */
 
-+!start: navigationInstruction(NavInstruction)
-    <-
-    .print("Got navigation instruction:", NavInstruction);
-    +navigation(NavInstruction);
-    -navigationInstruction(NavInstruction);
-    !start.
-
 +!start: navigation(NavInstruction) & intersection(ForwardDistance, LTurnDistance, UTurnDistance)
     <-
     .print("Reached an intersection!");
-    !handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance).
-    //!start.
+    !handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance);
+    -navigation(NavInstruction);
+    !start.
 
-+!start: facingWall(Distance, Angle)
++!start: facingWall(WallDistance, WallAngle)
     <-
-    !wallFollow(Distance, Angle);
+    !wallFollow(WallDistance, WallAngle);
     !start.
 
 +!start: true
@@ -27,78 +21,66 @@
 
 /* intersection Handling */
 
-calculateNumForwardMoves(Distance, NumForwardMoves) :-
-    speed(SPEED) &
-    NumForwardMoves = math.ceil(Distance / SPEED).
++navigationInstruction(NavInstruction)
+    <-
+    .print("Got navigation instruction:", NavInstruction);
+    -+navigation(NavInstruction);
+    -navigationInstruction(NavInstruction).
 
-+!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(WALL_FOLLOW) & facingWall(Distance, Angle)
++!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(wall_follow) & facingWall(WallDistance, WallAngle)
     <-
     .print("At the intersection performing a right turn action...");
-    !wallFollow(Distance, Angle);
-    -navigation(WALL_FOLLOW).
+    !wallFollow(WallDistance, WallAngle).
 
-+!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(FORWARD) & calculateNumForwardMoves(ForwardDistance, NumForwardMoves)
++!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(forward) & speed(SPEED) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
     <-
     .print("At the intersection performing a forward action...");
-    !goThroughIntersection(NumForwardMoves).
-    -navigation(FORWARD).
+    !performRepeatedForwards(math.ceil(ForwardDistance / SPEED / ACTION_EXECUTION_DURATION)).
 
-+!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(L_TURN) & lTurnAimAngle(L_TURN_AIM_ANGLE) & calculateNumForwardMoves(LTurnDistance, NumForwardMoves)
++!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(l_turn) & lTurnAimAngle(L_TURN_AIM_ANGLE) & speed(SPEED) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
     <-
     .print("At the intersection performing a left turn action...");
-    !turn(L_TURN_AIM_ANGLE);
-    !goThroughIntersection(NumForwardMoves);
-    -navigation(L_TURN).
+    !performRepeatedTurns(L_TURN_AIM_ANGLE, 1 / ACTION_EXECUTION_DURATION);
+    !performRepeatedForwards(math.ceil(LTurnDistance / SPEED / ACTION_EXECUTION_DURATION)).
 
-+!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(U_TURN) & uTurnAimAngle(U_TURN_AIM_ANGLE) & calculateNumForwardMoves(UTurnDistance, NumForwardMoves)
++!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(u_turn) & uTurnAimAngle(U_TURN_AIM_ANGLE) & speed(SPEED) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
     <-
-    .print("At the intersection performing a U-turn action...")
-    !turn(U_TURN_AIM_ANGLE);
-    !goThroughIntersection(NumForwardMoves);
-    -navigation(U_TURN).
-
-+!goThroughIntersection(NumForwardMoves): NumForwardMoves > 0
-    <-
-    .print("Passing through the intersection...");
-    cmd_vel(SPEED, 0, 0, 0, 0, 0);
-    !goThroughIntersection(NumForwardMoves - 1).
-
-+!goThroughIntersection(NumForwardMoves): NumForwardMoves <= 0
-    <-
-    .print("Completed the intersection!").
+    .print("At the intersection performing a U-turn action...");
+    !performRepeatedTurns(U_TURN_AIM_ANGLE, 1 / ACTION_EXECUTION_DURATION);
+    !performRepeatedForwards(math.ceil(UTurnDistance / SPEED / ACTION_EXECUTION_DURATION)).
 
 /* Wall Following */
 
-calculateWallDistanceError(Error) :- 
+calculateWallDistanceError(WallDistanceError) :- 
     speed(SPEED) &
     wallFollowAimAngle(WALL_FOLLOW_AIM_ANGLE) &
     convertToRadian(WALL_FOLLOW_AIM_ANGLE, AimAngleRadian) &
-    Error = SPEED * math.sin(AimAngleRadian) / 4.
+    WallDistanceError = SPEED * math.sin(AimAngleRadian) / 4.
 
-tooFarFromWall(Distance) :-
+tooFarFromWall(WallDistance) :-
     wallFollowDistanceSetpoint(SETPOINT) &
-    calculateWallDistanceError(Error) &
-    Distance > SETPOINT + Error.
+    calculateWallDistanceError(WallDistanceError) &
+    WallDistance > SETPOINT + WallDistanceError.
 
-tooCloseToWall(Distance) :-
+tooCloseToWall(WallDistance) :-
     wallFollowDistanceSetpoint(SETPOINT) &
-    calculateWallDistanceError(Error) &
-    Distance < SETPOINT - Error.
+    calculateWallDistanceError(WallDistanceError) &
+    WallDistance < SETPOINT - WallDistanceError.
 
-+!wallFollow(Distance, Angle): not tooFarFromWall(Distance) & not tooCloseToWall(Distance)
++!wallFollow(WallDistance, WallAngle): not tooFarFromWall(WallDistance) & not tooCloseToWall(WallDistance)
     <-
     .print("Appropriate distance from wall; wall following");
-    !turn(Angle).
+    !turn(WallAngle).
 
-+!wallFollow(Distance, Angle): tooFarFromWall(Distance) & wallFollowAimAngle(WALL_FOLLOW_AIM_ANGLE)
++!wallFollow(WallDistance, WallAngle): tooFarFromWall(WallDistance) & wallFollowAimAngle(WALL_FOLLOW_AIM_ANGLE)
     <-
     .print("Too far from the wall!");
-    !turn(-1 * WALL_FOLLOW_AIM_ANGLE + Angle).
+    !turn(-1 * WALL_FOLLOW_AIM_ANGLE + WallAngle).
 
-+!wallFollow(Distance, Angle): tooCloseToWall(Distance) & wallFollowAimAngle(WALL_FOLLOW_AIM_ANGLE)
++!wallFollow(WallDistance, WallAngle): tooCloseToWall(WallDistance) & wallFollowAimAngle(WALL_FOLLOW_AIM_ANGLE)
     <-
     .print("Too close to the wall!");
-    !turn(WALL_FOLLOW_AIM_ANGLE + Angle).
+    !turn(WALL_FOLLOW_AIM_ANGLE + WallAngle).
 
 /* Helpers */
 
@@ -107,6 +89,26 @@ about_to_do_big_turn(Angle) :-
     math.abs(Angle) > TOLERANCE.
 
 convertToRadian(Angle, Result) :- Result = Angle * math.pi / 180.0.
+
++!performRepeatedForwards(NumForwardMoves): NumForwardMoves > 1 & speed(SPEED)
+    <-
+    .print("Going forward...");
+    cmd_vel(SPEED, 0, 0, 0, 0, 0);
+    !performRepeatedForwards(NumForwardMoves - 1).
+
++!performRepeatedForwards(NumForwardMoves): NumForwardMoves == 1 & speed(SPEED)
+    <-
+    cmd_vel(SPEED, 0, 0, 0, 0, 0).
+
++!performRepeatedTurns(Angle, NumTurns): NumTurns > 1
+    <-
+    .print("Turning...");
+    !turn(Angle);
+    !performRepeatedTurns(Angle, NumTurns - 1).
+
++!performRepeatedTurns(Angle, NumTurns): NumTurns == 1
+    <-
+    !turn(Angle).
 
 +!turn(Angle): speed(SPEED) & aboutToDoBigTurn(Angle) & convertToRadian(Angle, RadianAngle)
     <-

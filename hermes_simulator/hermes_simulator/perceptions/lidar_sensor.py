@@ -111,6 +111,8 @@ class LidarSensor(Node):
             if curr_distance == math.inf:
                 curr_distance = self.lidar_params['max_range']
 
+            curr_distance = round(curr_distance, 3)
+
             #wall_following
             if angle_degrees >= self.sensor_params['wall_follow_min_angle'] and angle_degrees <= self.sensor_params['wall_follow_max_angle'] and curr_distance < min_distance:
                 min_distance = curr_distance
@@ -149,9 +151,9 @@ class LidarSensor(Node):
         lost_wall_on_left = len(left_wall_distances) == 0 or num_lost_walls_left/len(left_wall_distances) >= lost_wall_percent_threshold
 
         # Estimate the size of the intersection
-        forward_distance = statistics.mean(forward_distances)
-        left_turn_distance = statistics.mean(l_turn_distances)
-        u_turn_distance = statistics.mean(u_turn_distances)
+        forward_distance = round(statistics.mean(forward_distances), 3)
+        left_turn_distance = round(statistics.mean(l_turn_distances), 3)
+        u_turn_distance = round(statistics.mean(u_turn_distances), 3)
 
         # Check to see if at least 2 of the sides are lost to set an intersecton
         # If there is an intersection, return its estimated size
