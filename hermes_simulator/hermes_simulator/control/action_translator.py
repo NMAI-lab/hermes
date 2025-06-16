@@ -1,7 +1,9 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String, Empty
+from std_msgs.msg import String
 from geometry_msgs.msg import Twist
+from rclpy.action import ActionClient
+from irobot_create_msgs.action import DockServo
 
 from hermes_simulator.tools.yaml_parser import load_yaml
 from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get_msg_content_as_dict
@@ -25,6 +27,9 @@ class ActionTranslator(Node):
         '''
         super().__init__('action_translator_node')
 
+        # Whether the robot is attempting to dock or not.
+        self.docking = False
+
         # Declare the parameters
         self.declare_parameter('action_translator_params')
 
@@ -37,10 +42,7 @@ class ActionTranslator(Node):
                                                              self.action_translator_params['queue_size'])
         self.drive_publisher = self.create_publisher(Twist, self.action_translator_params['movement_publisher_topic'],
                                                      self.action_translator_params['queue_size'])
-        self.undock_publisher = self.create_publisher(Empty, self.action_translator_params['dock_publisher_topic'],
-                                                      self.action_translator_params['queue_size'])
-        self.dock_publisher = self.create_publisher(Empty, self.action_translator_params['undock_publisher_topic'],
-                                                    self.action_translator_params['queue_size'])
+        self.docking_client = ActionClient(self, DockServo, self.action_translator_params['dock_publisher_topic'])
 
         # The subscribers for the node
         self.action_subscriber = self.create_subscription(String, self.action_translator_params['subscriber_topic'],
@@ -55,6 +57,11 @@ class ActionTranslator(Node):
 
         Publishes the appropriate action message.
         '''
+
+        # The robot is already docking!
+        if self.docking:
+            return
+
         action_data = get_msg_content_as_dict(action)
         self.get_logger().info('Decoding this action {}'.format(action.data))
         self.action_status_publisher.publish(create_string_msg_from({
@@ -77,11 +84,15 @@ class ActionTranslator(Node):
             message.angular.x = action_params[3]
             message.angular.y = action_params[4]
             message.angular.z = action_params[5]
-        else:
-            message = Empty()
 
-        # self.get_logger().info('Publishing this action {}'.format(message))
-        self.drive_publisher.publish(message)
+            self.drive_publisher.publish(message)
+        elif action_name == 'dock':
+            self.get_logger().info("Attempting to dock")
+            self.docking = True
+            dock_goal_future = self.docking_client.send_goal_async(DockServo.Goal())
+        else:
+            self.get_logger().info('GOT AN INVALID ACTION {}'.format(action_name))
+        
 
 
 def main(args=None):

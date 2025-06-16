@@ -2,6 +2,13 @@
 
 /* Main Behaviour */
 
++!start: navigation(dock) & dockVisible
+    <-
+    .print("Reached the destination!");
+    dock;
+    -navigation(dock);
+    !start.
+
 +!start: navigation(NavInstruction) & intersection(ForwardDistance, LTurnDistance, UTurnDistance)
     <-
     .print("Reached an intersection!");
@@ -19,7 +26,7 @@
     .print("Cannot do anything. Need perceptions.");
     !start.
 
-/* intersection Handling */
+/* navigation */
 
 +navigationInstruction(NavInstruction)
     <-
@@ -27,10 +34,11 @@
     -+navigation(NavInstruction);
     -navigationInstruction(NavInstruction).
 
-+!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(wall_follow) & facingWall(WallDistance, WallAngle)
+/* intersection Handling */
+
++!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(wall_follow)
     <-
-    .print("At the intersection performing a right turn action...");
-    !wallFollow(WallDistance, WallAngle).
+    .print("At the intersection performing a right turn action...").
 
 +!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(forward) & speed(SPEED) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
     <-

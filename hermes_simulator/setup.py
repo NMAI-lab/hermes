@@ -28,6 +28,7 @@ setup(
         'console_scripts': [
             'lidar_sensor = hermes_simulator.perceptions.lidar_sensor:main',
             'beacon_sensor = hermes_simulator.perceptions.beacon_sensor:main',
+            'dock_sensor = hermes_simulator.perceptions.dock_sensor:main',
             'navigator = hermes_simulator.navigation.navigator:main',
             'action_translator = hermes_simulator.control.action_translator:main',
             'belief_generator = hermes_simulator.control.belief_generator:main',

@@ -222,26 +222,26 @@ def generate_world(input_file, start_beacon, end_beacon, map_params):
                     world_body += wall_template.format(beacon=curr_beacon, direction="west", side="t", x=x-tunnel_width/2, y=y, z=wall_height//2, width=wall_thickness, length=tunnel_width, height=wall_height)
             elif curr_beacon_dict["type"] == "destination":
                 if "north" in curr_beacon_dict:
-                    beacons[curr_beacon] = (x, y+dock_offset, 0, math.pi/2)
+                    beacons[curr_beacon] = (x, y+dock_offset, 0, math.pi)
                     distance = curr_beacon_dict["north"]["distance"]
                     world_body += wall_template.format(beacon=curr_beacon, direction="north", side="l", x=x-tunnel_width/2, y=y+distance/4, z=wall_height//2, width=wall_thickness, length=distance/2, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="north", side="r", x=x+tunnel_width/2, y=y+distance/4, z=wall_height//2,width=wall_thickness, length=distance/2, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="south", side="t", x=x, y=y, z=wall_height//2, width=tunnel_width, length=wall_thickness, height=wall_height)
 
                 elif "east" in curr_beacon_dict:
-                    beacons[curr_beacon] = (x+dock_offset, y, 0, 0)
+                    beacons[curr_beacon] = (x+dock_offset, y, 0, math.pi/2)
                     world_body += wall_template.format(beacon=curr_beacon, direction="east", side="l", x=x+distance/4, y=y-tunnel_width/2, z=wall_height//2, width=distance/2, length=wall_thickness, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="east", side="r", x=x+distance/4, y=y+tunnel_width/2, z=wall_height//2,width=distance/2, length=wall_thickness, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="west", side="t", x=x, y=y, z=wall_height//2, width=wall_thickness, length=tunnel_width, height=wall_height)
 
                 elif "south" in curr_beacon_dict:
-                    beacons[curr_beacon] = (x, y-dock_offset, 0, -math.pi/2)
+                    beacons[curr_beacon] = (x, y-dock_offset, 0, 0)
                     world_body += wall_template.format(beacon=curr_beacon, direction="south", side="l", x=x-tunnel_width/2, y=y-distance/4, z=wall_height//2, width=wall_thickness, length=distance/2, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="south", side="r", x=x+tunnel_width/2, y=y-distance/4, z=wall_height//2,width=wall_thickness, length=distance/2, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="north", side="t", x=x, y=y, z=wall_height//2, width=tunnel_width, length=wall_thickness, height=wall_height)
 
                 elif "west" in curr_beacon_dict:
-                    beacons[curr_beacon] = (x-dock_offset, y, 0, math.pi)
+                    beacons[curr_beacon] = (x-dock_offset, y, 0, -math.pi/2)
                     world_body += wall_template.format(beacon=curr_beacon, direction="west", side="l", x=x-distance/4, y=y-tunnel_width/2, z=wall_height//2, width=distance/2, length=wall_thickness, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="west", side="r", x=x-distance/4, y=y+tunnel_width/2, z=wall_height//2,width=distance/2, length=wall_thickness, height=wall_height)
                     world_body += wall_template.format(beacon=curr_beacon, direction="east", side="t", x=x, y=y, z=wall_height//2, width=wall_thickness, length=tunnel_width, height=wall_height)

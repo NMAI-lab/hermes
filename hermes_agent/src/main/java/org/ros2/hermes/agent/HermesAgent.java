@@ -149,6 +149,14 @@ public class HermesAgent extends AgArch implements Runnable {
                 l.add(Literal.parseLiteral("intersection(" + Double.toString(intersectionObject.getDouble("forward_distance")) + "," +  Double.toString(intersectionObject.getDouble("l_turn_distance")) + "," + Double.toString(intersectionObject.getDouble("u_turn_distance")) + ")"));
             }
 
+            if (perceptions.has("dock_station")) {
+                JSONObject dockStationObject = perceptions.getJSONObject("dock_station");
+
+                if (dockStationObject.getBoolean("dock_visible")) {
+                    l.add(Literal.parseLiteral("dockVisible"));
+                }
+            }
+
             if (perceptions.has("navigation")) {
                 l.add(Literal.parseLiteral("navigationInstruction(" + perceptions.getString("navigation").toLowerCase() + ")"));
             }

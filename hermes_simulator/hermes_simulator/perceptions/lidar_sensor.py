@@ -18,7 +18,7 @@ class LidarSensor(Node):
     - Listens to /scan for new lidar scans.
 
     @Publishers:
-    - Publishes new updates to /perceptions.
+    - Publishes new updates to /lidar.
     '''
     def __init__(self):
         '''

@@ -125,11 +125,9 @@ class MapUtilities():
         # Remove the current beacon
         self.current_path.pop(0)
 
-        # Already at the destination
         if len(self.current_path) == 0:
-            self.current_path = []
-            self.logger.info("Hermes is approaching its destination!")
-            return "DOCK"
+            self.logger.info("RECEIVED AN EMPTY PATH!!")
+            raise Exception("RECEIVED AN EMPTY PATH!!")
 
         next_beacon = self.current_path[0]
         new_orientation = self.calculate_orientation(curr_beacon, next_beacon)
