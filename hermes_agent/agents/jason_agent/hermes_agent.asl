@@ -9,7 +9,7 @@
     -navigation(dock);
     !start.
 
-+!start: navigation(NavInstruction) & intersection(ForwardDistance, LTurnDistance, UTurnDistance)
++!start: navigation(NavInstruction) & intersection(ForwardDistance, LTurnDistance, UTurnDistance) & not navigation(dock)
     <-
     .print("Reached an intersection!");
     !handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance);
