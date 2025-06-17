@@ -150,7 +150,7 @@ ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1
 
 You should see the Gazebo and RViz windows pop up:
 <p align="center">
-    <img src="images/rviz_gazebo_demo.png" alt="hermes" width=500">
+    <img src="images/hermes_demo.png" alt="hermes" width=500">
 </p>
 
 In a separate window try controlling the robot by running a few ROS commands:
