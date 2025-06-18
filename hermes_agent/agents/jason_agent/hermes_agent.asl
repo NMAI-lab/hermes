@@ -3,11 +3,19 @@
 /* Main Behaviour */
 
 // Navigation
-+navigationInstruction(NavInstruction)
++navigationInstruction(NavInstruction): true
     <-
     .print("Got navigation instruction:", NavInstruction);
     -+navigation(NavInstruction);
     -navigationInstruction(NavInstruction).
+
+// Collision Handling
++bumperPressed: not(navigationInstruction(NavInstruction)) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
+    <-
+    .print("Bumper was pressed! Backing up...");
+    .drop_all_desires;
+    !performRepeatedBackwards(math.ceil(1 / ACTION_EXECUTION_DURATION));
+    !wallFollow.
 
 // Docking
 +dockVisible: navigation(dock)
@@ -30,6 +38,7 @@
 // Wall Detection
 +!wallFollow: facingWall(WallDistance, WallAngle)
     <-
+    .print("Wall following...");
     !alignWithWall(WallDistance, WallAngle);
     !wallFollow.
 
@@ -81,7 +90,7 @@ tooCloseToWall(WallDistance) :-
 
 +!alignWithWall(WallDistance, WallAngle): not(tooFarFromWall(WallDistance)) & not(tooCloseToWall(WallDistance))
     <-
-    .print("Appropriate distance from wall; wall following");
+    .print("Appropriate distance from wall.");
     !turn(WallAngle).
 
 +!alignWithWall(WallDistance, WallAngle): tooFarFromWall(WallDistance) & wallFollowAimAngle(WALL_FOLLOW_AIM_ANGLE)
@@ -111,6 +120,16 @@ convertToRadian(Angle, Result) :- Result = Angle * math.pi / 180.0.
 +!performRepeatedForwards(NumForwardMoves): NumForwardMoves == 1 & speed(SPEED)
     <-
     cmd_vel(SPEED, 0, 0, 0, 0, 0).
+
++!performRepeatedBackwards(NumBackwardMoves): NumBackwardMoves > 1 & speed(SPEED)
+    <-
+    .print("Going backwards...");
+    cmd_vel(-1 * SPEED, 0, 0, 0, 0, 0);
+    !performRepeatedBackwards(NumBackwardMoves - 1).
+
++!performRepeatedBackwards(NumBackwardMoves): NumBackwardMoves == 1 & speed(SPEED)
+    <-
+    cmd_vel(-1 * SPEED, 0, 0, 0, 0, 0).
 
 +!performRepeatedTurns(Angle, NumTurns): NumTurns > 1
     <-

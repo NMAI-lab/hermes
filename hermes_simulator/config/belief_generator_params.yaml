@@ -2,6 +2,7 @@
 lidar_subscriber_topic: /lidar
 navigation_subscriber_topic: /navigation
 dock_status_subscriber_topic: /dock_status
+bumper_status_subscriber_topic: /bumper_status
 publisher_topic: /beliefs
 update_rate: 0.1
 queue_size: 10

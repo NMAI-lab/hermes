@@ -71,7 +71,7 @@ class Navigator(Node):
             self.get_logger().info("Hermes is passing beacon: {}...".format(current_beacon))
 
             # Already at the destination!
-            if current_beacon == self.destination:
+            if current_beacon == self.destination and self.previous_beacon is not None:
                 self.publisher.publish(create_string_msg_from({
                     'navigation': 'DOCK',
                 }))

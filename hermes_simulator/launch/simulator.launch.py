@@ -47,6 +47,11 @@ def launch_setup(context, *args, **kwargs):
         'config',
         'dock_sensor_params.yaml'
     )
+    bumper_sensor_params_yaml_file = os.path.join(
+        pkg_hermes_simulator,
+        'config',
+        'bumper_sensor_params.yaml'
+    )
     navigator_params_yaml_file = os.path.join(
         pkg_hermes_simulator,
         'config',
@@ -125,6 +130,15 @@ def launch_setup(context, *args, **kwargs):
              output='log',
              parameters=[
                 {'sensor_params': dock_sensor_params_yaml_file}
+             ]
+        ),
+        Node(package='hermes_simulator',
+             namespace='perceptions',
+             executable='bumper_sensor',
+             name='bumper_sensor',
+             output='log',
+             parameters=[
+                {'sensor_params': bumper_sensor_params_yaml_file}
              ]
         ),
         Node(package='hermes_simulator',

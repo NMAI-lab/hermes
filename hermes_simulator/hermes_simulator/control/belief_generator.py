@@ -26,6 +26,7 @@ class BeliefGenerator(Node):
         self.lidar_beliefs = {}
         self.navigation_beliefs = {}
         self.dock_status_beliefs = {}
+        self.bumper_status_beliefs = {}
 
         # Declare the parameters
         self.declare_parameter('belief_generator_params')
@@ -50,6 +51,10 @@ class BeliefGenerator(Node):
                                                                self.belief_generator_params['dock_status_subscriber_topic'],
                                                                self.decode_dock_status, 
                                                                self.belief_generator_params['queue_size'])
+        self.bumper_status_subscriber = self.create_subscription(String,
+                                                                 self.belief_generator_params['bumper_status_subscriber_topic'],
+                                                                 self.decode_bumper_status, 
+                                                                 self.belief_generator_params['queue_size'])
 
         # A timer to send a status update
         self.update_timer = self.create_timer(self.belief_generator_params['update_rate'], self.send_update)
@@ -65,11 +70,13 @@ class BeliefGenerator(Node):
         update_dict.update(self.lidar_beliefs)
         update_dict.update(self.navigation_beliefs)
         update_dict.update(self.dock_status_beliefs)
+        update_dict.update(self.bumper_status_beliefs)
         
         # Clear the perceptions
         self.lidar_beliefs = {}
         self.navigation_beliefs = {}
         self.dock_status_beliefs = {}
+        self.bumper_status_beliefs = {}
 
         update_message = create_string_msg_from(update_dict)
         self.get_logger().info('Simulator state update {}'.format(update_message.data))
@@ -95,12 +102,21 @@ class BeliefGenerator(Node):
 
     def decode_dock_status(self, dock_status_data):
         '''
-        Decodes the navigation data and saves the belief.
+        Decodes the dock status data and saves the belief.
 
         Parameters:
-        - navigation_data(String): the navigation data.
+        - dock_status_data(String): the dock status data.
         '''
-        self.navigation_beliefs = get_msg_content_as_dict(dock_status_data)
+        self.dock_status_beliefs = get_msg_content_as_dict(dock_status_data)
+
+    def decode_bumper_status(self, bumper_status_data):
+        '''
+        Decodes the bumper status data and saves the belief.
+
+        Parameters:
+        - bumper_status_data(String): the bumper status data.
+        '''
+        self.bumper_status_beliefs = get_msg_content_as_dict(bumper_status_data)
 
 def main(args=None):
     '''
