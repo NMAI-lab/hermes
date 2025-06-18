@@ -13,7 +13,7 @@ left_wall_min_angle: 60
 left_wall_max_angle: 90
 
 forward_min_angle: -15
-forward_max_angle: 0
+forward_max_angle: -5
 l_turn_min_angle: 30
 l_turn_max_angle: 60
 u_turn_min_angle: 105
