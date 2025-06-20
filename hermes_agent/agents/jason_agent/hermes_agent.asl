@@ -10,7 +10,7 @@
     -navigationInstruction(NavInstruction).
 
 // Collision Handling
-+bumperPressed: not(navigationInstruction(NavInstruction)) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
++bumperPressed: actionExecutionDuration(ACTION_EXECUTION_DURATION) & not(.desire(performRepeatedBackwards(_)))
     <-
     .print("Bumper was pressed! Backing up...");
     .drop_all_desires;
