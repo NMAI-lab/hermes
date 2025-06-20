@@ -27,7 +27,7 @@
     !wallFollow.
 
 // Intersection Detection
-+intersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(NavInstruction) & not(navigation(dock))
++intersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(NavInstruction) & not(navigation(dock)) & not(.desire(handleIntersection(_,_,_)))
     <-
     .print("Reached an intersection!");
     .drop_all_desires;
@@ -143,8 +143,8 @@ convertToRadian(Angle, Result) :- Result = Angle * math.pi / 180.0.
 
 +!turn(Angle): speed(SPEED) & aboutToDoBigTurn(Angle) & convertToRadian(Angle, RadianAngle)
     <-
-    cmd_vel(SPEED, 0, 0, 0, 0, RadianAngle).
+    cmd_vel(SPEED / 2, 0, 0, 0, 0, RadianAngle).
 
 +!turn(Angle): speed(SPEED) & not(aboutToDoBigTurn(Angle)) & convertToRadian(Angle, RadianAngle)
     <-
-    cmd_vel(SPEED / 2, 0, 0, 0, 0, RadianAngle).
+    cmd_vel(SPEED, 0, 0, 0, 0, RadianAngle).
