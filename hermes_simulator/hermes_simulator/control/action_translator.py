@@ -27,6 +27,7 @@ class ActionTranslator(Node):
         '''
         super().__init__('action_translator_node')
 
+        self.current_goal_id = None
         # Declare the parameters
         self.declare_parameter('action_translator_params')
 
@@ -57,9 +58,6 @@ class ActionTranslator(Node):
 
         action_data = get_msg_content_as_dict(action)
         self.get_logger().info('Decoding this action {}'.format(action.data))
-        self.action_status_publisher.publish(create_string_msg_from({
-            'action_id': action_data['action_id']
-        }))
 
         action_term = action_data['name']
         if '(' in action_term and ')' in action_term:
@@ -79,11 +77,38 @@ class ActionTranslator(Node):
             message.angular.z = action_params[5]
 
             self.drive_publisher.publish(message)
+
+            self.action_status_publisher.publish(create_string_msg_from({
+                'action_id': action_data['action_id']
+            }))
         elif action_name == 'dock':
             self.get_logger().info("Attempting to dock")
-            dock_goal_future = self.docking_client.send_goal_async(DockServo.Goal())
+            self.current_goal_id = action_data['action_id']
+            dock_goal_future = self.docking_client.send_goal_async(DockServo.Goal(), feedback_callback=self.feedback_callback)
+            dock_goal_future.add_done_callback(self.goal_response_callback)
         else:
             self.get_logger().info('GOT AN INVALID ACTION {}'.format(action_name))
+
+    def goal_response_callback(self, future):
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            self.get_logger().info('Goal rejected :(')
+            return
+
+        self.get_logger().info('Goal accepted :)')
+
+        self._get_result_future = goal_handle.get_result_async()
+        self._get_result_future.add_done_callback(self.get_result_callback)
+
+    def get_result_callback(self, future):
+        self.get_logger().info(f'Goal Result: {future.result().result}')
+        self.action_status_publisher.publish(create_string_msg_from({
+            'action_id': self.current_goal_id
+        }))
+        self.current_goal_id = None
+
+    def feedback_callback(self, feedback_msg):
+        self.get_logger().info(f'Goal feedback: {str(feedback_msg.feedback)}')
 
 def main(args=None):
     '''

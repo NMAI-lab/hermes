@@ -1,3 +1,7 @@
+/* Initial Beliefs */
+
+hasTrip.
+
 /* Main Behaviour */
 
 // Navigation
@@ -8,28 +12,28 @@
     -navigationInstruction(NavInstruction).
 
 // Dock Station Detection
-+dockVisible: navigation(dock) & not(.desire(handleDocking)) & not(docked)
++dockVisible: navigation(dock) & not(.intend(handleDocking))
     <-
     .print("Reached the destination!");
-    .drop_all_desires;
+    .drop_all_intentions;
     !handleDocking.
 
 // Collision Detection
-+bumperPressed: not(.desire(handleCollision)) & not(.desire(handleDocking)) & not(docked)
++bumperPressed: not(.intend(handleDocking))
     <-
     .print("Bumper was pressed! Backing up...");
-    .drop_all_desires;
+    .drop_all_intentions;
     !handleCollision.
 
 // Intersection Detection
-+intersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(NavInstruction) & not(navigation(dock)) & not(.desire(handleIntersection(_,_,_))) & not(.desire(handleCollision)) & not(.desire(handleDocking)) & not(docked)
++intersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(NavInstruction) & facingWall(WallDistance, WallAngle) & not(navigation(dock)) & not(.intend(handleIntersection(_,_,_,_))) & not(.intend(handleCollision)) & not(.intend(handleDocking))
     <-
     .print("Reached an intersection!");
-    .drop_all_desires;
-    !handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance).
+    .drop_all_intentions;
+    !handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance, WallAngle).
 
 // Wall Detection
-+facingWall(WallDistance, WallAngle): not(.desire(wallFollow(_,_))) & not(.desire(handleIntersection(_,_,_))) & not(.desire(handleCollision)) & not(.desire(handleDocking)) & not(docked)
++facingWall(WallDistance, WallAngle): hasTrip & not(.intend(wallFollow(_,_))) & not(.intend(handleIntersection(_,_,_,_))) & not(.intend(handleCollision)) & not(.intend(handleDocking))
     <-
     .print("Wall following...");
     !wallFollow(WallDistance, WallAngle).
@@ -39,39 +43,40 @@
 +!handleDocking: true
     <-
     dock;
-    +docked;
+    -hasTrip;
     -navigation(dock).
 
 /* Collision Handling */
 
-+!handleCollision: actionExecutionDuration(ACTION_EXECUTION_DURATION)
++!handleCollision: actionExecutionDuration(ACTION_EXECUTION_DURATION) & speed(SPEED) & wallFollowDistanceSetpoint(SETPOINT)
     <-
-    !performRepeatedBackwards(math.ceil(1 / ACTION_EXECUTION_DURATION)).
+    !performRepeatedBackwards(math.ceil(SETPOINT / SPEED / ACTION_EXECUTION_DURATION)).
 
 /* Intersection Handling */
 
-+!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(wall_follow)
++!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance, WallAngle): navigation(wall_follow)
     <-
     .print("At the intersection; will continue wall following...");
     -navigation(wall_follow).
 
-+!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(forward) & speed(SPEED) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
++!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance, WallAngle): navigation(forward) & speed(SPEED) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
     <-
     .print("At the intersection; performing a forward action...");
+    !performRepeatedTurns(-1 * WallAngle, math.ceil(1 / ACTION_EXECUTION_DURATION));
     !performRepeatedForwards(math.ceil(ForwardDistance / SPEED / ACTION_EXECUTION_DURATION));
     -navigation(forward).
 
-+!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(l_turn) & lTurnAimAngle(L_TURN_AIM_ANGLE) & speed(SPEED) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
++!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance, WallAngle): navigation(l_turn) & lTurnAimAngle(L_TURN_AIM_ANGLE) & speed(SPEED) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
     <-
     .print("At the intersection; performing a left turn action...");
-    !performRepeatedTurns(L_TURN_AIM_ANGLE, 1 / ACTION_EXECUTION_DURATION);
+    !performRepeatedTurns(L_TURN_AIM_ANGLE - WallAngle, math.ceil(1 / ACTION_EXECUTION_DURATION));
     !performRepeatedForwards(math.ceil(LTurnDistance / SPEED / ACTION_EXECUTION_DURATION));
     -navigation(l_turn).
 
-+!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(u_turn) & uTurnAimAngle(U_TURN_AIM_ANGLE) & speed(SPEED) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
++!handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance, WallAngle): navigation(u_turn) & uTurnAimAngle(U_TURN_AIM_ANGLE) & speed(SPEED) & actionExecutionDuration(ACTION_EXECUTION_DURATION)
     <-
     .print("At the intersection; performing a U-turn action...");
-    !performRepeatedTurns(U_TURN_AIM_ANGLE, 1 / ACTION_EXECUTION_DURATION);
+    !performRepeatedTurns(U_TURN_AIM_ANGLE - WallAngle, math.ceil(1 / ACTION_EXECUTION_DURATION));
     !performRepeatedForwards(math.ceil(UTurnDistance / SPEED / ACTION_EXECUTION_DURATION));
     -navigation(u_turn).
 
