@@ -27,9 +27,6 @@ class ActionTranslator(Node):
         '''
         super().__init__('action_translator_node')
 
-        # Whether the robot is attempting to dock or not.
-        self.docking = False
-
         # Declare the parameters
         self.declare_parameter('action_translator_params')
 
@@ -58,10 +55,6 @@ class ActionTranslator(Node):
         Publishes the appropriate action message.
         '''
 
-        # The robot is already docking!
-        if self.docking:
-            return
-
         action_data = get_msg_content_as_dict(action)
         self.get_logger().info('Decoding this action {}'.format(action.data))
         self.action_status_publisher.publish(create_string_msg_from({
@@ -88,12 +81,9 @@ class ActionTranslator(Node):
             self.drive_publisher.publish(message)
         elif action_name == 'dock':
             self.get_logger().info("Attempting to dock")
-            self.docking = True
             dock_goal_future = self.docking_client.send_goal_async(DockServo.Goal())
         else:
             self.get_logger().info('GOT AN INVALID ACTION {}'.format(action_name))
-        
-
 
 def main(args=None):
     '''

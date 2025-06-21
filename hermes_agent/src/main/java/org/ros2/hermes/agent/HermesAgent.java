@@ -155,6 +155,10 @@ public class HermesAgent extends AgArch implements Runnable {
                 if (dockStationObject.getBoolean("dock_visible")) {
                     l.add(Literal.parseLiteral("dockVisible"));
                 }
+
+                if (dockStationObject.getBoolean("is_docked")) {
+                    l.add(Literal.parseLiteral("docked"));
+                }
             }
 
             if (perceptions.has("bumper")) {
