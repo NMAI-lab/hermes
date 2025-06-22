@@ -8,14 +8,12 @@
 +navigationInstruction(start): true
     <-
     .print("Got a new trip!");
-    +hasTrip;
-    -navigationInstruction(_).
+    +hasTrip.
 
 +navigationInstruction(NavInstruction): true
     <-
     .print("Got navigation instruction:", NavInstruction);
-    -+navigation(NavInstruction);
-    -navigationInstruction(NavInstruction).
+    -+navigation(NavInstruction).
 
 // Collision Detection
 +bumperPressed: true
