@@ -34,7 +34,8 @@ class Navigator(Node):
         # Get the value from parameter server
         self.navigator_params = load_yaml(self.get_parameter('navigator_params').get_parameter_value().string_value)
         map_file = self.get_parameter('map_file').get_parameter_value().string_value
-        self.destination = self.get_parameter('destination').get_parameter_value().string_value
+        self.pending_destination = self.get_parameter('destination').get_parameter_value().string_value
+        self.current_destination = None
 
         with open(map_file) as json_data:
             self.beacons = json.load(json_data)['beacons']
@@ -48,9 +49,13 @@ class Navigator(Node):
 
         # The subscribers for the node
         self.beacon_subscriber = self.create_subscription(String, 
-                                                          self.navigator_params['subscriber_topic'],
+                                                          self.navigator_params['beacon_subscriber_topic'],
                                                           self.decode_beacon, 
                                                           self.navigator_params['queue_size'])
+        self.agent_request_subscriber = self.create_subscription(String, 
+                                                                 self.navigator_params['agent_request_subscriber_topic'],
+                                                                 self.decode_agent_request, 
+                                                                 self.navigator_params['queue_size'])
                                                           
     def decode_beacon(self, beacon_data):
         '''
@@ -70,22 +75,43 @@ class Navigator(Node):
         if len(self.observations) == self.navigator_params['beacon_observation_stack_size'] and len(set(self.observations)) == 1 and current_beacon != self.previous_beacon:
             self.get_logger().info("Hermes is passing beacon: {}...".format(current_beacon))
 
-            # Already at the destination!
-            if current_beacon == self.destination and self.previous_beacon is not None:
-                self.publisher.publish(create_string_msg_from({
-                    'navigation': 'DOCK',
-                }))
-            # Observed a new intersection so a path is needed.
-            # Make sure the beacon was not previously observed!
-            elif self.beacons[current_beacon]['type'] == 'intersection':
-                self.get_logger().info("Hermes is approaching an intersection. A navigation instruction will be requested...")
-                navigation_instruction = self.map_utilities.get_turn_direction(curr_beacon=current_beacon, destination=self.destination, prev_beacon=self.previous_beacon)
-                self.publisher.publish(create_string_msg_from({
-                    'navigation': navigation_instruction,
-                }))
+            if self.current_destination is not None:
+                # Already at the destination!
+                if current_beacon == self.current_destination and self.previous_beacon is not None:
+                    self.publisher.publish(create_string_msg_from({
+                        'navigation': 'DOCK',
+                    }))
+                # Observed a new intersection so a path is needed.
+                # Make sure the beacon was not previously observed!
+                elif self.beacons[current_beacon]['type'] == 'intersection':
+                    self.get_logger().info("Hermes is approaching an intersection. A navigation instruction will be requested...")
+                    navigation_instruction = self.map_utilities.get_turn_direction(curr_beacon=current_beacon, destination=self.current_destination, prev_beacon=self.previous_beacon)
+                    self.publisher.publish(create_string_msg_from({
+                        'navigation': navigation_instruction,
+                    }))
 
             # Save the observed beacon
             self.previous_beacon = current_beacon
+
+    def decode_agent_request(self, agent_request_data):
+        '''
+        Decodes the agent request data.
+
+        Parameters:
+        - agent_request(String): the current agent request.
+        '''
+        request_type = get_msg_content_as_dict(agent_request_data)['request_type']
+
+        if request_type == 'request_trip':
+            # Assign a trip to the agent
+            if self.pending_destination is not None:
+                self.current_destination = self.pending_destination
+                self.pending_destination = None
+                self.publisher.publish(create_string_msg_from({
+                    'navigation': 'START',
+                }))
+            else:
+                self.get_logger().info("THERE ARE NO TRIPS!")
 
 
 def main(args=None):

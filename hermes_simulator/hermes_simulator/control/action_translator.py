@@ -41,6 +41,9 @@ class ActionTranslator(Node):
         self.drive_publisher = self.create_publisher(Twist, self.action_translator_params['movement_publisher_topic'],
                                                      self.action_translator_params['queue_size'])
         self.docking_client = ActionClient(self, DockServo, self.action_translator_params['dock_publisher_topic'])
+        self.agent_request_publisher = self.create_publisher(String, 
+                                                             self.action_translator_params['agent_request_publisher_topic'],
+                                                             self.action_translator_params['queue_size'])
 
         # The subscribers for the node
         self.action_subscriber = self.create_subscription(String, self.action_translator_params['subscriber_topic'],
@@ -67,7 +70,12 @@ class ActionTranslator(Node):
             action_name = action_term
             action_params = []
 
-        if action_name == 'cmd_vel':
+        if action_name == 'dock':
+            self.current_goal_id = action_data['action_id']
+            dock_goal_future = self.docking_client.send_goal_async(DockServo.Goal(), feedback_callback=self.feedback_callback)
+            dock_goal_future.add_done_callback(self.goal_response_callback)
+            return
+        elif action_name == 'cmd_vel':
             message = Twist()
             message.linear.x = action_params[0]
             message.linear.y = action_params[1]
@@ -75,21 +83,26 @@ class ActionTranslator(Node):
             message.angular.x = action_params[3]
             message.angular.y = action_params[4]
             message.angular.z = action_params[5]
-
             self.drive_publisher.publish(message)
-
-            self.action_status_publisher.publish(create_string_msg_from({
-                'action_id': action_data['action_id']
+        elif action_name == 'request_trip':
+            self.agent_request_publisher.publish(create_string_msg_from({
+                'request_type': 'request_trip'
             }))
-        elif action_name == 'dock':
-            self.get_logger().info("Attempting to dock")
-            self.current_goal_id = action_data['action_id']
-            dock_goal_future = self.docking_client.send_goal_async(DockServo.Goal(), feedback_callback=self.feedback_callback)
-            dock_goal_future.add_done_callback(self.goal_response_callback)
         else:
             self.get_logger().info('GOT AN INVALID ACTION {}'.format(action_name))
 
+        # Send the action status
+        self.action_status_publisher.publish(create_string_msg_from({
+            'action_id': action_data['action_id']
+        }))
+
     def goal_response_callback(self, future):
+        '''
+        The callback function to obtain the goal response.
+
+        Parameters:
+        - future(Goal): the goal response. 
+        '''
         goal_handle = future.result()
         if not goal_handle.accepted:
             self.get_logger().info('Goal rejected :(')
@@ -101,6 +114,12 @@ class ActionTranslator(Node):
         self._get_result_future.add_done_callback(self.get_result_callback)
 
     def get_result_callback(self, future):
+        '''
+        The callback function to obtain the result of the goal.
+
+        Parameters:
+        - future(Goal): the goal response. 
+        '''
         self.get_logger().info(f'Goal Result: {future.result().result}')
         self.action_status_publisher.publish(create_string_msg_from({
             'action_id': self.current_goal_id
@@ -108,6 +127,12 @@ class ActionTranslator(Node):
         self.current_goal_id = None
 
     def feedback_callback(self, feedback_msg):
+        '''
+        The callback for the goal feedback.
+
+        Parameters:
+        - feedback_msg(Feedback): the feedback message.
+        '''
         self.get_logger().info(f'Goal feedback: {str(feedback_msg.feedback)}')
 
 def main(args=None):

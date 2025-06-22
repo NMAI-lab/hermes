@@ -1,42 +1,66 @@
-/* Initial Beliefs */
+/* Initial Goals */
 
-hasTrip.
+!requestTrip.
 
 /* Main Behaviour */
 
 // Navigation
++navigationInstruction(start): true
+    <-
+    .print("Got a new trip!");
+    +hasTrip;
+    -navigationInstruction(_).
+
 +navigationInstruction(NavInstruction): true
     <-
     .print("Got navigation instruction:", NavInstruction);
     -+navigation(NavInstruction);
     -navigationInstruction(NavInstruction).
 
-// Dock Station Detection
-+dockVisible: navigation(dock) & not(.intend(handleDocking))
-    <-
-    .print("Reached the destination!");
-    .drop_all_intentions;
-    !handleDocking.
-
 // Collision Detection
-+bumperPressed: not(.intend(handleDocking))
++bumperPressed: true
     <-
     .print("Bumper was pressed! Backing up...");
     .drop_all_intentions;
     !handleCollision.
 
+// Dock Station Detection
++dockVisible: navigation(dock) & not(.intend(handleDocking)) & not(.intend(handleCollision))
+    <-
+    .print("Reached the destination!");
+    .drop_all_intentions;
+    !handleDocking.
+
 // Intersection Detection
-+intersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(NavInstruction) & facingWall(WallDistance, WallAngle) & not(navigation(dock)) & not(.intend(handleIntersection(_,_,_,_))) & not(.intend(handleCollision)) & not(.intend(handleDocking))
++intersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(NavInstruction) & facingWall(WallDistance, WallAngle) & not(navigation(dock)) & not(.intend(handleIntersection(_,_,_,_))) & not(.intend(handleDocking)) & not(.intend(handleCollision))
     <-
     .print("Reached an intersection!");
     .drop_all_intentions;
     !handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance, WallAngle).
 
 // Wall Detection
-+facingWall(WallDistance, WallAngle): hasTrip & not(.intend(wallFollow(_,_))) & not(.intend(handleIntersection(_,_,_,_))) & not(.intend(handleCollision)) & not(.intend(handleDocking))
++facingWall(WallDistance, WallAngle): hasTrip & not(.intend(wallFollow(_,_))) & not(.intend(handleIntersection(_,_,_,_))) & not(.intend(handleDocking)) & not(.intend(handleCollision))
     <-
     .print("Wall following...");
     !wallFollow(WallDistance, WallAngle).
+
+// Requesting trips
+-hasTrip: true
+    <-
+    .print("Completed a trip. Will try to request another one!");
+    !requestTrip.
+
++!requestTrip: not(hasTrip)
+    <-
+    .print("Requeting a new trip!!");
+    request_trip;
+    !requestTrip.
+
+/* Collision Handling */
+
++!handleCollision: actionExecutionDuration(ACTION_EXECUTION_DURATION) & speed(SPEED) & wallFollowDistanceSetpoint(SETPOINT)
+    <-
+    !performRepeatedBackwards(math.ceil(SETPOINT / SPEED / ACTION_EXECUTION_DURATION)).
 
 /* Docking */
 
@@ -45,12 +69,6 @@ hasTrip.
     dock;
     -hasTrip;
     -navigation(dock).
-
-/* Collision Handling */
-
-+!handleCollision: actionExecutionDuration(ACTION_EXECUTION_DURATION) & speed(SPEED) & wallFollowDistanceSetpoint(SETPOINT)
-    <-
-    !performRepeatedBackwards(math.ceil(SETPOINT / SPEED / ACTION_EXECUTION_DURATION)).
 
 /* Intersection Handling */
 

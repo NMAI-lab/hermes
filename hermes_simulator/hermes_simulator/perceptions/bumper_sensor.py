@@ -45,6 +45,7 @@ class BumperSensor(Node):
         self.publisher = self.create_publisher(String, self.sensor_params['publisher_topic'], 
                                                self.sensor_params['queue_size'])
         
+        # The subscribers for the node.
         self.bumper_info_sub = self.create_subscription(HazardDetectionVector, self.sensor_params['subscriber_topic'], 
                                                         self.hazard_info_callback, 
                                                         qos_profile=QoSProfile(

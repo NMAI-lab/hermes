@@ -36,6 +36,7 @@ class DockSensor(Node):
         self.publisher = self.create_publisher(String, self.sensor_params['publisher_topic'], 
                                                self.sensor_params['queue_size'])
         
+        # The subscribers for the node.
         self.dock_info_sub = self.create_subscription(Dock, self.sensor_params['subscriber_topic'], 
                                                       self.dock_info_callback,
                                                       qos_profile=rclpy.qos.qos_profile_sensor_data)

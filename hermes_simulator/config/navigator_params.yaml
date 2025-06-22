@@ -1,5 +1,6 @@
 ---
-subscriber_topic: /beacon
+beacon_subscriber_topic: /beacon
+agent_request_subscriber_topic: /agent_request
 publisher_topic: /navigation
 beacon_observation_stack_size: 5
 queue_size: 10
