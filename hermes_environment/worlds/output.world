@@ -71,7 +71,7 @@
         <!-- Wall - I1_north_l -->
         <model name="wall_I1_north_l">
             <static>true</static>
-            <pose>-2.5 5.0 1.0 0 0 0</pose>
+            <pose>-1.5 4.0 1.0 0 0 0</pose>
             <link name="wall_I1_north_l_link">
                 <collision name="wall_I1_north_l_collision">
                     <geometry>
@@ -99,7 +99,7 @@
         <!-- Wall - I1_north_r -->
         <model name="wall_I1_north_r">
             <static>true</static>
-            <pose>2.5 5.0 1.0 0 0 0</pose>
+            <pose>1.5 4.0 1.0 0 0 0</pose>
             <link name="wall_I1_north_r_link">
                 <collision name="wall_I1_north_r_collision">
                     <geometry>
@@ -127,7 +127,7 @@
         <!-- Wall - I1_east_l -->
         <model name="wall_I1_east_l">
             <static>true</static>
-            <pose>5.0 -2.5 1.0 0 0 0</pose>
+            <pose>4.0 -1.5 1.0 0 0 0</pose>
             <link name="wall_I1_east_l_link">
                 <collision name="wall_I1_east_l_collision">
                     <geometry>
@@ -155,7 +155,7 @@
         <!-- Wall - I1_east_r -->
         <model name="wall_I1_east_r">
             <static>true</static>
-            <pose>5.0 2.5 1.0 0 0 0</pose>
+            <pose>4.0 1.5 1.0 0 0 0</pose>
             <link name="wall_I1_east_r_link">
                 <collision name="wall_I1_east_r_collision">
                     <geometry>
@@ -183,7 +183,7 @@
         <!-- Wall - I1_south_l -->
         <model name="wall_I1_south_l">
             <static>true</static>
-            <pose>-2.5 -5.0 1.0 0 0 0</pose>
+            <pose>-1.5 -4.0 1.0 0 0 0</pose>
             <link name="wall_I1_south_l_link">
                 <collision name="wall_I1_south_l_collision">
                     <geometry>
@@ -211,7 +211,7 @@
         <!-- Wall - I1_south_r -->
         <model name="wall_I1_south_r">
             <static>true</static>
-            <pose>2.5 -5.0 1.0 0 0 0</pose>
+            <pose>1.5 -4.0 1.0 0 0 0</pose>
             <link name="wall_I1_south_r_link">
                 <collision name="wall_I1_south_r_collision">
                     <geometry>
@@ -239,7 +239,7 @@
         <!-- Wall - I1_west_l -->
         <model name="wall_I1_west_l">
             <static>true</static>
-            <pose>-5.0 -2.5 1.0 0 0 0</pose>
+            <pose>-4.0 -1.5 1.0 0 0 0</pose>
             <link name="wall_I1_west_l_link">
                 <collision name="wall_I1_west_l_collision">
                     <geometry>
@@ -267,7 +267,7 @@
         <!-- Wall - I1_west_r -->
         <model name="wall_I1_west_r">
             <static>true</static>
-            <pose>-5.0 2.5 1.0 0 0 0</pose>
+            <pose>-4.0 1.5 1.0 0 0 0</pose>
             <link name="wall_I1_west_r_link">
                 <collision name="wall_I1_west_r_collision">
                     <geometry>
@@ -317,7 +317,7 @@
         <!-- Wall - I2_north_l -->
         <model name="wall_I2_north_l">
             <static>true</static>
-            <pose>-2.5 15.0 1.0 0 0 0</pose>
+            <pose>-1.5 14.0 1.0 0 0 0</pose>
             <link name="wall_I2_north_l_link">
                 <collision name="wall_I2_north_l_collision">
                     <geometry>
@@ -345,7 +345,7 @@
         <!-- Wall - I2_north_r -->
         <model name="wall_I2_north_r">
             <static>true</static>
-            <pose>2.5 15.0 1.0 0 0 0</pose>
+            <pose>1.5 14.0 1.0 0 0 0</pose>
             <link name="wall_I2_north_r_link">
                 <collision name="wall_I2_north_r_collision">
                     <geometry>
@@ -373,7 +373,7 @@
         <!-- Wall - I2_east_l -->
         <model name="wall_I2_east_l">
             <static>true</static>
-            <pose>5.0 7.5 1.0 0 0 0</pose>
+            <pose>4.0 8.5 1.0 0 0 0</pose>
             <link name="wall_I2_east_l_link">
                 <collision name="wall_I2_east_l_collision">
                     <geometry>
@@ -401,7 +401,7 @@
         <!-- Wall - I2_east_r -->
         <model name="wall_I2_east_r">
             <static>true</static>
-            <pose>5.0 12.5 1.0 0 0 0</pose>
+            <pose>4.0 11.5 1.0 0 0 0</pose>
             <link name="wall_I2_east_r_link">
                 <collision name="wall_I2_east_r_collision">
                     <geometry>
@@ -429,7 +429,7 @@
         <!-- Wall - I2_south_l -->
         <model name="wall_I2_south_l">
             <static>true</static>
-            <pose>-2.5 5.0 1.0 0 0 0</pose>
+            <pose>-1.5 6.0 1.0 0 0 0</pose>
             <link name="wall_I2_south_l_link">
                 <collision name="wall_I2_south_l_collision">
                     <geometry>
@@ -457,7 +457,7 @@
         <!-- Wall - I2_south_r -->
         <model name="wall_I2_south_r">
             <static>true</static>
-            <pose>2.5 5.0 1.0 0 0 0</pose>
+            <pose>1.5 6.0 1.0 0 0 0</pose>
             <link name="wall_I2_south_r_link">
                 <collision name="wall_I2_south_r_collision">
                     <geometry>
@@ -485,19 +485,19 @@
         <!-- Wall - I2_west_t -->
         <model name="wall_I2_west_t">
             <static>true</static>
-            <pose>-2.5 10 1.0 0 0 0</pose>
+            <pose>-1.5 10 1.0 0 0 0</pose>
             <link name="wall_I2_west_t_link">
                 <collision name="wall_I2_west_t_collision">
                     <geometry>
                         <box>
-                            <size>0.1 5.0 3.0</size>
+                            <size>0.1 3.0 3.0</size>
                         </box>
                     </geometry>
                 </collision>
                 <visual name="wall_I2_west_t_visual">
                     <geometry>
                         <box>
-                            <size>0.1 5.0 3.0</size>
+                            <size>0.1 3.0 3.0</size>
                         </box>
                     </geometry>
                     <material>
@@ -535,7 +535,7 @@
         <!-- Wall - B1_west_l -->
         <model name="wall_B1_west_l">
             <static>true</static>
-            <pose>7.5 -2.5 1.0 0 0 0</pose>
+            <pose>7.5 -1.5 1.0 0 0 0</pose>
             <link name="wall_B1_west_l_link">
                 <collision name="wall_B1_west_l_collision">
                     <geometry>
@@ -563,7 +563,7 @@
         <!-- Wall - B1_west_r -->
         <model name="wall_B1_west_r">
             <static>true</static>
-            <pose>7.5 2.5 1.0 0 0 0</pose>
+            <pose>7.5 1.5 1.0 0 0 0</pose>
             <link name="wall_B1_west_r_link">
                 <collision name="wall_B1_west_r_collision">
                     <geometry>
@@ -596,14 +596,14 @@
                 <collision name="wall_B1_east_t_collision">
                     <geometry>
                         <box>
-                            <size>0.1 5.0 3.0</size>
+                            <size>0.1 3.0 3.0</size>
                         </box>
                     </geometry>
                 </collision>
                 <visual name="wall_B1_east_t_visual">
                     <geometry>
                         <box>
-                            <size>0.1 5.0 3.0</size>
+                            <size>0.1 3.0 3.0</size>
                         </box>
                     </geometry>
                     <material>
@@ -641,7 +641,7 @@
         <!-- Wall - B2_north_l -->
         <model name="wall_B2_north_l">
             <static>true</static>
-            <pose>-2.5 -7.5 1.0 0 0 0</pose>
+            <pose>-1.5 -7.5 1.0 0 0 0</pose>
             <link name="wall_B2_north_l_link">
                 <collision name="wall_B2_north_l_collision">
                     <geometry>
@@ -669,7 +669,7 @@
         <!-- Wall - B2_north_r -->
         <model name="wall_B2_north_r">
             <static>true</static>
-            <pose>2.5 -7.5 1.0 0 0 0</pose>
+            <pose>1.5 -7.5 1.0 0 0 0</pose>
             <link name="wall_B2_north_r_link">
                 <collision name="wall_B2_north_r_collision">
                     <geometry>
@@ -702,14 +702,14 @@
                 <collision name="wall_B2_south_t_collision">
                     <geometry>
                         <box>
-                            <size>5.0 0.1 3.0</size>
+                            <size>3.0 0.1 3.0</size>
                         </box>
                     </geometry>
                 </collision>
                 <visual name="wall_B2_south_t_visual">
                     <geometry>
                         <box>
-                            <size>5.0 0.1 3.0</size>
+                            <size>3.0 0.1 3.0</size>
                         </box>
                     </geometry>
                     <material>
@@ -747,7 +747,7 @@
         <!-- Wall - B3_east_l -->
         <model name="wall_B3_east_l">
             <static>true</static>
-            <pose>-7.5 -2.5 1.0 0 0 0</pose>
+            <pose>-7.5 -1.5 1.0 0 0 0</pose>
             <link name="wall_B3_east_l_link">
                 <collision name="wall_B3_east_l_collision">
                     <geometry>
@@ -775,7 +775,7 @@
         <!-- Wall - B3_east_r -->
         <model name="wall_B3_east_r">
             <static>true</static>
-            <pose>-7.5 2.5 1.0 0 0 0</pose>
+            <pose>-7.5 1.5 1.0 0 0 0</pose>
             <link name="wall_B3_east_r_link">
                 <collision name="wall_B3_east_r_collision">
                     <geometry>
@@ -808,14 +808,14 @@
                 <collision name="wall_B3_west_t_collision">
                     <geometry>
                         <box>
-                            <size>0.1 5.0 3.0</size>
+                            <size>0.1 3.0 3.0</size>
                         </box>
                     </geometry>
                 </collision>
                 <visual name="wall_B3_west_t_visual">
                     <geometry>
                         <box>
-                            <size>0.1 5.0 3.0</size>
+                            <size>0.1 3.0 3.0</size>
                         </box>
                     </geometry>
                     <material>
@@ -853,7 +853,7 @@
         <!-- Wall - B4_south_l -->
         <model name="wall_B4_south_l">
             <static>true</static>
-            <pose>-2.5 17.5 1.0 0 0 0</pose>
+            <pose>-1.5 17.5 1.0 0 0 0</pose>
             <link name="wall_B4_south_l_link">
                 <collision name="wall_B4_south_l_collision">
                     <geometry>
@@ -881,7 +881,7 @@
         <!-- Wall - B4_south_r -->
         <model name="wall_B4_south_r">
             <static>true</static>
-            <pose>2.5 17.5 1.0 0 0 0</pose>
+            <pose>1.5 17.5 1.0 0 0 0</pose>
             <link name="wall_B4_south_r_link">
                 <collision name="wall_B4_south_r_collision">
                     <geometry>
@@ -914,14 +914,14 @@
                 <collision name="wall_B4_north_t_collision">
                     <geometry>
                         <box>
-                            <size>5.0 0.1 3.0</size>
+                            <size>3.0 0.1 3.0</size>
                         </box>
                     </geometry>
                 </collision>
                 <visual name="wall_B4_north_t_visual">
                     <geometry>
                         <box>
-                            <size>5.0 0.1 3.0</size>
+                            <size>3.0 0.1 3.0</size>
                         </box>
                     </geometry>
                     <material>
@@ -959,7 +959,7 @@
         <!-- Wall - B5_west_l -->
         <model name="wall_B5_west_l">
             <static>true</static>
-            <pose>7.5 7.5 1.0 0 0 0</pose>
+            <pose>7.5 8.5 1.0 0 0 0</pose>
             <link name="wall_B5_west_l_link">
                 <collision name="wall_B5_west_l_collision">
                     <geometry>
@@ -987,7 +987,7 @@
         <!-- Wall - B5_west_r -->
         <model name="wall_B5_west_r">
             <static>true</static>
-            <pose>7.5 12.5 1.0 0 0 0</pose>
+            <pose>7.5 11.5 1.0 0 0 0</pose>
             <link name="wall_B5_west_r_link">
                 <collision name="wall_B5_west_r_collision">
                     <geometry>
@@ -1020,14 +1020,14 @@
                 <collision name="wall_B5_east_t_collision">
                     <geometry>
                         <box>
-                            <size>0.1 5.0 3.0</size>
+                            <size>0.1 3.0 3.0</size>
                         </box>
                     </geometry>
                 </collision>
                 <visual name="wall_B5_east_t_visual">
                     <geometry>
                         <box>
-                            <size>0.1 5.0 3.0</size>
+                            <size>0.1 3.0 3.0</size>
                         </box>
                     </geometry>
                     <material>

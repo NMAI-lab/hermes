@@ -16,21 +16,21 @@
     -+navigation(NavInstruction).
 
 // Collision Detection
-+bumperPressed: true
++bumperPressed: hasTrip
     <-
     .print("Bumper was pressed! Backing up...");
     .drop_all_intentions;
     !handleCollision.
 
 // Dock Station Detection
-+dockVisible: navigation(dock) & not(.intend(handleDocking)) & not(.intend(handleCollision))
++dockVisible: hasTrip & navigation(dock) & not(.intend(handleDocking)) & not(.intend(handleCollision))
     <-
     .print("Reached the destination!");
     .drop_all_intentions;
     !handleDocking.
 
 // Intersection Detection
-+intersection(ForwardDistance, LTurnDistance, UTurnDistance): navigation(NavInstruction) & facingWall(WallDistance, WallAngle) & not(navigation(dock)) & not(.intend(handleIntersection(_,_,_,_))) & not(.intend(handleDocking)) & not(.intend(handleCollision))
++intersection(ForwardDistance, LTurnDistance, UTurnDistance): hasTrip & navigation(NavInstruction) & facingWall(WallDistance, WallAngle) & not(navigation(dock)) & not(.intend(handleIntersection(_,_,_,_))) & not(.intend(handleDocking)) & not(.intend(handleCollision))
     <-
     .print("Reached an intersection!");
     .drop_all_intentions;
