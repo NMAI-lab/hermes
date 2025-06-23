@@ -3,6 +3,7 @@ from rclpy.node import Node
 from std_msgs.msg import String
 
 import time
+import statistics
 
 from hermes_simulator.tools.yaml_parser import load_yaml
 from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get_msg_content_as_dict
@@ -10,6 +11,7 @@ from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get
 class BeaconSensor(Node):
     '''
     The Node in charge of listening to the beacons.
+    It will try to report a reliable beacon observation.
 
     @Subscribers:
     - Listens to /rf_signal for new beacon signals.
@@ -23,6 +25,9 @@ class BeaconSensor(Node):
         Defines the necessary publishers and subscribers.
         '''
         super().__init__('beacon_sensor_node')
+
+        # The beacons observed
+        self.observations = {}
 
         # Declare the parameters
         self.declare_parameter('sensor_params')
@@ -52,8 +57,41 @@ class BeaconSensor(Node):
         '''
         beacon_data = get_msg_content_as_dict(rf_signal)
         if beacon_data['SignalStrength'] >= self.sensor_params['beacon_detection_rssi_threshold']:
+            current_beacon = beacon_data['Beacon']
+            current_rssi = beacon_data['SignalStrength']
+            if current_beacon in self.observations:
+                self.observations[current_beacon].append(current_rssi)
+            else:
+                self.observations[current_beacon] = [current_rssi]
+
+            # Update the stack
+            if len(self.observations[current_beacon]) > self.sensor_params['beacon_observation_stack_size']:
+                self.observations[current_beacon].pop(0)
+
+            # Find the best observed beacon so far
+            closest_beacon = None
+            highest_average_rssi = -100 # a really low value indicating the beacon was not observed
+            for beacon in self.observations:
+                # Only use the beacons that have been observed enough!
+                if len(self.observations[beacon]) != self.sensor_params['beacon_observation_stack_size']:
+                    continue
+
+                average_rssi = statistics.mean(self.observations[beacon])
+
+                if average_rssi > highest_average_rssi:
+                    highest_average_rssi = average_rssi
+                    closest_beacon = beacon
+
+            # Do not have sufficient information to report a beacon
+            if closest_beacon is None:
+                return
+            
+            self.get_logger().info("Beacon {} was chosen from the following observations {}".format(closest_beacon, self.observations))
+                
+            # Clear the observations!
+            self.observations = {}
             self.publisher.publish(create_string_msg_from({
-                'beacon': beacon_data['Beacon'],
+                'beacon': closest_beacon
             }))
 
 def main(args=None):

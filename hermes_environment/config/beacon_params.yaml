@@ -3,12 +3,12 @@ rf_beacon_publisher_node:
   ros__parameters:
     publisher_topic: /rf_signal
     subscription_topic: /model_states
-    publish_rate: 10.0
+    publish_rate: 3.0
 
     # Beacon parameters mimicking the behaviour of AprilBeacon N04
-    path_loss: 4.0
+    path_loss: 2.0
     min_range: 0.5
-    max_range: 10.0
+    max_range: 30.0
     tx_power: -59.0
     noise_mean: 0.0
     noise_std: 3.5

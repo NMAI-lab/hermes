@@ -12,6 +12,7 @@ from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get
 class Navigator(Node):
     '''
     The Node in charge of managing the robot's navigation.
+    This node will listen to the beacon data and calculates the robot's next destination.
 
     @Subscribers:
     - Listens to /beacon for new beacons.
@@ -25,6 +26,9 @@ class Navigator(Node):
         Defines the necessary publishers and subscribers.
         '''
         super().__init__('navigator_node')
+
+        # Maintains the previous beacon.
+        self.previous_beacon = None
 
         # Declare the parameters
         self.declare_parameter('navigator_params')
@@ -40,9 +44,6 @@ class Navigator(Node):
         with open(map_file) as json_data:
             self.beacons = json.load(json_data)['beacons']
             self.map_utilities = MapUtilities(beacons=self.beacons, logger=self.get_logger())
-
-        self.previous_beacon = None
-        self.observations = []
 
         # The publishers for the node
         self.publisher = self.create_publisher(String, self.navigator_params['publisher_topic'], self.navigator_params['queue_size'])
@@ -65,16 +66,10 @@ class Navigator(Node):
         - beacon_data(String): the beacon data.
         '''
         current_beacon = get_msg_content_as_dict(beacon_data)['beacon']
-        self.observations.append(current_beacon)
-
-        # Update the stack
-        if len(self.observations) > self.navigator_params['beacon_observation_stack_size']:
-            self.observations.pop(0)
-
-        # Consistently observed the same beacon and it is a new beacon
-        if len(self.observations) == self.navigator_params['beacon_observation_stack_size'] and len(set(self.observations)) == 1 and current_beacon != self.previous_beacon:
+        
+        if current_beacon != self.previous_beacon:
             self.get_logger().info("Hermes is passing beacon: {}...".format(current_beacon))
-
+            
             if self.current_destination is not None:
                 # Already at the destination!
                 if current_beacon == self.current_destination and self.previous_beacon is not None:

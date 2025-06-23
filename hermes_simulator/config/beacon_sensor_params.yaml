@@ -2,6 +2,7 @@
 subscriber_topic: /rf_signal
 publisher_topic: /beacon
 robot_availability_topic: /robot_description
-beacon_detection_rssi_threshold: -80.0
+beacon_observation_stack_size: 10
+beacon_detection_rssi_threshold: -75.0
 idle_sleep_duration: 1.0
 queue_size: 10
