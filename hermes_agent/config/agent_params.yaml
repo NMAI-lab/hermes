@@ -10,7 +10,7 @@ angle_change_tolerance: 5.0 # in degrees
 wall_follow_distance_setpoint: 0.8 # in meters
 wall_follow_aim_angle: 45.0 # in degrees
 l_turn_aim_angle: 60.0 # in degrees
-u_turn_aim_angle: 120.0 # in degrees
+u_turn_aim_angle: 115.0 # in degrees
 
 # this is the amount of time in seconds that an action is executed for by the robot
 # this value is the same as Hermes' refresh rate (0.1s), since each cmd_vel is only executed up until the next one.

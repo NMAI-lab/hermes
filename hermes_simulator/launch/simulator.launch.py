@@ -42,6 +42,11 @@ def launch_setup(context, *args, **kwargs):
         'config',
         'beacon_sensor_params.yaml'
     )
+    beacons_list_yaml_file = os.path.join(
+        pkg_hermes_simulator,
+        'config',
+        'beacons_list.yaml'
+    )
     dock_sensor_params_yaml_file = os.path.join(
         pkg_hermes_simulator,
         'config',
@@ -120,7 +125,9 @@ def launch_setup(context, *args, **kwargs):
              name='beacon_sensor',
              output='log',
              parameters=[
-                {'sensor_params': beacon_sensor_params_yaml_file}
+                {'sensor_params': beacon_sensor_params_yaml_file},
+                {'mode': 'rf'},
+                {'beacons_list': beacons_list_yaml_file}
              ]
         ),
         Node(package='hermes_simulator',

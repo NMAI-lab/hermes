@@ -112,7 +112,10 @@ source ~/hermes_ws/install/local_setup.bash
 - [Jason](https://github.com/bardia-p/jason/tree/jason_hermes)
 - [Peleus](https://github.com/bardia-p/Peleus/tree/peleus_hermes)
 - [JPDDLPLUS](https://github.com/bardia-p/jpddlplus)
+
+**NOTE:** To ensure compatability with the current ROS versions, the following repositcd ories have been customized.
 - [ament_gradle_plugin](https://github.com/bardia-p/ament_gradle_plugin)
+- [irobot_create_msgs](https://github.com/bardia-p/irobot_create_msgs)
 
 ## Running Hermes
 
@@ -199,5 +202,3 @@ A cleanup script has been included to ensure a proper cleanup of the shared memo
 
 ## TO-DO
 - Connect Peleus and the ENHSP planner for this behaviour
-- Add state machines and subsumption
-- Add intersection handling
