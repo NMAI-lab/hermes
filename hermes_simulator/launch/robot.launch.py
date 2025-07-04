@@ -81,23 +81,6 @@ def launch_setup(context, *args, **kwargs):
         pkg_hermes_agent,
         'config'
     )
-
-    environment_launch_file = PathJoinSubstitution(
-        [pkg_hermes_environment, 'launch', 'environment.launch.py'])
-
-    # Includes
-    robot_environment = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([environment_launch_file]),
-        launch_arguments={'rviz': LaunchConfiguration('rviz'),
-                          'gui': LaunchConfiguration('gui'),
-                          'map': LaunchConfiguration('map'),
-                          'start': LaunchConfiguration('start'),
-                          'end': LaunchConfiguration('end'),
-                          'x': LaunchConfiguration('x'),
-                          'y': LaunchConfiguration('y'),
-                          'z': LaunchConfiguration('z'),
-                          'yaw': LaunchConfiguration('yaw')}.items(),
-    )
     
     # Setting the environment variables
     agent_environment = os.environ.copy()
@@ -106,7 +89,18 @@ def launch_setup(context, *args, **kwargs):
 
     # Adding all the nodes
     nodes = [
-        robot_environment,
+        Node(
+            package='sllidar_ros2',
+            executable='sllidar_node',
+            name='sllidar_node',
+            parameters=[{'channel_type': 'serial',
+                         'serial_port': '/dev/ttyUSB0',
+                         'serial_baudrate': 115200,
+                         'frame_id': 'laser',
+                         'inverted': False,
+                         'angle_compensate': True}],
+            output='screen'
+        ),
         Node(package='hermes_simulator',
              namespace='perceptions',
              executable='lidar_sensor',
@@ -125,7 +119,7 @@ def launch_setup(context, *args, **kwargs):
              output='log',
              parameters=[
                 {'sensor_params': beacon_sensor_params_yaml_file},
-                {'mode': 'rf'},
+                {'mode': 'bluetooth'},
                 {'beacons_list': beacons_list_yaml_file}
              ]
         ),
@@ -136,7 +130,7 @@ def launch_setup(context, *args, **kwargs):
              output='log',
              parameters=[
                 {'sensor_params': dock_sensor_params_yaml_file},
-                {'mode': 'simulator'}
+                {'mode': 'robot'}
              ]
         ),
         Node(package='hermes_simulator',
@@ -190,22 +184,10 @@ def launch_setup(context, *args, **kwargs):
 
 def generate_launch_description():
     ARGUMENTS = [
-        DeclareLaunchArgument('rviz', default_value='true',
-                              choices=['true', 'false'], 
-                              description='Start rviz.'),
-        DeclareLaunchArgument('gui', default_value='true',
-                              choices=['true', 'false'],
-                              description='Set "false" to run gazebo headless.'),
         DeclareLaunchArgument('map', default_value='map.json',
                               description='The environment description'),
-        DeclareLaunchArgument('start', default_value='',
-                              description='The initial beacon for the robot'),
         DeclareLaunchArgument('end', default_value='',
                               description='The final beacon for the robot'),
     ]
-
-    for pose_element in ['x', 'y', 'z', 'yaw']:
-        ARGUMENTS.append(DeclareLaunchArgument(pose_element, default_value='0.0',
-                                               description=f'{pose_element} component of the robot pose.'))
 
     return LaunchDescription(ARGUMENTS + [OpaqueFunction(function=launch_setup)]) 

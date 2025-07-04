@@ -13,19 +13,21 @@ class DockSensor(Node):
     The Node in charge of listening to the dock status.
 
     @Subscribers:
-    - Listens to /dock for new dock updates.
+    - Listens to /dock (in the simulator) and /dock_status (on the robot) for new dock updates.
 
     @Publishers:
-    - Publishes new updates to /dock_status.
+    - Publishes new updates to /dock_state.
     '''
     def __init__(self):
         super().__init__('dock_sensor_node')
 
         # Declare the parameters
         self.declare_parameter('sensor_params')
+        self.declare_parameter('mode')
 
         # Get the value from parameter server
         self.sensor_params = load_yaml(self.get_parameter('sensor_params').get_parameter_value().string_value)
+        self.mode = self.get_parameter('mode').get_parameter_value().string_value
 
         # Wait for the robot to launch
         while self.count_publishers(self.sensor_params['robot_availability_topic']) == 0:
@@ -37,9 +39,12 @@ class DockSensor(Node):
                                                self.sensor_params['queue_size'])
         
         # The subscribers for the node.
-        self.dock_info_sub = self.create_subscription(Dock, self.sensor_params['subscriber_topic'], 
-                                                      self.dock_info_callback,
-                                                      qos_profile=rclpy.qos.qos_profile_sensor_data)
+        if self.mode == 'simulator':
+            subscriber_topic = self.sensor_params['simulator_subscriber_topic']
+        else:
+            subscriber_topic = self.sensor_params['robot_subscriber_topic']
+
+        self.dock_info_sub = self.create_subscription(Dock, subscriber_topic, self.dock_info_callback, qos_profile=rclpy.qos.qos_profile_sensor_data)
 
     def dock_info_callback(self, dock_data):
         '''

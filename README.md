@@ -77,7 +77,7 @@ pip install -r requirements.txt
 
 10. Clone the appropriate ROS dependencies:
 ```
-vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/dependencies.repos
+vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/simulator_dependencies.repos
 ```
 
 11. Install the ROS dependencies:

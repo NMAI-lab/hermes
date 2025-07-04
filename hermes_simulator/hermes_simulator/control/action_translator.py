@@ -3,7 +3,7 @@ from rclpy.node import Node
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 from rclpy.action import ActionClient
-from irobot_create_msgs.action import DockServo
+from irobot_create_msgs.action import DockServo, Dock
 
 from hermes_simulator.tools.yaml_parser import load_yaml
 from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get_msg_content_as_dict
@@ -28,11 +28,19 @@ class ActionTranslator(Node):
         super().__init__('action_translator_node')
 
         self.current_goal_id = None
+
         # Declare the parameters
         self.declare_parameter('action_translator_params')
+        self.declare_parameter('mode')
 
         # Get the value from parameter server
         self.action_translator_params = load_yaml(self.get_parameter('action_translator_params').get_parameter_value().string_value)
+        self.mode = self.get_parameter('mode').get_parameter_value().string_value
+
+        if self.mode == 'simulator':
+            self.dock_message = DockServo
+        else:
+            self.dock_message = Dock
 
         # The publishers for the node
         self.action_status_publisher = self.create_publisher(String, 
@@ -40,7 +48,7 @@ class ActionTranslator(Node):
                                                              self.action_translator_params['queue_size'])
         self.drive_publisher = self.create_publisher(Twist, self.action_translator_params['movement_publisher_topic'],
                                                      self.action_translator_params['queue_size'])
-        self.docking_client = ActionClient(self, DockServo, self.action_translator_params['dock_publisher_topic'])
+        self.docking_client = ActionClient(self, self.dock_message, self.action_translator_params['dock_publisher_topic'])
         self.agent_request_publisher = self.create_publisher(String, 
                                                              self.action_translator_params['agent_request_publisher_topic'],
                                                              self.action_translator_params['queue_size'])
@@ -72,7 +80,7 @@ class ActionTranslator(Node):
 
         if action_name == 'dock':
             self.current_goal_id = action_data['action_id']
-            dock_goal_future = self.docking_client.send_goal_async(DockServo.Goal(), feedback_callback=self.feedback_callback)
+            dock_goal_future = self.docking_client.send_goal_async(self.dock_message.Goal(), feedback_callback=self.feedback_callback)
             dock_goal_future.add_done_callback(self.goal_response_callback)
             return
         elif action_name == 'cmd_vel':

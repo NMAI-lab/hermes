@@ -4,6 +4,12 @@
 
 /* Main Behaviour */
 
+// Trip Completion
+-hasTrip: true
+    <-
+    .print("Completed a trip. Will try to request another one!");
+    !requestTrip.
+
 // Navigation
 +navigationInstruction(start): true
     <-
@@ -42,11 +48,7 @@
     .print("Wall following...");
     !wallFollow(WallDistance, WallAngle).
 
-// Requesting trips
--hasTrip: true
-    <-
-    .print("Completed a trip. Will try to request another one!");
-    !requestTrip.
+/* Requesting a Trip */
 
 +!requestTrip: not(hasTrip)
     <-

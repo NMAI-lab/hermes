@@ -60,7 +60,7 @@ RUN --mount=type=ssh git clone git@github.com:bardia-p/hermes.git
 RUN pip3 install --upgrade pip && pip3 install -r /root/hermes_ws/src/hermes/requirements.txt
 
 # Import dependencies
-RUN vcs import /root/hermes_ws/src/ < /root/hermes_ws/src/hermes/dependencies.repos
+RUN vcs import /root/hermes_ws/src/ < /root/hermes_ws/src/hermes/simulator_dependencies.repos
 
 # Install rosdep and initialize
 RUN apt update && apt install -y python3-rosdep \
