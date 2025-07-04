@@ -29,6 +29,11 @@ def launch_setup(context, *args, **kwargs):
         'worlds',
         'map.json'
     )
+    beacons_list_yaml_file = os.path.join(
+        pkg_hermes_environment,
+        'worlds',
+        'beacons_list.yaml'
+    )
 
     # Simulator config files.
     lidar_sensor_params_yaml_file = os.path.join(
@@ -40,11 +45,6 @@ def launch_setup(context, *args, **kwargs):
         pkg_hermes_simulator,
         'config',
         'beacon_sensor_params.yaml'
-    )
-    beacons_list_yaml_file = os.path.join(
-        pkg_hermes_simulator,
-        'config',
-        'beacons_list.yaml'
     )
     dock_sensor_params_yaml_file = os.path.join(
         pkg_hermes_simulator,
@@ -160,7 +160,7 @@ def launch_setup(context, *args, **kwargs):
              output='log',
              parameters=[
                 {'action_translator_params': action_translator_params_yaml_file},
-                {'mode': 'simulator'}
+                {'mode': 'robot'}
             ]
         ),
         Node(package='hermes_simulator',
