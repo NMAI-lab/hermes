@@ -96,6 +96,7 @@ gradle uploadArchives
 
 13. Build all the ROS packages by doing:
 ```
+cd ~/hermes_ws
 colcon build --symlink-install
 ```
 
@@ -104,14 +105,143 @@ colcon build --symlink-install
 source ~/hermes_ws/install/local_setup.bash
 ```
 
+### Physical Robot Installation (on a Raspberry Pi)
+
+#### iRobot CREATE 3 Hardware Setup
+
+1. Unscrew the faceplate of the Create 3 and ensure that the USB/BLE toggle on the adapter board is in the USB position. Screw the faceplate back into position.
+
+2. Screw the 3D printed Raspberry Pi 4B mount in the cargo bay and attach the Pi.
+
+3. Connect a USB-C cable between the USB-C port in the robot’s cargo bay and the Raspberry Pi 4B’s USB power input.
+
+4. Connect a USB-to-micro USB cable to the Pi and a micro USB-to-serial converter. Route the cable through the cable passthrough hole to the top of the robot.
+
+5. Screw the 3D printed LiDAR mount and standoffs into the faceplate and attach the LiDAR.
+
+6. Using the LiDAR serial cable, connect the LiDAR pins to the USB-to-serial converter.
+
+**TODO:** add a finished product picture
+
+#### iRobot CREATE 3 Software Setup
+
+1. Download the latest version of the Create 3 [firmware](https://edu.irobot.com/create3-update)
+
+2. Power on the robot by plugging it into the charging dock.
+
+3. Press and hold both side buttons until the light ring turns blue.
+
+4. Connect to the Create-[xxx] Wi-Fi network on your device.
+
+5. Navigate to 192.168.10.1 to access the Create 3 web interface.
+
+6. Navigate to the Update tab and follow the steps to upload the downloaded firmware.
+
+7. Wait until the robot chimes and then navigate to the `Application → Configuration tab`.
+
+8. Ensure the RMW_IMPLEMENTATION dropdown is set to rmw_cyclonedds_cpp.
+
+9. If you changed the RMW implementation, restart the application.
+
+10. Navigate to the `Beta Features → NTP sources` tab and add `server 192.168.186.3 iburst` so the robot can receive NTP info from the Raspberry Pi.
+
+11. Reboot the robot and disconnect from the Wi-Fi network.
+
+#### Raspberry Pi Setup
+
+1. Install Ubuntu 22.04 on your Raspberry Pi.
+
+2. Install [ROS Humble](https://docs.ros.org/en/humble/Installation.html) the Pi.
+
+3. Setup an NTP server on the Raspberry Pi by following this [guide](https://iroboteducation.github.io/create3_docs/setup/compute-ntp/) (steps 6 and 7 were already done in the previous section).
+
+4. Run `timedatectl` and check if `System clock synchronized` has the value `yes`. 
+  - If it does, move on the locale configuration.
+  - If not:
+    * Run `sudo nano /etc/systemd/timesyncd.conf`.
+    * Add `NTP=ntp.ubuntu.com` and `FallbackNTP=0.us.pool.ntp.org` if not already configured.
+    * Run `systemctl restart systemd-timesyncd.service`.
+
+5. Make sure to source your installation:
+```
+source /opt/ros/humble/setup.bash
+```
+
+6. Ensure the correct RMW implementation is chosen by doing `RMW_IMPLEMENTATION=rmw_cyclonedds_cpp`.
+
+7. Install the Open-JDK:
+```
+sudo apt install default-jdk
+```
+
+8. Install gradle:
+```
+sudo apt install gradle
+```
+
+9. Create a ROS workspace for your system. Such as:
+```
+mkdir -p ~/hermes_ws/src
+cd ~/hermes_ws/src
+```
+
+10. Clone [hermes](https://github.com/bardia-p/hermes):
+```
+git clone git@github.com:bardia-p/hermes.git
+```
+
+11. Install all the required Python packages using:
+```
+cd ~/hermes_ws/src/hermes
+pip install -r requirements.txt
+```
+
+12. Clone the appropriate ROS dependencies:
+```
+vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/simulator_dependencies.repos
+```
+
+13. Install the ROS dependencies:
+```
+cd ~/hermes_ws
+sudo rosdep init
+rosdep update
+rosdep install --from-paths src -yi --skip-keys "ament_tools"
+```
+
+14. Install the ROS2 ament Java gradle plugin:
+```
+cd src/ros2-java/ament_gradle_plugin
+gradle uploadArchives
+```
+
+15. Give the BluePy library permission to run without root
+```
+# Get /path/to/bluepy-helper (you can maybe use:)
+find ~/.local -name bluepy-helper
+sudo setcap 'cap_net_raw,cap_net_admin+eip' /path/to/bluepy-helper
+sudo usermod -aG bluetooth $USER
+```
+
+16. Build all the ROS packages by doing:
+```
+cd ~/hermes_ws
+colcon build --symlink-install
+```
+
+17. Source your installation by doing:
+```
+source ~/hermes_ws/install/local_setup.bash
+```
+
+### Installation Notes
+
 **NOTE:** If at any point you face any issues with the installation process of these ROS dependencies, please refer to the README files of the appropriate repositories:
 - [create3_sim](https://github.com/iRobotEducation/create3_sim/)
 - [ros2_java](https://github.com/ros2-java/ros2_java)
 
 **NOTE:** The ensure an easy build process, the project comes with pre-built jar files of some of these libraries. These jar files have been customized to include custom behaviour for the project. The custom jar files are created from the forks of these libraries located at:
 - [Jason](https://github.com/bardia-p/jason/tree/jason_hermes)
-- [Peleus](https://github.com/bardia-p/Peleus/tree/peleus_hermes)
-- [JPDDLPLUS](https://github.com/bardia-p/jpddlplus)
 
 **NOTE:** To ensure compatability with the current ROS versions, the following repositcd ories have been customized.
 - [ament_gradle_plugin](https://github.com/bardia-p/ament_gradle_plugin)
@@ -119,7 +249,9 @@ source ~/hermes_ws/install/local_setup.bash
 
 ## Running Hermes
 
-### Running Hermes in Docker
+### Running the Simulator
+
+#### Running the simulator in Docker
 
 Make sure you have built the `hermes-ros2` docker container.
 
@@ -143,7 +275,7 @@ source ~/hermes_ws/install/local_setup.bash
 ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1
 ```
 
-### Running Hermes Locally 
+#### Running the simulator Locally 
 
 First try to fire up the simulator by doing:
 ```
@@ -156,32 +288,28 @@ You should see the Gazebo and RViz windows pop up:
     <img src="images/hermes_demo.png" alt="hermes" width=500">
 </p>
 
-In a separate window try controlling the robot by running a few ROS commands:
-
-- **Moving the robot:** in a separate terminal try:
-```
-source ~/hermes_ws/install/local_setup.bash
-ros2 topic pub -r 20 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
-```
-
-- **Docking the robot:** in a separate terminal try:
-```
-source ~/hermes_ws/install/local_setup.bash
-ros2 action send_goal /dock irobot_create_msgs/action/DockServo "{}"
-```
-
-- **Undocking the robot:** in a separate terminal try:
-```
-source ~/hermes_ws/install/local_setup.bash
-ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
-```
-
-### Cleaning Up After the Simulator
+#### Cleaning Up After the Simulator
 
 A cleanup script has been included to ensure a proper cleanup of the shared memory and any leftover processes. If you run into any issues with the simulator, simply run:
 ```
 ./perform_cleanup.sh
 ``` 
+
+### Running Hermes on the Physical Robot
+
+1. Plug in the LiDAR sensor to the the Raspberry Pi through USB
+
+2. Turn on the iRobot CREATE 3
+
+3. Have your Bluetooth Beacons ready and make sure their MAC addresses and orientation match [beacons_list](hermes_environment/worlds/beacons_list.yaml)
+
+4. Make sure the map matches [map](hermes_environment/worlds/map.json) (you can ignore the obstacles and distance fields)
+
+5. SSH the Raspberry Pi on the robot and run:
+```
+source ~/hermes_ws/install/local_setup.bash
+ros2 launch hermes_simulator robot.launch.py end:=B1
+```
 
 ## Project Structure
 - **hermes_create_description:** This package includes the Gazebo descriptions for the robotcs, sensors, and the dock station. It also includes the appropriate launch files for spawning these objects.
@@ -197,8 +325,8 @@ A cleanup script has been included to ensure a proper cleanup of the shared memo
 - [iRobot's Create 3 Simulator](https://github.com/iRobotEducation/create3_sim) for the main robot simulator.
 - [ros2_java](https://github.com/ros2-java/ros2_java) to integrate ROS2 with the Java agent implementations.
 - [Jason](https://github.com/jason-lang/jason) an AgentSpeak interpreter for the agent definitions.
-- [Peleus](https://github.com/meneguzzi/Peleus) for connecting Jason to various planners.
-- [JPDDLPLUS](https://github.com/hstairs/jpddlplus) for generating PDDL plans using its builtin ENHSP planner.
+- [Peleus](https://github.com/meneguzzi/Peleus) for connecting Jason to various planners **(TODO)**.
+- [JPDDLPLUS](https://github.com/hstairs/jpddlplus) for generating PDDL plans using its builtin ENHSP planner **(TODO)**.
 
 ## TO-DO
 - Connect Peleus and the ENHSP planner for this behaviour

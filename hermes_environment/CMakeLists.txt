@@ -26,8 +26,7 @@ find_package(std_msgs REQUIRED)
 find_package(rclcpp_components REQUIRED)
 
 if(gazebo_msgs_FOUND)
-  message(STATUS "Building the beacon publisher library")
-
+  message("Installing rf_beacon_publisher")
   # Create a shared library for the component
   add_library(rf_beacon_publisher_lib SHARED)
   target_sources(
@@ -38,10 +37,11 @@ if(gazebo_msgs_FOUND)
   target_include_directories(rf_beacon_publisher_lib PUBLIC include)
   ament_target_dependencies(rf_beacon_publisher_lib
     rclcpp
-    gazebo_ros
+    gazebo_msgs
     std_msgs
     rclcpp_components
   )
+
   rclcpp_components_register_node(rf_beacon_publisher_lib
     PLUGIN "RFBeaconPublisher"
     EXECUTABLE rf_beacon_publisher_node
@@ -54,7 +54,7 @@ if(gazebo_msgs_FOUND)
     RUNTIME DESTINATION bin
   )
 else()
-  message(STATUS "gazebo_msgs not found. Skipping beacon publisher")
+  message("Skipping the rf_beacon_publisher installation")
 endif()
 
 # Install the other directories
