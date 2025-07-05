@@ -105,7 +105,6 @@ class BeaconSensor(Node):
         '''
         Performs a Bluetooth scan to find beacons.
         '''
-        self.get_logger().info("I AM HEREEEE")
         devices = self.scanner.scan(self.sensor_params['scan_duration']) # Listen for ADV_IND packages.
 
         # For each scanned device check if device address matches beacon in list
