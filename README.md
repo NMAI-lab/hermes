@@ -1,7 +1,7 @@
 # Hermes
 
 <p align="center">
-    <img src="images/hermes.png" alt="hermes" width="200">
+    <img src="miscellaneous/images/hermes.png" alt="hermes" width="200">
     <br>
     <em>Logo designed by Daniel Pacada</em>
 </p>
@@ -107,17 +107,32 @@ source ~/hermes_ws/install/local_setup.bash
 
 ### Physical Robot Installation (on a Raspberry Pi)
 
+#### Required Equipment
+
+<table>
+  <tr>
+     <td>iRobot CREATE 3 and Dock Station</td>
+     <td>RPLiDAR A1</td>
+     <td>AprilBeacon N04</td>
+  </tr>
+  <tr>
+    <td><img src="miscellaneous/images/create3_and_dock.png" width=1200></td>
+    <td><img src="miscellaneous/images/rplidar_a1.jpg" width=1180></td>
+    <td><img src="miscellaneous/images/aprilbeacon_n04.jpg" width=1080></td>
+  </tr>
+ </table>
+
 #### iRobot CREATE 3 Hardware Setup
 
 1. Unscrew the faceplate of the Create 3 and ensure that the USB/BLE toggle on the adapter board is in the USB position. Screw the faceplate back into position.
 
-2. Screw the 3D printed Raspberry Pi 4B mount in the cargo bay and attach the Pi.
+2. Screw the [3D printed Raspberry Pi 4B mount](miscellaneous/CAD_Models/C3-RPi-Mount.stl) in the cargo bay and attach the Pi.
 
-3. Connect a USB-C cable between the USB-C port in the robot’s cargo bay and the Raspberry Pi 4B’s USB power input.
+3. Connect a USB-C cable between the USB-C port in the robot's cargo bay and the Raspberry Pi 4B's USB power input.
 
 4. Connect a USB-to-micro USB cable to the Pi and a micro USB-to-serial converter. Route the cable through the cable passthrough hole to the top of the robot.
 
-5. Screw the 3D printed LiDAR mount and standoffs into the faceplate and attach the LiDAR.
+5. Screw the [3D printed LiDAR mount](miscellaneous/CAD_Models/C3-RPLidar-A1-Mount.stl) and standoffs into the faceplate and attach the LiDAR.
 
 6. Using the LiDAR serial cable, connect the LiDAR pins to the USB-to-serial converter.
 
@@ -137,13 +152,13 @@ source ~/hermes_ws/install/local_setup.bash
 
 6. Navigate to the Update tab and follow the steps to upload the downloaded firmware.
 
-7. Wait until the robot chimes and then navigate to the `Application → Configuration tab`.
+7. Wait until the robot chimes and then navigate to the `Application -> Configuration tab`.
 
 8. Ensure the RMW_IMPLEMENTATION dropdown is set to rmw_cyclonedds_cpp.
 
 9. If you changed the RMW implementation, restart the application.
 
-10. Navigate to the `Beta Features → NTP sources` tab and add `server 192.168.186.3 iburst` so the robot can receive NTP info from the Raspberry Pi.
+10. Navigate to the `Beta Features -> NTP sources` tab and add `server 192.168.186.3 iburst` so the robot can receive NTP info from the Raspberry Pi.
 
 11. Reboot the robot and disconnect from the Wi-Fi network.
 
@@ -285,7 +300,7 @@ ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1
 
 You should see the Gazebo and RViz windows pop up:
 <p align="center">
-    <img src="images/hermes_demo.png" alt="hermes" width=500">
+    <img src="miscellaneous/images/hermes_demo.png" alt="hermes" width=500">
 </p>
 
 #### Cleaning Up After the Simulator
@@ -328,5 +343,5 @@ ros2 launch hermes_simulator robot.launch.py end:=B1
 - [Peleus](https://github.com/meneguzzi/Peleus) for connecting Jason to various planners **(TODO)**.
 - [JPDDLPLUS](https://github.com/hstairs/jpddlplus) for generating PDDL plans using its builtin ENHSP planner **(TODO)**.
 
-## TO-DO
+## TODO
 - Connect Peleus and the ENHSP planner for this behaviour
