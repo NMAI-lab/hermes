@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.Logger;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -41,14 +42,17 @@ public class HermesAgent extends AgArch implements Runnable {
     private AtomicBoolean performedAction;
 
     // General params
+    // The default node parameters.
     private Map<String, Object> nodeConstants;
     // The current perceptions of the agent.
     private CopyOnWriteArrayList<JSONObject> currentPerceptions;
+    // The logger for the agent
+    private final Logger logger;
 
     // Constants
     public static final String ASL_FILE = "jason_agent/hermes_agent.asl";
+    public static final String LOGGING_FILE = "jason_agent/logging.properties";
     public static final String AGENT_PARAMS_FILE = "agent_params.yaml";
-    public static final long AGENT_SLEEP_DURATION = 100; // in miliseconds
 
     /**
      * The main constructor for the agent.
@@ -60,8 +64,11 @@ public class HermesAgent extends AgArch implements Runnable {
         this.currentPerceptions = new CopyOnWriteArrayList<>();
         this.performedAction = new AtomicBoolean(false);
 
+        this.logger = Logger.getLogger("hermes");
+
         String agentDefinitionsFolder = System.getenv().getOrDefault("agent_definitions", "");
         String configFolder = System.getenv().getOrDefault("config", "");
+        String displayMAS = System.getenv().getOrDefault("display_mas", "false");
         
         // Loading the agent's params
         try (FileInputStream input = new FileInputStream(configFolder + "/" + AGENT_PARAMS_FILE)) {
@@ -83,13 +90,20 @@ public class HermesAgent extends AgArch implements Runnable {
         this.actionStatusSubscription = this.node.<std_msgs.msg.String>createSubscription(std_msgs.msg.String.class, (String)this.nodeConstants.get("action_status_subscriber_topic"),
                                                                                           this::actionStatusCallback, new QoSProfile((int)this.nodeConstants.get("queue_size")));
 
+        // Set up the MAS environment.
+        if (displayMAS.equals("true")) {
+            new RunCentralisedMAS().setupLogger();
+        } else {
+            new RunCentralisedMAS().setupLogger(agentDefinitionsFolder + "/" + LOGGING_FILE);
+        }
+
         // set up the Jason agent
         try {
             Agent ag = new Agent();
             new TransitionSystem(ag, null, null, this);
             ag.initAg(agentDefinitionsFolder + "/" + ASL_FILE);
         } catch (Exception e) {
-            getTS().getLogger().log(Level.SEVERE, "Could not setup the agent!", e);
+            logger.log(Level.SEVERE, "Could not setup the agent!", e);
         }
     }
 
@@ -115,7 +129,7 @@ public class HermesAgent extends AgArch implements Runnable {
                 }
             }
         } catch (Exception e) {
-            getTS().getLogger().log(Level.SEVERE, "Run error", e);
+            logger.log(Level.SEVERE, "Run error", e);
         }
     }
 
@@ -310,7 +324,6 @@ public class HermesAgent extends AgArch implements Runnable {
     public static void main(String[] args) throws InterruptedException {
         // Initialize RCL
         RCLJava.rclJavaInit();
-        new RunCentralisedMAS().setupLogger();
         HermesAgent agent = new HermesAgent();
         new Thread(agent).start();
         RCLJava.spin(agent.getNode());

@@ -103,6 +103,7 @@ def launch_setup(context, *args, **kwargs):
     agent_environment = os.environ.copy()
     agent_environment['agent_definitions'] = agent_definitions_folder
     agent_environment['config'] = hermes_agent_config_folder
+    agent_environment['display_mas'] = LaunchConfiguration('display_mas').perform(context)
 
     # Adding all the nodes
     nodes = [
@@ -196,6 +197,9 @@ def generate_launch_description():
         DeclareLaunchArgument('gui', default_value='true',
                               choices=['true', 'false'],
                               description='Set "false" to run gazebo headless.'),
+        DeclareLaunchArgument('display_mas', default_value='false',
+                              choices=['true', 'false'],
+                              description='Whether to display Jason MAS GUI or not.'),
         DeclareLaunchArgument('map', default_value='map.json',
                               description='The environment description'),
         DeclareLaunchArgument('start', default_value='',

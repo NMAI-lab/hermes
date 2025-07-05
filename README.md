@@ -255,10 +255,8 @@ source ~/hermes_ws/install/local_setup.bash
 - [create3_sim](https://github.com/iRobotEducation/create3_sim/)
 - [ros2_java](https://github.com/ros2-java/ros2_java)
 
-**NOTE:** The ensure an easy build process, the project comes with pre-built jar files of some of these libraries. These jar files have been customized to include custom behaviour for the project. The custom jar files are created from the forks of these libraries located at:
+**NOTE:** To ensure compatability with the current ROS and Java versions, the following repositories have been customized (ros2_java requires ROS Foxy, Java 11, and Gradle 4):
 - [Jason](https://github.com/bardia-p/jason/tree/jason_hermes)
-
-**NOTE:** To ensure compatability with the current ROS versions, the following repositcd ories have been customized.
 - [ament_gradle_plugin](https://github.com/bardia-p/ament_gradle_plugin)
 - [irobot_create_msgs](https://github.com/bardia-p/irobot_create_msgs)
 
@@ -287,7 +285,7 @@ docker run -it \
 - Launch the simulator in the container:
 ```
 source ~/hermes_ws/install/local_setup.bash
-ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1
+ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1 display_mas:=true
 ```
 
 #### Running the simulator Locally 
@@ -295,7 +293,7 @@ ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1
 First try to fire up the simulator by doing:
 ```
 source ~/hermes_ws/install/local_setup.bash
-ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1
+ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1 display_mas:=true
 ```
 
 You should see the Gazebo and RViz windows pop up:
