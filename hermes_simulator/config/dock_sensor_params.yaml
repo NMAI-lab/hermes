@@ -2,6 +2,6 @@
 simulator_subscriber_topic: /dock
 robot_subscriber_topic: /dock_status
 publisher_topic: /dock_state
-robot_availability_topic: /robot_description
+robot_availability_topic: /battery_state
 idle_sleep_duration: 1.0
 queue_size: 10

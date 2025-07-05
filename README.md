@@ -318,7 +318,47 @@ A cleanup script has been included to ensure a proper cleanup of the shared memo
 
 4. Make sure the map matches [map](hermes_environment/worlds/map.json) (you can ignore the obstacles and distance fields)
 
-5. SSH the Raspberry Pi on the robot and run:
+5. SSH the Raspberry Pi on the robot
+
+6. Make sure the robot is fully powered on and linked to ROS by doing a quick check:
+
+```
+ros2 topic list
+
+/battery_state
+/cliff_intensity
+/cmd_audio
+/cmd_lightring
+/cmd_vel
+/dock_status
+/hazard_detection
+/imu
+/interface_buttons
+/ir_intensity
+/ir_opcode
+/kidnap_status
+/mobility_monitor/transition_event
+/mouse
+/odom
+/parameter_events
+/robot_state/transition_event
+/rosout
+/slip_status
+/static_transform/transition_event
+/stop_status
+/tf
+/tf_static
+/wheel_status
+/wheel_ticks
+/wheel_vels
+```
+
+7. Make sure to disable all safety overrides so the robot can go faster and be able to go backwards
+```
+ros2 param set /motion_control safety_override full
+```
+
+8. Start up Hermes
 ```
 source ~/hermes_ws/install/local_setup.bash
 ros2 launch hermes_simulator robot.launch.py end:=B1

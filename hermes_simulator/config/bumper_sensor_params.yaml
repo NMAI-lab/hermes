@@ -1,7 +1,7 @@
 ---
 subscriber_topic: /hazard_detection
 publisher_topic: /bumper_status
-robot_availability_topic: /robot_description
+robot_availability_topic: /battery_state
 bump_count_limit: 100
 idle_sleep_duration: 1.0
 queue_size: 10

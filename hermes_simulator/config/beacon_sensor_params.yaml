@@ -1,7 +1,7 @@
 ---
 subscriber_topic: /rf_signal
 publisher_topic: /beacon
-robot_availability_topic: /robot_description
+robot_availability_topic: /battery_state
 beacon_observation_stack_size: 10
 beacon_detection_rssi_threshold: -75.0
 scan_rate: 0.1
