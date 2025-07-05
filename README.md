@@ -136,7 +136,10 @@ source ~/hermes_ws/install/local_setup.bash
 
 6. Using the LiDAR serial cable, connect the LiDAR pins to the USB-to-serial converter.
 
-**TODO:** add a finished product picture
+Here is what the final robot setup looks like:
+<p align="center">
+    <img src="miscellaneous/images/hardware_setup.jpg" alt="hermes" width=500">
+</p>
 
 #### iRobot CREATE 3 Software Setup
 
@@ -298,7 +301,7 @@ ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1 display_mas:=
 
 You should see the Gazebo and RViz windows pop up:
 <p align="center">
-    <img src="miscellaneous/images/hermes_demo.png" alt="hermes" width=500">
+    <img src="miscellaneous/images/simulator_demo.png" alt="hermes" width=500">
 </p>
 
 #### Cleaning Up After the Simulator
