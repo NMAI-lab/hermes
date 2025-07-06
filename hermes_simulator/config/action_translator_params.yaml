@@ -4,4 +4,5 @@ action_status_publisher_topic: /action_status
 movement_publisher_topic: /cmd_vel
 agent_request_publisher_topic: /agent_request
 dock_publisher_topic: /dock
+safety_publisher_topic: /motion_control/set_parameters
 queue_size: 10

@@ -3,6 +3,9 @@ from rclpy.node import Node
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 from rclpy.action import ActionClient
+from rcl_interfaces.msg import Parameter, ParameterType, ParameterValue
+from rcl_interfaces.srv import SetParameters
+
 from irobot_create_msgs.action import DockServo, Dock
 
 from hermes_simulator.tools.yaml_parser import load_yaml
@@ -52,6 +55,7 @@ class ActionTranslator(Node):
         self.agent_request_publisher = self.create_publisher(String, 
                                                              self.action_translator_params['agent_request_publisher_topic'],
                                                              self.action_translator_params['queue_size'])
+        self.safety_client = self.create_client(SetParameters, self.action_translator_params['safety_publisher_topic'])
 
         # The subscribers for the node
         self.action_subscriber = self.create_subscription(String, self.action_translator_params['subscriber_topic'],
@@ -83,6 +87,17 @@ class ActionTranslator(Node):
             dock_goal_future = self.docking_client.send_goal_async(self.dock_message.Goal(), feedback_callback=self.feedback_callback)
             dock_goal_future.add_done_callback(self.goal_response_callback)
             return
+        elif action_name == 'disable_safety':
+            self.current_goal_id = action_data['action_id']
+            safety_req = SetParameters.Request()
+            safety_param = Parameter()
+            safety_param.name = 'safety_override'
+            safety_param.value.type = ParameterType.PARAMETER_STRING
+            safety_param.value.string_value = 'full'
+            safety_req.parameters = [safety_param]
+            safety_goal_future = self.safety_client.call_async(safety_req)
+            safety_goal_future.add_done_callback(self.goal_response_callback)
+            return
         elif action_name == 'cmd_vel':
             message = Twist()
             message.linear.x = action_params[0]
@@ -112,14 +127,24 @@ class ActionTranslator(Node):
         - future(Goal): the goal response. 
         '''
         goal_handle = future.result()
-        if not goal_handle.accepted:
+        if hasattr(goal_handle, 'accepted') and not goal_handle.accepted:
             self.get_logger().info('Goal rejected :(')
             return
 
         self.get_logger().info('Goal accepted :)')
 
-        self._get_result_future = goal_handle.get_result_async()
-        self._get_result_future.add_done_callback(self.get_result_callback)
+        # Check to see if it has an async result or not
+        if hasattr(goal_handle, 'get_result_async'):
+            self._get_result_future = goal_handle.get_result_async()
+            self._get_result_future.add_done_callback(self.get_result_callback)
+        else:
+            self.get_logger().info(f'Goal Result: {goal_handle}')
+
+            if goal_handle is not None:
+                self.action_status_publisher.publish(create_string_msg_from({
+                    'action_id': self.current_goal_id
+                }))
+            self.current_goal_id = None
 
     def get_result_callback(self, future):
         '''

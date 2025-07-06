@@ -10,13 +10,15 @@
     .print("Completed a trip. Will try to request another one!");
     !requestTrip.
 
-// Navigation
+// New Trip
 +navigationInstruction(start): true
     <-
+    .drop_desire(requestTrip);
     .print("Got a new trip!");
-    +hasTrip.
+    !handleNewTrip.
 
-+navigationInstruction(NavInstruction): true
+// Navigation
++navigationInstruction(NavInstruction): hasTrip
     <-
     .print("Got navigation instruction:", NavInstruction);
     -+navigation(NavInstruction).
@@ -24,22 +26,22 @@
 // Collision Detection
 +bumperPressed: hasTrip
     <-
-    .print("Bumper was pressed! Backing up...");
     .drop_all_intentions;
+    .print("Bumper was pressed! Backing up...");
     !handleCollision.
 
 // Dock Station Detection
 +dockVisible: hasTrip & navigation(dock) & not(.intend(handleDocking)) & not(.intend(handleCollision))
     <-
-    .print("Reached the destination!");
     .drop_all_intentions;
+    .print("Reached the destination!");
     !handleDocking.
 
 // Intersection Detection
 +intersection(ForwardDistance, LTurnDistance, UTurnDistance): hasTrip & navigation(NavInstruction) & facingWall(WallDistance, WallAngle) & not(navigation(dock)) & not(.intend(handleIntersection(_,_,_,_))) & not(.intend(handleDocking)) & not(.intend(handleCollision))
     <-
-    .print("Reached an intersection!");
     .drop_all_intentions;
+    .print("Reached an intersection!");
     !handleIntersection(ForwardDistance, LTurnDistance, UTurnDistance, WallAngle).
 
 // Wall Detection
@@ -55,6 +57,13 @@
     .print("Requeting a new trip!!");
     request_trip;
     !requestTrip.
+
+/* Starting a New Trip */
+
++!handleNewTrip: true
+    <-
+    disable_safety;
+    +hasTrip.
 
 /* Collision Handling */
 

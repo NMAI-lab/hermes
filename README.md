@@ -356,12 +356,7 @@ ros2 topic list
 /wheel_vels
 ```
 
-7. Make sure to disable all safety overrides so the robot can go faster and be able to go backwards
-```
-ros2 param set /motion_control safety_override full
-```
-
-8. Start up Hermes
+7. Start up Hermes
 ```
 source ~/hermes_ws/install/local_setup.bash
 ros2 launch hermes_simulator robot.launch.py end:=B1
