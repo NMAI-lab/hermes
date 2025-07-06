@@ -6,17 +6,21 @@
     <em>Logo designed by Daniel Pacada</em>
 </p>
 
-Hermes is a simulator for a mobile robot, acting as a BDI agent, that navigates a custom maze through the use of a LiDAR sensor and various Bluetooth beacons placed at each intersection. 
+Hermes is a mobile robot, acting as a BDI agent, that navigates a custom maze through the use of a LiDAR sensor and the various Bluetooth beacons placed along its way. The goal of Hermes is to showcase a realistic application of AgentSpeak and Jason BDI. 
 
 ## Description
 Hermes has the ability to perform the following:
-- Maintain a consistent distance from the wall.
+- Maintain a consistent distance with the wall.
 - Navigate the maze with its many intersections and complete a full trip from point A to point B using its preloaded map of the beacon connections.
-- Handle possible collisions and by pass obstacles through the use of its bumper sensor.
+- Handle possible collisions and bypass obstacles through the use of its bumper sensor.
 
 This robot is based on the [iRobot Create 3](https://edu.irobot.com/what-we-offer/create3) developed by the iRobot company.
 
 In addition to that, Hermes uses the popular AgentSpeak language [Jason](https://jason-lang.github.io/) to implement the BDI architecture.
+
+Hermes can be run in two modes:
+- **Simulator mode (either locally or within Docker):** This option utilizes ROS Gazebo to allow the user to fully simulate a maze environment with the iRobot Create 3 robot in it.
+- **Robot mode (requires the physical robot):** This option allows the user to run the Jason BDI logic directly on the physical robot.
 
 ## Installation
 
@@ -111,7 +115,7 @@ source ~/hermes_ws/install/local_setup.bash
 
 <table>
   <tr>
-     <td>iRobot CREATE 3 and Dock Station</td>
+     <td>iRobot Create 3 and Dock Station</td>
      <td>RPLiDAR A1</td>
      <td>AprilBeacon N04</td>
   </tr>
@@ -122,7 +126,7 @@ source ~/hermes_ws/install/local_setup.bash
   </tr>
  </table>
 
-#### iRobot CREATE 3 Hardware Setup
+#### iRobot Create 3 Hardware Setup
 
 1. Unscrew the faceplate of the Create 3 and ensure that the USB/BLE toggle on the adapter board is in the USB position. Screw the faceplate back into position.
 
@@ -141,7 +145,7 @@ Here is what the final robot setup looks like:
     <img src="miscellaneous/images/hardware_setup.jpg" alt="hermes" width=500">
 </p>
 
-#### iRobot CREATE 3 Software Setup
+#### iRobot Create 3 Software Setup
 
 1. Download the latest version of the Create 3 [firmware](https://edu.irobot.com/create3-update)
 
@@ -216,7 +220,7 @@ pip install -r requirements.txt
 
 12. Clone the appropriate ROS dependencies:
 ```
-vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/simulator_dependencies.repos
+vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/robot_dependencies.repos
 ```
 
 13. Install the ROS dependencies:
@@ -237,6 +241,7 @@ gradle uploadArchives
 ```
 # Get /path/to/bluepy-helper (you can maybe use:)
 find ~/.local -name bluepy-helper
+
 sudo setcap 'cap_net_raw,cap_net_admin+eip' /path/to/bluepy-helper
 sudo usermod -aG bluetooth $USER
 ```
@@ -315,7 +320,7 @@ A cleanup script has been included to ensure a proper cleanup of the shared memo
 
 1. Plug in the LiDAR sensor to the the Raspberry Pi through USB
 
-2. Turn on the iRobot CREATE 3
+2. Turn on the iRobot Create 3
 
 3. Have your Bluetooth Beacons ready and make sure their MAC addresses and orientation match [beacons_list](hermes_environment/worlds/beacons_list.yaml)
 
