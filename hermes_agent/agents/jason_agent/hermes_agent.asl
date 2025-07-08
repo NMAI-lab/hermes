@@ -24,7 +24,7 @@
     -+navigation(NavInstruction).
 
 // Collision Detection
-+bumperPressed: hasTrip
++bumperPressed: hasTrip & not(.intend(handleCollision))
     <-
     .drop_all_intentions;
     .print("Bumper was pressed! Backing up...");
@@ -69,7 +69,7 @@
 
 +!handleCollision: actionExecutionDuration(ACTION_EXECUTION_DURATION) & speed(SPEED) & wallFollowDistanceSetpoint(SETPOINT)
     <-
-    !performRepeatedBackwards(math.ceil(SETPOINT / SPEED / ACTION_EXECUTION_DURATION)).
+    !performRepeatedBackwards(math.ceil(2 * SETPOINT / SPEED / ACTION_EXECUTION_DURATION)).
 
 /* Docking */
 

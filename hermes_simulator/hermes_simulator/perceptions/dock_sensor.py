@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from irobot_create_msgs.msg import Dock
+from irobot_create_msgs.msg import Dock, DockStatus
 from std_msgs.msg import String
 
 import time
@@ -41,10 +41,12 @@ class DockSensor(Node):
         # The subscribers for the node.
         if self.mode == 'simulator':
             subscriber_topic = self.sensor_params['simulator_subscriber_topic']
+            dock_msg = Dock
         else:
             subscriber_topic = self.sensor_params['robot_subscriber_topic']
+            dock_msg = DockStatus
 
-        self.dock_info_sub = self.create_subscription(Dock, subscriber_topic, self.dock_info_callback, qos_profile=rclpy.qos.qos_profile_sensor_data)
+        self.dock_info_sub = self.create_subscription(dock_msg, subscriber_topic, self.dock_info_callback, qos_profile=rclpy.qos.qos_profile_sensor_data)
 
     def dock_info_callback(self, dock_data):
         '''
