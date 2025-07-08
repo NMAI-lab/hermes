@@ -37,9 +37,9 @@ repositories:
     version: main
   ros2-java/ament_gradle_plugin:
     type: git
-    url: https://github.com/bardia-p/ament_gradle_plugin.git
+    url: https://github.com/110Percent/ament_gradle_plugin.git
     version: master
   ros2-java/ros2_java:
     type: git
-    url: https://github.com/ros2-java/ros2_java.git
-    version: 434e6f55253bfe2cb9ce34799fe548bbf4998d0e
+    url: https://github.com/NMAI-lab/ros2_java
+    version: main

@@ -3,3 +3,4 @@ __pycache__
 .gradle
 gradle.properties
 build/
+.idea/
