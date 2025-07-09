@@ -296,7 +296,7 @@ source ~/hermes_ws/install/local_setup.bash
 ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1 display_mas:=true
 ```
 
-#### Running the simulator Locally 
+#### Running the simulator locally 
 
 First try to fire up the simulator by doing:
 ```
@@ -309,14 +309,14 @@ You should see the Gazebo and RViz windows pop up:
     <img src="miscellaneous/images/simulator_demo.png" alt="hermes" width=500">
 </p>
 
-#### Cleaning Up After the Simulator
+#### Cleaning up after the simulator
 
 A cleanup script has been included to ensure a proper cleanup of the shared memory and any leftover processes. If you run into any issues with the simulator, simply run:
 ```
 ./perform_cleanup.sh
 ``` 
 
-### Running Hermes on the Physical Robot
+### Running Hermes on the physical robot
 
 1. Plug in the LiDAR sensor to the the Raspberry Pi through USB
 
