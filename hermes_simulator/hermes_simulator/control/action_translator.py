@@ -6,8 +6,6 @@ from rclpy.action import ActionClient
 from rcl_interfaces.msg import Parameter, ParameterType, ParameterValue
 from rcl_interfaces.srv import SetParameters
 
-from irobot_create_msgs.action import DockServo, Dock
-
 from hermes_simulator.tools.yaml_parser import load_yaml
 from hermes_simulator.tools.string_msg_helper import create_string_msg_from, get_msg_content_as_dict
 
@@ -41,8 +39,10 @@ class ActionTranslator(Node):
         self.mode = self.get_parameter('mode').get_parameter_value().string_value
 
         if self.mode == 'simulator':
+            from irobot_create_msgs.action import DockServo
             self.dock_message = DockServo
         else:
+            from irobot_create_msgs.action import Dock
             self.dock_message = Dock
 
         # The publishers for the node

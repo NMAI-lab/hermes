@@ -10,12 +10,20 @@
     .print("Completed a trip. Will try to request another one!");
     !requestTrip.
 
+// No Trips
++navigationInstruction(none): true
+    <-
+    .print("No more trips!");
+    -requestingTrip;
+    !requestTrip.
+
 // New Trip
 +navigationInstruction(start): true
     <-
-    .drop_desire(requestTrip);
     .print("Got a new trip!");
-    !handleNewTrip.
+    -requestingTrip;
+    disable_safety;
+    +hasTrip.
 
 // Navigation
 +navigationInstruction(NavInstruction): hasTrip
@@ -52,18 +60,11 @@
 
 /* Requesting a Trip */
 
-+!requestTrip: not(hasTrip)
++!requestTrip: not(hasTrip) & not(requestingTrip)
     <-
     .print("Requeting a new trip!!");
-    request_trip;
-    !requestTrip.
-
-/* Starting a New Trip */
-
-+!handleNewTrip: true
-    <-
-    disable_safety;
-    +hasTrip.
+    +requestingTrip;
+    request_trip.
 
 /* Collision Handling */
 
@@ -113,8 +114,9 @@
 calculateWallDistanceError(WallDistanceError) :- 
     speed(SPEED) &
     wallFollowAimAngle(WALL_FOLLOW_AIM_ANGLE) &
+    actionExecutionDuration(ACTION_EXECUTION_DURATION) &
     convertToRadian(WALL_FOLLOW_AIM_ANGLE, AimAngleRadian) &
-    WallDistanceError = SPEED * math.sin(AimAngleRadian).
+    WallDistanceError = SPEED * math.sin(AimAngleRadian) * ACTION_EXECUTION_DURATION.
 
 tooFarFromWall(WallDistance) :-
     wallFollowDistanceSetpoint(SETPOINT) &

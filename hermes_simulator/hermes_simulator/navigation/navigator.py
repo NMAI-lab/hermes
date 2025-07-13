@@ -107,6 +107,9 @@ class Navigator(Node):
                 }))
             else:
                 self.get_logger().info("THERE ARE NO TRIPS!")
+                self.publisher.publish(create_string_msg_from({
+                    'navigation': 'NONE',
+                }))
 
 
 def main(args=None):

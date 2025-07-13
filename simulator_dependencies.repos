@@ -5,8 +5,8 @@ repositories:
     version: foxy
   irobot_create/irobot_create_msgs:
     type: git
-    url: https://github.com/bardia-p/irobot_create_msgs
-    version: humble_with_old_messages
+    url: https://github.com/iRobotEducation/irobot_create_msgs.git
+    version: foxy
   ros-controls/ros2_control:
     type: git
     url: https://github.com/ros-controls/ros2_control.git

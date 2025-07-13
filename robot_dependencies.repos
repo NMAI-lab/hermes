@@ -1,8 +1,8 @@
 repositories:
   irobot_create/irobot_create_msgs:
     type: git
-    url: https://github.com/bardia-p/irobot_create_msgs
-    version: humble_with_old_messages
+    url: https://github.com/iRobotEducation/irobot_create_msgs.git
+    version: humble
   slamtec/sllidar_ros2:
     type: git
     url: https://github.com/Slamtec/sllidar_ros2
