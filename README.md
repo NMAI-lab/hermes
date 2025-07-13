@@ -27,86 +27,93 @@ Hermes can be run in two modes:
 ### Docker Installation
 
 Build a local container using:
-```
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_rsa # or whatever ssh key you use
-DOCKER_BUILDKIT=1 docker buildx build --ssh=default -t hermes .
+```console
+$ docker build --build-arg ARCH=$(dpkg --print-architecture) -t hermes . 
 ```
 
-### Manual Installation
+### Local Installation
 
 1. Install [ROS Foxy](https://docs.ros.org/en/foxy/Installation.html) on an Ubuntu 20.04 system
 
 2. Make sure to source your installation:
-```
-source /opt/ros/foxy/setup.bash
-```
-
-3. Install the Open-JDK:
-```
-sudo apt install default-jdk
+```console
+$ source /opt/ros/foxy/setup.bash
 ```
 
-4. Install gradle:
+3. Install the Open-JDK 21:
+```console
+$ sudo apt install -y openjdk-21-jdk openjdk-21-jre
+$ export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-$(dpkg --print-architecture)
+$ export PATH=$JAVA_HOME/bin:$PATH
 ```
-sudo apt install gradle
+
+4. Install gradle 8:
+```console
+$ sudo mkdir /opt/gradle && cd /opt/gradle
+$ sudo curl -L https://services.gradle.org/distributions/gradle-8.14.2-bin.zip -o gradle.zip
+$ sudo unzip gradle.zip
+$ export GRADLE_HOME=/opt/gradle/gradle-8.14.2
+$ export PATH=$GRADLE_HOME/bin:$PATH
 ```
 
 5. Install ROS [Gazebo 11](https://classic.gazebosim.org/tutorials?tut=ros2_installing):
-```
-sudo apt install ros-foxy-gazebo-ros-pkgs
+```console
+$ sudo apt install ros-foxy-gazebo-ros-pkgs
 ```
 
 6. Install [RViz2](https://github.com/ros2/rviz):
-```
-sudo apt install ros-foxy-rviz2
+```console
+$ sudo apt install ros-foxy-rviz2
 ```
 
 7. Create a ROS workspace for your system. Such as:
-```
-mkdir -p ~/hermes_ws/src
-cd ~/hermes_ws/src
+```console
+$ mkdir -p ~/hermes_ws/src
+$ cd ~/hermes_ws/src
 ```
 
 8. Clone [hermes](https://github.com/bardia-p/hermes):
-```
-git clone git@github.com:bardia-p/hermes.git
+```console
+$ git clone git@github.com:bardia-p/hermes.git
 ```
 
 9. Install all the required Python packages using:
-```
-cd ~/hermes_ws/src/hermes
-pip install -r requirements.txt
+```console
+$ cd ~/hermes_ws/src/hermes
+$ pip install -r requirements.txt
 ```
 
 10. Clone the appropriate ROS dependencies:
-```
-vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/simulator_dependencies.repos
+```console
+$ vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/simulator_dependencies.repos
 ```
 
 11. Install the ROS dependencies:
-```
-cd ~/hermes_ws
-sudo rosdep init
-rosdep update
-rosdep install --from-paths src -yi --skip-keys "ament_tools"
+```console
+$ cd ~/hermes_ws
+$ sudo rosdep init
+$ rosdep update
+$ rosdep install --from-paths src -yi --skip-keys "ament_tools"
 ```
 
 12. Install the ROS2 ament Java gradle plugin:
-```
-cd src/ros2-java/ament_gradle_plugin
-gradle uploadArchives
+```console
+$ cd src/ros2-java/ament_gradle_plugin
+$ gradle publishToMavenLocal
 ```
 
 13. Build all the ROS packages by doing:
-```
-cd ~/hermes_ws
-colcon build --symlink-install
+```console
+$ cd ~/hermes_ws
+$ colcon build --symlink-install
+
+# Fix the classpath for the hermes_agent package (this is a bug in ament_gradle_plugin)
+$ sed -i "/^CLASSPATH=/d" ./install/hermes_agent/lib/hermes_agent/hermes_agent
 ```
 
 14. Source your installation by doing:
-```
-source ~/hermes_ws/install/local_setup.bash
+```console
+$ source ~/hermes_ws/install/local_setup.bash
 ```
 
 ### Physical Robot Installation (on a Raspberry Pi)
@@ -185,76 +192,85 @@ Here is what the final robot setup looks like:
     * Run `systemctl restart systemd-timesyncd.service`.
 
 5. Make sure to source your installation:
-```
-source /opt/ros/humble/setup.bash
+```console
+$ source /opt/ros/humble/setup.bash
 ```
 
 6. Ensure the correct RMW implementation is chosen by doing `RMW_IMPLEMENTATION=rmw_cyclonedds_cpp`.
 
-7. Install the Open-JDK:
-```
-sudo apt install default-jdk
+7. Install the Open-JDK 21:
+```console
+$ sudo apt install -y openjdk-21-jdk openjdk-21-jre
+$ export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-$(dpkg --print-architecture)
+$ export PATH=$JAVA_HOME/bin:$PATH
 ```
 
-8. Install gradle:
-```
-sudo apt install gradle
+8. Install gradle 8:
+```console
+$ sudo mkdir /opt/gradle && cd /opt/gradle
+$ sudo curl -L https://services.gradle.org/distributions/gradle-8.14.2-bin.zip -o gradle.zip
+$ sudo unzip gradle.zip
+$ export GRADLE_HOME=/opt/gradle/gradle-8.14.2
+$ export PATH=$GRADLE_HOME/bin:$PATH
 ```
 
 9. Create a ROS workspace for your system. Such as:
-```
-mkdir -p ~/hermes_ws/src
-cd ~/hermes_ws/src
+```console
+$ mkdir -p ~/hermes_ws/src
+$ cd ~/hermes_ws/src
 ```
 
 10. Clone [hermes](https://github.com/bardia-p/hermes):
-```
-git clone git@github.com:bardia-p/hermes.git
+```console
+$ git clone git@github.com:bardia-p/hermes.git
 ```
 
 11. Install all the required Python packages using:
-```
-cd ~/hermes_ws/src/hermes
-pip install -r requirements.txt
+```console
+$ cd ~/hermes_ws/src/hermes
+$ pip install -r requirements.txt
 ```
 
 12. Clone the appropriate ROS dependencies:
-```
-vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/robot_dependencies.repos
+```console
+$ vcs import ~/hermes_ws/src/ < ~/hermes_ws/src/hermes/robot_dependencies.repos
 ```
 
 13. Install the ROS dependencies:
-```
-cd ~/hermes_ws
-sudo rosdep init
-rosdep update
-rosdep install --from-paths src -yi --skip-keys "ament_tools"
+```console
+$ cd ~/hermes_ws
+$ sudo rosdep init
+$ rosdep update
+$ rosdep install --from-paths src -yi --skip-keys "ament_tools"
 ```
 
 14. Install the ROS2 ament Java gradle plugin:
-```
-cd src/ros2-java/ament_gradle_plugin
-gradle uploadArchives
+```console
+$ cd src/ros2-java/ament_gradle_plugin
+$ gradle publishToMavenLocal
 ```
 
 15. Give the BluePy library permission to run without root
-```
+```console
 # Get /path/to/bluepy-helper (you can maybe use:)
-find ~/.local -name bluepy-helper
+$ find ~/.local -name bluepy-helper
 
-sudo setcap 'cap_net_raw,cap_net_admin+eip' /path/to/bluepy-helper
-sudo usermod -aG bluetooth $USER
+$ sudo setcap 'cap_net_raw,cap_net_admin+eip' /path/to/bluepy-helper
+$ sudo usermod -aG bluetooth $USER
 ```
 
 16. Build all the ROS packages by doing:
-```
-cd ~/hermes_ws
-colcon build --symlink-install
+```console
+$ cd ~/hermes_ws
+$ colcon build --symlink-install
+
+# Fix the classpath for the hermes_agent package (this is a bug in ament_gradle_plugin)
+$ sed -i "/^CLASSPATH=/d" ./install/hermes_agent/lib/hermes_agent/hermes_agent
 ```
 
 17. Source your installation by doing:
-```
-source ~/hermes_ws/install/local_setup.bash
+```console
+$ source ~/hermes_ws/install/local_setup.bash
 ```
 
 ### Installation Notes
@@ -263,10 +279,19 @@ source ~/hermes_ws/install/local_setup.bash
 - [create3_sim](https://github.com/iRobotEducation/create3_sim/)
 - [ros2_java](https://github.com/ros2-java/ros2_java)
 
-**NOTE:** To ensure compatability with the current ROS and Java versions, the following repositories have been customized (ros2_java requires ROS Foxy, Java 11, and Gradle 4):
-- [Jason](https://github.com/bardia-p/jason/tree/jason_hermes)
-- [ament_gradle_plugin](https://github.com/bardia-p/ament_gradle_plugin)
-- [irobot_create_msgs](https://github.com/bardia-p/irobot_create_msgs)
+**NOTE:** To ensure compatability with the current ROS and Java versions, the following repositories have been customized:
+- [ament_gradle_plugin](https://github.com/NMAI-lab/ament_gradle_plugin)
+- [ros2_java](https://github.com/NMAI-lab/ros2_java)
+
+**NOTE:** `ament_gradle_plugin` seems to still be in its Beta stage. Consecutive calls to `colcon build --symlink-install` can cause discrepencies in your `Java CLASSPATH`, resulting in your libraries getting lost at runtime. If you notice issues of that sort do the following (running these commands during every colcon install is strongly recommended):
+```console
+$ cd ~/hermes_ws
+$ rm -rf build/hermes_agent install/hermes_agent
+$ colcon build --symlink-install
+$ sed -i "/^CLASSPATH=/d" ./install/hermes_agent/lib/hermes_agent/hermes_agent
+```
+
+Make sure to run `$ source ~/hermes_ws/install/local_setup.bash` before running Hermes again.
 
 ## Running Hermes
 
@@ -277,13 +302,13 @@ source ~/hermes_ws/install/local_setup.bash
 Make sure you have built the `hermes-ros2` docker container.
 
 - Connect `xhost` to docker:
-```
-xhost +local:docker
+```console
+$ xhost +local:docker
 ```
 
 - Start the docker container:
-```
-docker run -it \
+```console
+$ docker run -it \
   --env DISPLAY=$DISPLAY \
   --env QT_X11_NO_MITSHM=1 \
   --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
@@ -291,17 +316,16 @@ docker run -it \
 ```
 
 - Launch the simulator in the container:
-```
-source ~/hermes_ws/install/local_setup.bash
-ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1 display_mas:=true
+```console
+$ ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1 display_mas:=true
 ```
 
 #### Running the simulator locally 
 
 First try to fire up the simulator by doing:
-```
-source ~/hermes_ws/install/local_setup.bash
-ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1 display_mas:=true
+```console
+$ source ~/hermes_ws/install/local_setup.bash
+$ ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1 display_mas:=true
 ```
 
 You should see the Gazebo and RViz windows pop up:
@@ -312,8 +336,8 @@ You should see the Gazebo and RViz windows pop up:
 #### Cleaning up after the simulator
 
 A cleanup script has been included to ensure a proper cleanup of the shared memory and any leftover processes. If you run into any issues with the simulator, simply run:
-```
-./perform_cleanup.sh
+```console
+$ ./perform_cleanup.sh
 ``` 
 
 ### Running Hermes on the physical robot
@@ -330,8 +354,8 @@ A cleanup script has been included to ensure a proper cleanup of the shared memo
 
 6. Make sure the robot is fully powered on and linked to ROS by doing a quick check:
 
-```
-ros2 topic list
+```console
+$ ros2 topic list
 
 /battery_state
 /cliff_intensity
@@ -362,9 +386,9 @@ ros2 topic list
 ```
 
 7. Start up Hermes
-```
-source ~/hermes_ws/install/local_setup.bash
-ros2 launch hermes_simulator robot.launch.py end:=B1
+```console
+$ source ~/hermes_ws/install/local_setup.bash
+$ ros2 launch hermes_simulator robot.launch.py end:=B1
 ```
 
 ## Project Structure

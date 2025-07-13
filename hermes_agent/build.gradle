@@ -1,72 +1,64 @@
 apply plugin: 'java'
 apply plugin: 'org.ros2.tools.gradle'
-apply plugin: 'com.github.johnrengelman.shadow'
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+apply plugin: 'com.gradleup.shadow'
 
 buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
-        jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
         gradlePluginPortal()
     }
     dependencies {
         classpath 'org.ros2.tools.gradle:ament:0.8.0'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
+        classpath 'com.gradleup.shadow:shadow-gradle-plugin:8.3.6'
     }
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java']
-        }
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
-    flatDir {
-        dirs 'libs'
-    }
-    jcenter()
-    mavenCentral()
     mavenLocal()
-    maven { url "https://plugins.gradle.org/m2/" }
+    mavenCentral()
+    google()
+    flatDir { dirs 'libs' }
 }
 
 dependencies {
-    implementation name: 'jason-2.6.3'
+    implementation 'io.github.jason-lang:jason-interpreter:3.2.0'
     implementation 'org.json:json:20231013'
     implementation 'org.yaml:snakeyaml:2.2'
 }
 
 shadowJar {
-    classifier = ''
+    archiveClassifier.set('')
+    archiveBaseName.set('hermes_agent')
+    archiveVersion.set('1.0-SNAPSHOT')
+}
+
+tasks.named('build') {
+    dependsOn(shadowJar)
 }
 
 ament {
     entryPoints {
-        consoleScripts = [
-            'hermes_agent = org.ros2.hermes.agent.HermesAgent'
-        ]
+        consoleScripts = ['hermes_agent = org.ros2.hermes.agent.HermesAgent']
     }
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    destinationDir = new java.io.File(ament.installSpace + "/share/" + ament.packageManifestName + "/java")
-    from sourceSets.main.allSource
-}
-
-tasks.getByName('sourcesJar') {
+task sourcesJar(type: Jar) {
+    dependsOn classes
     dependsOn shadowJar
+    archiveClassifier.set('sources')
+    destinationDirectory.set(file("${ament.installSpace}/share/${ament.packageManifestName}/java"))
+    from sourceSets.main.allSource
 
     doLast {
         copy {
-            from(shadowJar.archivePath)
+            from shadowJar.archiveFile
             into "${ament.installSpace}/share/${ament.packageManifestName}/java"
             rename { 'hermes_agent.jar' }
         }
@@ -74,5 +66,6 @@ tasks.getByName('sourcesJar') {
 }
 
 artifacts {
+    archives shadowJar
     archives sourcesJar
 }

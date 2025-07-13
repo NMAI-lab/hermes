@@ -26,7 +26,7 @@ import jason.asSemantics.Agent;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.ActionExec;
 import jason.asSyntax.Literal;
-import jason.infra.centralised.*;
+import jason.infra.local.RunLocalMAS;
 
 public class HermesAgent extends AgArch implements Runnable {
     // ROS parameters
@@ -92,9 +92,9 @@ public class HermesAgent extends AgArch implements Runnable {
 
         // Set up the MAS environment.
         if (displayMAS.equals("true")) {
-            new RunCentralisedMAS().setupLogger();
+            new RunLocalMAS().setupLogger();
         } else {
-            new RunCentralisedMAS().setupLogger(agentDefinitionsFolder + "/" + LOGGING_FILE);
+            new RunLocalMAS().setupLogger(agentDefinitionsFolder + "/" + LOGGING_FILE);
         }
 
         // set up the Jason agent
@@ -253,7 +253,7 @@ public class HermesAgent extends AgArch implements Runnable {
     public void sleep(long reasoningTime) {
         try {
             this.performedAction.set(false);
-            Thread.sleep(((Integer)this.nodeConstants.get("sleep_duration")).longValue() - reasoningTime);
+            Thread.sleep(Math.max(((Integer)this.nodeConstants.get("sleep_duration")).longValue() - reasoningTime, 0));
         } catch (InterruptedException e) {}
     }
 
