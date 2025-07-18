@@ -68,10 +68,10 @@
 
 /* Collision Handling */
 
-+!handleCollision: actionExecutionDuration(ACTION_EXECUTION_DURATION) & speed(SPEED) & wallFollowDistanceSetpoint(SETPOINT) & lTurnAimAngle(L_TURN_AIM_ANGLE)
++!handleCollision: actionExecutionDuration(ACTION_EXECUTION_DURATION) & speed(SPEED) & wallFollowDistanceSetpoint(SETPOINT) & wallFollowAimAngle(WALL_FOLLOW_AIM_ANGLE)
     <-
     !performRepeatedBackwards(math.ceil(SETPOINT / SPEED / ACTION_EXECUTION_DURATION));
-    !performRepeatedTurns(L_TURN_AIM_ANGLE, math.ceil(1 / ACTION_EXECUTION_DURATION)).
+    !performRepeatedTurns(WALL_FOLLOW_AIM_ANGLE, math.ceil(1 / ACTION_EXECUTION_DURATION)).
 
 /* Docking */
 

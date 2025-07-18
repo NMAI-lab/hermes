@@ -72,7 +72,7 @@ class Navigator(Node):
             
             if self.current_destination is not None:
                 # Already at the destination!
-                if current_beacon == self.current_destination and self.previous_beacon is not None:
+                if current_beacon == self.current_destination:
                     self.publisher.publish(create_string_msg_from({
                         'navigation': 'DOCK',
                     }))

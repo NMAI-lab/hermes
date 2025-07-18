@@ -8,7 +8,7 @@ queue_size: 10
 speed: 0.4 # in meters per second
 angle_change_tolerance: 5.0 # in degrees
 wall_follow_distance_setpoint: 0.4 # in meters
-wall_follow_aim_angle: 45.0 # in degrees
+wall_follow_aim_angle: 30.0 # in degrees
 l_turn_aim_angle: 60.0 # in degrees
 u_turn_aim_angle: 120.0 # in degrees
 
