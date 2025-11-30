@@ -22,6 +22,10 @@ Hermes can be run in two modes:
 - **Simulator mode (either locally or within Docker):** This option utilizes ROS Gazebo to allow the user to fully simulate a maze environment with the iRobot Create 3 robot in it.
 - **Robot mode (requires the physical robot):** This option allows the user to run the Jason BDI logic directly on the physical robot.
 
+## Demos
+
+You can find demos of Hermes [here](https://youtube.com/playlist?list=PLOsC27zWBS6f5hggUMMKWLt9Lu81S2H6m&si=nvymUaGfLmntfnwr)!
+
 ## Installation
 
 ### Docker Installation
