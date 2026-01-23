@@ -1,0 +1,56 @@
+@startuml
+' --- Arrange horizontally ---
+left to right direction
+
+skinparam packageStyle rect
+skinparam shadowing false
+skinparam backgroundColor white
+
+circle "LiDAR" as lidar
+circle "Bluetooth Beacon" as beacon
+circle "Dock Station" as dock_station
+circle "Bumper" as bumper
+
+' --- Perception Layer ---
+package "Perception" {
+    circle "lidar_sensor" <<Python>> as lidar_sensor
+    circle "beacon_sensor" <<Python>> as beacon_sensor
+    circle "dock_sensor" <<Python>> as dock_sensor
+    circle "bumper_sensor" <<Python>> as bumper_sensor
+}
+
+' --- Mind Layer ---
+package "Agent Mind" {
+    circle "navigator" <<Python>> as navigator
+    circle "belief_generator" <<Python>> as belief_generator
+    circle "Java_agent" <<Java>> as Java_agent
+}
+
+' --- Control Layer ---
+package "Control" {
+    circle "action_translator" <<Python>> as action_translator
+}
+
+rectangle "Jason" as jason
+circle "iRobot CREATE" as robot
+
+' --- Connections ---
+lidar --> lidar_sensor : /scan
+beacon --> beacon_sensor : Beacon Data
+dock_station --> dock_sensor: /dock
+bumper --> bumper_sensor : /hazard_detection
+
+lidar_sensor --> belief_generator: /lidar
+beacon_sensor --> navigator: /beacon
+navigator --> belief_generator: /navigation
+dock_sensor --> belief_generator: /dock_status
+bumper_sensor --> belief_generator: /bumper_status
+
+Java_agent <--> jason
+Java_agent --> navigator: /agent_request
+belief_generator --> Java_agent: /beliefs
+Java_agent --> action_translator: /actions
+
+action_translator --> robot : /cmd_vel\n/dock
+
+@enduml
