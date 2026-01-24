@@ -112,14 +112,16 @@ public class HermesAgent extends AgArch implements Runnable {
      */
     public void run() {
         try {
+	    int cycleCount = 1;
             while (isRunning()) {
                 // calls the Jason engine to perform one reasoning cycle
-                getTS().getLogger().info("Reasoning....");
+                getTS().getLogger().info("Reasoning Cycle:  " + Integer.toString(cycleCount));
                 long startTime = System.currentTimeMillis();
                 getTS().reasoningCycle();
                 long endTime = System.currentTimeMillis();
                 long reasoningTime = endTime - startTime;
                 getTS().getLogger().info("Reasoning Time: " + Long.toString(reasoningTime));
+		cycleCount++;
 
                 if (getTS().canSleep()) {
                     getTS().getLogger().info("Agent sleeping...");
