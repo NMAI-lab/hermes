@@ -62,7 +62,7 @@
 
 +!requestTrip: not(hasTrip) & not(requestingTrip)
     <-
-    .print("Requeting a new trip!!");
+    .print("Requesting a new trip!!");
     +requestingTrip;
     request_trip.
 
