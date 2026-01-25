@@ -4,9 +4,9 @@ parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 cd "$parent_path"
 
-input_directory="."
+input_directory="./src"
 
-plantuml="../../libs/plantuml.jar"
+plantuml="./libs/plantuml.jar"
 
 if [ $(which dot 2>/dev/null) ]; then
   echo "Found GraphViz"
@@ -17,7 +17,7 @@ fi
 
 for file in "$input_directory"/*.plantuml; do
     if [ -f "$file" ]; then
-      java -jar "$plantuml" "$file" -o "../figures/"
+      java -jar "$plantuml" "$file" -o ".."
       if [ $? != 0 ]; then
           exit 1
       fi
