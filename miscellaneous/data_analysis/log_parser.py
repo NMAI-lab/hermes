@@ -78,6 +78,8 @@ def combined_violin_box(cycle_times, stage_times, out_file):
     data = [cycle_times]
 
     for stage, times in stage_times.items():
+        if stage == "loadImplementation":
+            continue
         labels.append(stage)
         data.append(times)
 
@@ -102,8 +104,8 @@ def combined_violin_box(cycle_times, stage_times, out_file):
         label = f"{mean:.3f} ± {std:.3f} ms"
 
         ax.text(
-            i + 0.5,          
-            0.1,
+            i + 0.4,          
+            max(values),
             label,
             fontsize=9,
             ha='right',
