@@ -76,9 +76,9 @@ $ mkdir -p ~/hermes_ws/src
 $ cd ~/hermes_ws/src
 ```
 
-8. Clone [hermes](https://github.com/bardia-p/hermes):
+8. Clone [hermes](https://github.com/NMAI-lab/hermes):
 ```console
-$ git clone git@github.com:bardia-p/hermes.git
+$ git clone git@github.com:NMAI-lab/hermes.git
 ```
 
 9. Install all the required Python packages using:
@@ -224,9 +224,9 @@ $ mkdir -p ~/hermes_ws/src
 $ cd ~/hermes_ws/src
 ```
 
-10. Clone [hermes](https://github.com/bardia-p/hermes):
+10. Clone [hermes](https://github.com/NMAI-lab/hermes):
 ```console
-$ git clone git@github.com:bardia-p/hermes.git
+$ git clone git@github.com:NMAI-lab/hermes.git
 ```
 
 11. Install all the required Python packages using:
