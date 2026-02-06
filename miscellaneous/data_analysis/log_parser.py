@@ -4,8 +4,11 @@ from collections import defaultdict
 import matplotlib.pyplot as plt
 import numpy as np
 
-LOG_FILE = "logs/hermes_simulator.log"
-NAME = "Simulator"
+#LOG_FILE = "logs/hermes_simulator.log"
+#NAME = "Simulator"
+
+LOG_FILE = "logs/hermes_robot.log"
+NAME = "Robot"
 
 def parse_log(path):
     tree = ET.parse(path)
@@ -157,3 +160,18 @@ combined_violin_box(
 print(f"Parsed {len(cycle_times)} reasoning cycles")
 print("Stages found:", list(stage_times.keys()))
 report_stats(cycle_times, stage_times)
+
+longest_cycles = sorted(
+    cycles,
+    key=lambda c: (c["end"] - c["start"]) if "end" in c else 0,
+    reverse=True
+)[:20]
+
+print("\nTop 20 longest reasoning cycles are:")
+for c in longest_cycles:
+    print(f"\n====================\nCycle: from {c['start']:.3f} to {c['end']:.3f} - Duration: {c['end'] - c['start']:.3f}ms:")
+    stages = ["perceive", "execute", "act"]
+    for stage in stages:
+        for event  in c["events"]:
+            if event["method"] == stage:
+                print(f"\n--------------------\n{stage}: {event["message"]}")
