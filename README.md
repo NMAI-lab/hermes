@@ -14,12 +14,12 @@ Hermes has the ability to perform the following:
 - Navigate the maze with its many intersections and complete a full trip from point A to point B using its preloaded map of the beacon connections.
 - Handle possible collisions and bypass obstacles through the use of its bumper sensor.
 
-This robot is based on the [iRobot Create 3](https://edu.irobot.com/what-we-offer/create3) developed by the iRobot company.
+This robot is based on the [iRobot CREATE 3](https://edu.irobot.com/what-we-offer/create3) developed by the iRobot company.
 
 In addition to that, Hermes uses the popular AgentSpeak language [Jason](https://jason-lang.github.io/) to implement the BDI architecture.
 
 Hermes can be run in two modes:
-- **Simulator mode (either locally or within Docker):** This option utilizes ROS Gazebo to allow the user to fully simulate a maze environment with the iRobot Create 3 robot in it.
+- **Simulator mode (either locally or within Docker):** This option utilizes ROS Gazebo to allow the user to fully simulate a maze environment with the iRobot CREATE 3 robot in it.
 - **Robot mode (requires the physical robot):** This option allows the user to run the Jason BDI logic directly on the physical robot.
 
 ## Demos
@@ -126,7 +126,7 @@ $ source ~/hermes_ws/install/local_setup.bash
 
 <table>
   <tr>
-     <td>iRobot Create 3 and Dock Station</td>
+     <td>iRobot CREATE 3 and Dock Station</td>
      <td>RPLiDAR A1</td>
      <td>AprilBeacon N04</td>
   </tr>
@@ -137,9 +137,9 @@ $ source ~/hermes_ws/install/local_setup.bash
   </tr>
  </table>
 
-#### iRobot Create 3 Hardware Setup
+#### iRobot CREATE 3 Hardware Setup
 
-1. Unscrew the faceplate of the Create 3 and ensure that the USB/BLE toggle on the adapter board is in the USB position. Screw the faceplate back into position.
+1. Unscrew the faceplate of the CREATE 3 and ensure that the USB/BLE toggle on the adapter board is in the USB position. Screw the faceplate back into position.
 
 2. Screw the [3D printed Raspberry Pi 4B mount](miscellaneous/CAD_Models/C3-RPi-Mount.stl) in the cargo bay and attach the Pi.
 
@@ -158,7 +158,7 @@ Here is what the final robot setup looks like:
 
 #### iRobot Create 3 Software Setup
 
-1. Download the latest version of the Create 3 [firmware](https://edu.irobot.com/create3-update)
+1. Download the latest version of the CREATE 3 [firmware](https://edu.irobot.com/create3-update)
 
 2. Power on the robot by plugging it into the charging dock.
 
@@ -333,9 +333,16 @@ $ ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1 display_mas
 ```
 
 You should see the Gazebo and RViz windows pop up:
-<p align="center">
-    <img src="miscellaneous/images/simulator_demo.png" alt="hermes" width=500">
-</p>
+<table>
+  <tr>
+     <td>RViz</td>
+     <td>Gazebo</td>
+  </tr>
+  <tr>
+    <td><img src="miscellaneous/images/rviz_demo.jpg" width=1000></td>
+    <td><img src="miscellaneous/images/gazebo_demo.jpg" width=1000></td>
+  </tr>
+ </table>
 
 #### Cleaning up after the simulator
 
@@ -348,7 +355,7 @@ $ ./perform_cleanup.sh
 
 1. Plug in the LiDAR sensor to the the Raspberry Pi through USB
 
-2. Turn on the iRobot Create 3
+2. Turn on the iRobot CREATE 3
 
 3. Have your Bluetooth Beacons ready and make sure their MAC addresses and orientation match [beacons_list](hermes_environment/worlds/beacons_list.yaml)
 
@@ -406,7 +413,7 @@ $ ros2 launch hermes_simulator robot.launch.py end:=B1
 - The name Hermes is a nod to the previous major AgentSpeak projects namely, [Jason](https://github.com/jason-lang/jason) and [Peleus](https://github.com/meneguzzi/Peleus). I chose the name Hermes since the main purpose of this robot is to deliver mail from one place to another. 
 
 ## Acknowledgements
-- [iRobot's Create 3 Simulator](https://github.com/iRobotEducation/create3_sim) for the main robot simulator.
+- [iRobot's CREATE 3 Simulator](https://github.com/iRobotEducation/create3_sim) for the main robot simulator.
 - [ros2_java](https://github.com/ros2-java/ros2_java) to integrate ROS2 with the Java agent implementations.
 - [Jason](https://github.com/jason-lang/jason) an AgentSpeak interpreter for the agent definitions.
 - [Peleus](https://github.com/meneguzzi/Peleus) for connecting Jason to various planners **(TODO)**.
