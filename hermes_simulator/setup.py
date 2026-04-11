@@ -33,6 +33,7 @@ setup(
             'navigator = hermes_simulator.navigation.navigator:main',
             'action_translator = hermes_simulator.control.action_translator:main',
             'belief_generator = hermes_simulator.control.belief_generator:main',
+            'data_collector = hermes_simulator.tools.data_collector:main'
         ],
     },
 )

@@ -29,15 +29,15 @@ RUN curl -sSL http://repo.ros2.org/repos.key | apt-key add - && \
     add-apt-repository universe && \
     echo "deb http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2-latest.list
 
-# Install ROS 2 Foxy base packages
+# Install ROS 2 base packages
 RUN apt update && apt install -y \
-    ros-foxy-desktop \
-    ros-foxy-gazebo-ros-pkgs \
-    ros-foxy-rviz2 \
-    ros-foxy-ackermann-msgs \
-    ros-foxy-joint-state-publisher \
-    ros-foxy-control-toolbox \
-    ros-foxy-xacro
+    ros-$ROS_DISTRO-desktop \
+    ros-$ROS_DISTRO-gazebo-ros-pkgs \
+    ros-$ROS_DISTRO-rviz2 \
+    ros-$ROS_DISTRO-ackermann-msgs \
+    ros-$ROS_DISTRO-joint-state-publisher \
+    ros-$ROS_DISTRO-control-toolbox \
+    ros-$ROS_DISTRO-xacro
 
 # Install Java 21
 RUN apt install -y openjdk-21-jdk \
@@ -52,10 +52,11 @@ ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Install rosdep and initialize
 RUN apt install -y python3-rosdep \
-    && source /opt/ros/foxy/setup.bash \
+    && source /opt/ros/$ROS_DISTRO/setup.bash \
     && sudo rosdep init \
     && rosdep update
 
+# Clean up apt libraries
 RUN rm -rf /var/lib/apt/lists/*
 
 # Download and Install Gradle
@@ -67,7 +68,7 @@ ENV PATH=$GRADLE_HOME/bin:$PATH
 
 # Source ROS setup
 SHELL ["/bin/bash", "-c"]
-RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 RUN echo "IGNITION_VERSION=fortress" >> ~/.bashrc
 
 # Create workspace
@@ -84,7 +85,7 @@ RUN vcs import /root/hermes_ws/src/ < /root/hermes_ws/src/hermes/simulator_depen
 
 # Install ROS 2 dependencies
 WORKDIR /root/hermes_ws
-RUN source /opt/ros/foxy/setup.bash && \
+RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
     rosdep install --from-paths src -yi --skip-keys "ament_tools"
 
 # Build and install Java gradle plugin
@@ -101,7 +102,7 @@ COPY hermes_environment src/hermes/hermes_environment
 COPY hermes_simulator src/hermes/hermes_simulator
 
 # Build the workspace
-RUN source /opt/ros/foxy/setup.bash && \
+RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
     colcon build --symlink-install
 
 # Hotfix

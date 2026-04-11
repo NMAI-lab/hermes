@@ -1,0 +1,5 @@
+---
+data_collector_subscriber_topic: /beliefs
+robot_availability_topic: /battery_state
+idle_sleep_duration: 1.0
+queue_size: 10

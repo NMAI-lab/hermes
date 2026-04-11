@@ -1,0 +1,108 @@
+{
+    "origin": "I1",
+    "beacons": {
+        "I1": {
+            "type": "intersection",
+            "north": {
+                "name": "B1",
+                "distance": 10
+            },
+            "east": {
+                "name": "B2",
+                "distance": 10
+            },
+            "south": {
+                "name": "B3",
+                "distance": 10
+            },
+            "west": {
+                "name": "B4",
+                "distance": 10
+            }
+        },
+        "B1": {
+            "type": "destination",
+            "south": {
+                "name": "I1",
+                "distance": 10
+            }
+        },
+        "B2": {
+            "type": "destination",
+            "west": {
+                "name": "I1",
+                "distance": 10
+            }
+        },
+        "B3": {
+            "type": "destination",
+            "north": {
+                "name": "I1",
+                "distance": 10
+            }
+        },
+        "B4": {
+            "type": "destination",
+            "east": {
+                "name": "I1",
+                "distance": 10
+            }
+        }
+    },
+    "obstacles": [
+        {
+            "from": "I1",
+            "position": {
+                "x": -6,
+                "y": -1,
+                "yaw": 0,
+                "pitch": 0
+            }
+        },
+        {
+            "from": "I1",
+            "position": {
+                "x": 6,
+                "y": -1,
+                "yaw": 0,
+                "pitch": 0
+            }
+        },
+        {
+            "from": "I1",
+            "position": {
+                "x": -1,
+                "y": -6,
+                "yaw": 0,
+                "pitch": 0
+            }
+        },
+                {
+            "from": "I1",
+            "position": {
+                "x": 1,
+                "y": 6,
+                "yaw": 0,
+                "pitch": 0
+            }
+        },
+        {
+            "from": "I1",
+            "position": {
+                "x": -6,
+                "y": 1,
+                "yaw": 0,
+                "pitch": 0
+            }
+        },
+        {
+            "from": "I1",
+            "position": {
+                "x": 0,
+                "y": 0,
+                "yaw": 0,
+                "pitch": 0
+            }
+        }
+    ]
+}

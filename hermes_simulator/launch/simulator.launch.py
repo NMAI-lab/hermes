@@ -27,7 +27,7 @@ def launch_setup(context, *args, **kwargs):
     map_file = os.path.join(
         pkg_hermes_environment,
         'worlds',
-        'map.json'
+        LaunchConfiguration('map').perform(context)
     )
     beacons_list_yaml_file = os.path.join(
         pkg_hermes_environment,
@@ -70,6 +70,11 @@ def launch_setup(context, *args, **kwargs):
         pkg_hermes_simulator,
         'config',
         'belief_generator_params.yaml'
+    )
+    data_collector_params_yaml_file = os.path.join(
+        pkg_hermes_simulator,
+        'config',
+        'data_collector_params.yaml'
     )
 
     # Hermes agent config files
@@ -179,11 +184,22 @@ def launch_setup(context, *args, **kwargs):
                 {'belief_generator_params': belief_generator_params_yaml_file}
             ]
         ),
+        Node(package='hermes_simulator',
+             namespace='tools',
+             executable='data_collector',
+             name='data_collector',
+             output='log',
+             parameters=[
+                {'data_collector_params': data_collector_params_yaml_file},
+                {'metrics_file': LaunchConfiguration('metrics_file').perform(context)}
+            ]
+        ),
         ExecuteProcess(
             cmd=['ros2', 'run', 'hermes_agent', 'hermes_agent'],
             name='hermes_agent',
             output='screen',
-            env=agent_environment
+            env=agent_environment,
+            condition=IfCondition(LaunchConfiguration('run_hermes_agent'))
         )
     ]
 
@@ -201,11 +217,15 @@ def generate_launch_description():
                               choices=['true', 'false'],
                               description='Whether to display Jason MAS GUI or not.'),
         DeclareLaunchArgument('map', default_value='map.json',
-                              description='The environment description'),
+                              description='The environment description.'),
+        DeclareLaunchArgument('metrics_file',default_value='trips.json',
+                              description='Where to store the metrics data.'),
         DeclareLaunchArgument('start', default_value='',
-                              description='The initial beacon for the robot'),
+                              description='The initial beacon for the robot.'),
         DeclareLaunchArgument('end', default_value='',
-                              description='The final beacon for the robot'),
+                              description='The final beacon for the robot.'),
+        DeclareLaunchArgument('run_hermes_agent',default_value='true',
+                              description='Whether to launch the hermes_agent node.'),
     ]
 
     for pose_element in ['x', 'y', 'z', 'yaw']:

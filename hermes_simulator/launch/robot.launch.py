@@ -22,7 +22,7 @@ def launch_setup(context, *args, **kwargs):
     map_params_yaml_file = os.path.join(
         pkg_hermes_environment,
         'config',
-        'map_params.yaml'
+        LaunchConfiguration('map').perform(context)
     )
     map_file = os.path.join(
         pkg_hermes_environment,
@@ -70,6 +70,11 @@ def launch_setup(context, *args, **kwargs):
         pkg_hermes_simulator,
         'config',
         'belief_generator_params.yaml'
+    )
+    data_collector_params_yaml_file = os.path.join(
+        pkg_hermes_simulator,
+        'config',
+        'data_collector_params.yaml'
     )
 
     # Hermes agent config files
@@ -172,11 +177,22 @@ def launch_setup(context, *args, **kwargs):
                 {'belief_generator_params': belief_generator_params_yaml_file}
             ]
         ),
+        Node(package='hermes_simulator',
+             namespace='tools',
+             executable='data_collector',
+             name='data_collector',
+             output='log',
+             parameters=[
+                {'data_collector_params': data_collector_params_yaml_file},
+                {'metrics_file': LaunchConfiguration('metrics_file').perform(context)}
+            ]
+        ),
         ExecuteProcess(
             cmd=['ros2', 'run', 'hermes_agent', 'hermes_agent'],
             name='hermes_agent',
             output='screen',
-            env=agent_environment
+            env=agent_environment,
+            condition=IfCondition(LaunchConfiguration('run_hermes_agent'))
         )
     ]
 
@@ -185,9 +201,13 @@ def launch_setup(context, *args, **kwargs):
 def generate_launch_description():
     ARGUMENTS = [
         DeclareLaunchArgument('map', default_value='map.json',
-                              description='The environment description'),
+                              description='The environment description.'),
         DeclareLaunchArgument('end', default_value='',
-                              description='The final beacon for the robot'),
+                              description='The final beacon for the robot.'),
+        DeclareLaunchArgument('metrics_file',default_value='trips.json',
+                              description='Where to store the metrics data.'),
+        DeclareLaunchArgument('run_hermes_agent',default_value='true',
+                              description='Whether to launch the hermes_agent node.'),
     ]
 
     return LaunchDescription(ARGUMENTS + [OpaqueFunction(function=launch_setup)]) 
