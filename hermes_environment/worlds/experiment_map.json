@@ -54,52 +54,7 @@
             "from": "I1",
             "position": {
                 "x": -6,
-                "y": -1,
-                "yaw": 0,
-                "pitch": 0
-            }
-        },
-        {
-            "from": "I1",
-            "position": {
-                "x": 6,
-                "y": -1,
-                "yaw": 0,
-                "pitch": 0
-            }
-        },
-        {
-            "from": "I1",
-            "position": {
-                "x": -1,
-                "y": -6,
-                "yaw": 0,
-                "pitch": 0
-            }
-        },
-                {
-            "from": "I1",
-            "position": {
-                "x": 1,
-                "y": 6,
-                "yaw": 0,
-                "pitch": 0
-            }
-        },
-        {
-            "from": "I1",
-            "position": {
-                "x": -6,
                 "y": 1,
-                "yaw": 0,
-                "pitch": 0
-            }
-        },
-        {
-            "from": "I1",
-            "position": {
-                "x": 0,
-                "y": 0,
                 "yaw": 0,
                 "pitch": 0
             }

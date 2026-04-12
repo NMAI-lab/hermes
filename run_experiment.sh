@@ -8,22 +8,26 @@ while getopts "ft:" opt; do
     esac
 done
 shift $((OPTIND - 1))
-TRIALS=${1:-10}
+TRIALS=${1:-30}
 ROS_VERSION=${2:-foxy}
-TIMEOUT=${TIMEOUT:-180}
+TIMEOUT=${TIMEOUT:-60}
 
 EXPERIMENTS=(
-    "start:=B4 end:=B3"
-    "start:=B4 end:=B2"
-    "start:=B4 end:=B1"
+    "x:=-7 y:=-1 end:=B3"
+    "x:=-7 y:=-1 end:=B2"
+    "x:=-7 y:=-1 end:=B1"
     "x:=-7 y:=-1 end:=B4"
+    "x:=-7 y:=1 yaw:=3.14159 end:=B4"
+    "x:=-5 y:=-1 yaw:=3.14159 end:=B3"
 )
 
 METRIC_FILES=(
     "right_turn_simulator.json"
     "pass_through_simulator.json"
     "left_turn_simulator.json"
-    "u_turn.json"
+    "u_turn_simulator.json"
+    "docking_simulator.json"
+    "collision_handling_simulator.json"
 )
 
 if ! docker images | grep -q hermes || [ "$FORCE_COMPILE" = true ]; then
@@ -75,7 +79,7 @@ for i in "${!EXPERIMENTS[@]}"; do
                 head -c -2 ./miscellaneous/data_analysis/metrics_analysis/data/${METRIC_FILES[$i]} > ./miscellaneous/data_analysis/metrics_analysis/data/merged.json
                 echo "," >> ./miscellaneous/data_analysis/metrics_analysis/data/merged.json
                 tail -c +2 ./miscellaneous/data_analysis/metrics_analysis/data/tmp.json >> ./miscellaneous/data_analysis/metrics_analysis/data/merged.json
-                mv ./miscellaneous/data_analysis/metrics_analysis/data/merged.json ./data_analysis/data/${METRIC_FILES[$i]}
+                mv ./miscellaneous/data_analysis/metrics_analysis/data/merged.json ./miscellaneous/data_analysis/metrics_analysis/data/${METRIC_FILES[$i]}
                 rm ./miscellaneous/data_analysis/metrics_analysis/data/tmp.json
             else
                 mv ./miscellaneous/data_analysis/metrics_analysis/data/tmp.json ./miscellaneous/data_analysis/metrics_analysis/data/${METRIC_FILES[$i]} 

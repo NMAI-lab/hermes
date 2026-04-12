@@ -5,3 +5,4 @@ gradle.properties
 build/
 .idea/
 **.log
+venv/

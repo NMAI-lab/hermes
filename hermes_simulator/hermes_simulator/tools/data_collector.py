@@ -38,7 +38,8 @@ class DataCollector(Node):
             'start_time': datetime.now().isoformat(),
             'end_time': None,
             'navigation_instructions': [],
-            'wall_distances': [],
+            'wall_following': [],
+            'actions': [],
             'bumps': 0,
             'docked': False
         }
@@ -54,33 +55,52 @@ class DataCollector(Node):
         signal.signal(signal.SIGTERM, self.shutdown_handler)
         
         self.beliefs_subscriber = self.create_subscription(String, 
-                                                           self.data_collector_params['data_collector_subscriber_topic'],
+                                                           self.data_collector_params['beliefs_subscriber_topic'],
                                                            self.decode_beliefs,
                                                            self.data_collector_params['queue_size'])
         
-    def decode_beliefs(self, metrics_data):
+        self.actions_subscriber = self.create_subscription(String, 
+                                                           self.data_collector_params['actions_subscriber_topic'],
+                                                           self.decode_actions,
+                                                           self.data_collector_params['queue_size'])
+        
+    def decode_beliefs(self, beliefs_data):
         '''
         The callback for /beliefs.
         Reads the beliefs and collects the necessary metrics.
 
         Parameters:
-        - metric_data(String): The current beliefs of the agent.
+        - beliefs_data(String): The current beliefs of the agent.
         '''
-        metrics = get_msg_content_as_dict(metrics_data)
+        beliefs = get_msg_content_as_dict(beliefs_data)
 
-        if 'intersection' not in metrics:
-             if 'wall_following' in metrics:
-                  self.trial_data['wall_distances'].append(metrics['wall_following']['right_wall_dist'])
+        if 'wall_following' in beliefs:
+            self.trial_data['wall_following'].append(
+                {'right_wall_distance': beliefs['wall_following']['right_wall_dist'],
+                 'intersection': 'intersection' in beliefs}
+                 )
 
-        if 'bumper' in metrics and metrics['bumper']['bump']:
+        if 'bumper' in beliefs and beliefs['bumper']['bump']:
              self.trial_data['bumps'] += 1
 
-        if 'dock_station' in metrics and metrics['dock_station']['is_docked']:
+        if 'dock_station' in beliefs and beliefs['dock_station']['is_docked']:
              self.trial_data['docked'] = True
 
-        if 'navigation' in metrics and metrics['navigation'] != 'NONE':
-             self.trial_data['navigation_instructions'].append(metrics['navigation'])
+        if 'navigation' in beliefs and beliefs['navigation'] != 'NONE':
+             self.trial_data['navigation_instructions'].append(beliefs['navigation'])
         
+        self.flush()
+
+    def decode_actions(self, actions_data):
+        '''
+        The callback for /actions.
+        Reads the actions and collects the necessary metrics.
+
+        Parameters:
+        - actions_data(String): The current actions of the agent.
+        '''
+        action = get_msg_content_as_dict(actions_data)
+        self.trial_data['actions'].append(action['name'])
         self.flush()
     
     def shutdown_handler(self, signum, frame):
