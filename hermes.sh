@@ -1,45 +1,24 @@
 #!/bin/bash
 
-# =============================
-# Usage:
-#   ./hermes.sh compile
-#   ./hermes.sh run
-#   ./hermes.sh all
-#   ./hermes.sh -> default = all
-# =============================
+while getopts "f" opt; do
+    case $opt in
+        f) FORCE_COMPILE=true ;;
+        *) echo "Usage: $0 [-f] [ROS_VERSION]"; exit 1 ;;
+    esac
+done
+shift $((OPTIND - 1))
+ROS_VERSION=${1:-foxy}
 
-MODE=${1:-all}
-
-compile() {
+if [ "$FORCE_COMPILE" = true ]; then
     echo "Compiling hermes..."
-    docker build --build-arg ARCH=$(dpkg --print-architecture) -t hermes .
-}
+    docker build --build-arg ARCH=$(dpkg --print-architecture) --build-arg ROS_DISTRO=${ROS_VERSION} -t hermes .
+fi
 
-run() {
-    echo "Running hermes..."
-    docker rm hermes
-    xhost +local:docker
-    docker run --name hermes  -it \
-        --env DISPLAY=$DISPLAY \
-        --env QT_X11_NO_MITSHM=1 \
-        --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
-        hermes
-}
-
-case "$MODE" in
-    compile)
-        compile
-        ;;
-    run)
-        run
-        ;;
-    all)
-        compile
-        run
-        ;;
-    *)
-        echo "Usage: $0 {compile|run|all}"
-        exit 1
-        ;;
-esac
-
+echo "Running hermes..."
+docker rm hermes 2>/dev/null
+xhost +local:docker
+docker run --name hermes  -it \
+    --env DISPLAY=$DISPLAY \
+    --env QT_X11_NO_MITSHM=1 \
+    --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    hermes

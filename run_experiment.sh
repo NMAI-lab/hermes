@@ -1,13 +1,18 @@
 #!/bin/bash
 
-if ! docker images | grep -q hermes; then
-    echo "Hermes not found, building..."
-    docker build --build-arg ARCH=$(dpkg --print-architecture) -t hermes .
-else
-    echo "Hermes image already exists, skipping build."
-fi
+while getopts "ft:" opt; do
+    case $opt in
+        f) FORCE_COMPILE=true ;;
+        t) TIMEOUT=$OPTARG ;;
+        *) echo "Usage: $0 [-f] [-t TIMEOUT] [TRIALS] [ROS_VERSION]"; exit 1 ;;
+    esac
+done
+shift $((OPTIND - 1))
+TRIALS=${1:-10}
+ROS_VERSION=${2:-foxy}
+TIMEOUT=${TIMEOUT:-180}
 
-TRIALS=(
+EXPERIMENTS=(
     "start:=B4 end:=B3"
     "start:=B4 end:=B2"
     "start:=B4 end:=B1"
@@ -21,48 +26,65 @@ METRIC_FILES=(
     "u_turn.json"
 )
 
+if ! docker images | grep -q hermes || [ "$FORCE_COMPILE" = true ]; then
+    if [ "$FORCE_COMPILE" = true ]; then
+        echo "Force compile requested, rebuilding..."
+        docker rmi hermes 2>/dev/null
+    else
+        echo "Hermes not found, building..."
+    fi
+    docker build --build-arg ARCH=$(dpkg --print-architecture) --build-arg ROS_DISTRO=${ROS_VERSION} -t hermes .
+else
+    echo "Hermes image already exists, skipping build."
+fi
+
 xhost +local:docker
 
-for i in "${!TRIALS[@]}"; do
-    echo "=== Running trial $((i+1)) ==="
+for i in "${!EXPERIMENTS[@]}"; do
+    echo "=== Running Experiment ${EXPERIMENTS[$i]} ==="
 
-    docker run --name hermes -d \
-        --env DISPLAY=$DISPLAY \
-        --env QT_X11_NO_MITSHM=1 \
-        --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
-        hermes \
-        /bin/bash -c "sleep infinity"
+    for trial in $(seq 1 $TRIALS); do
+        echo "=== Running Trial ${trial}/${TRIALS} ==="
 
-    timeout 180 docker exec hermes \
-        /bin/bash -c "source /opt/ros/foxy/setup.bash && source /root/hermes_ws/install/local_setup.bash && ros2 launch hermes_simulator simulator.launch.py ${TRIALS[$i]} map:=experiment_map.json metrics_file:=${METRIC_FILES[$i]} rviz:=false gui:=false > /dev/null" &
-    
-    TRIAL_PID=$!
+        docker run --name hermes -d \
+            --env DISPLAY=$DISPLAY \
+            --env QT_X11_NO_MITSHM=1 \
+            --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
+            hermes \
+            /bin/bash -c "sleep infinity"
 
-    start=$SECONDS
-    while kill -0 $TRIAL_PID 2>/dev/null; do
-        elapsed=$(( SECONDS - start ))
-        printf "\r⏱  Trial $((i+1)) running... %02d:%02d" $(( elapsed/60 )) $(( elapsed%60 ))
-        sleep 1
-    done
-    echo ""
+        timeout ${TIMEOUT} docker exec hermes \
+            /bin/bash -c "source /opt/ros/${ROS_VERSION}/setup.bash && source /root/hermes_ws/install/local_setup.bash && ros2 launch hermes_simulator simulator.launch.py ${EXPERIMENTS[$i]} map:=experiment_map.json metrics_file:=${METRIC_FILES[$i]} rviz:=false gui:=false > /dev/null" &
+        
+        TRIAL_PID=$!
 
-    wait $TRIAL_PID
+        start=$SECONDS
+        while kill -0 $TRIAL_PID 2>/dev/null; do
+            elapsed=$(( SECONDS - start ))
+            printf "\r⏱  Experiment $((i+1))/${#EXPERIMENTS[@]}, Trial ${trial}/${TRIALS}... %02d:%02d" $(( elapsed/60 )) $(( elapsed%60 ))
+            sleep 1
+        done
+        echo ""
 
-    if docker cp hermes:/root/hermes_ws/${METRIC_FILES[$i]} ./data_analysis/data/tmp.json 2>/dev/null; then
-        echo "Copied ${METRIC_FILES[$i]}"
+        wait $TRIAL_PID
 
-        # Merge into combined file
-        if [ -f ./data_analysis/data/${METRIC_FILES[$i]} ]; then
-            jq -s 'add' ./data_analysis/data/tmp.json ./data_analysis/data/${METRIC_FILES[$i]} > ./data_analysis/data/merged.json
-            mv ./data_analysis/data/merged.json ./data_analysis/data/${METRIC_FILES[$i]}
-            rm ./data_analysis/data/tmp.json
+        if docker cp hermes:/root/hermes_ws/${METRIC_FILES[$i]} ./data_analysis/data/tmp.json 2>/dev/null; then
+            echo "Copied ${METRIC_FILES[$i]}"
+
+            if [ -f ./data_analysis/data/${METRIC_FILES[$i]} ]; then
+                head -c -2 ./data_analysis/data/${METRIC_FILES[$i]} > ./data_analysis/data/merged.json
+                echo "," >> ./data_analysis/data/merged.json
+                tail -c +2 ./data_analysis/data/tmp.json >> ./data_analysis/data/merged.json
+                mv ./data_analysis/data/merged.json ./data_analysis/data/${METRIC_FILES[$i]}
+                rm ./data_analysis/data/tmp.json
+            else
+                mv ./data_analysis/data/tmp.json ./data_analysis/data/${METRIC_FILES[$i]} 
+            fi
         else
-            mv ./data_analysis/data/tmp.json ./data_analysis/data/${METRIC_FILES[$i]} 
+            echo "Failed to copy ${METRIC_FILES[$i]} — trial may have produced no data"
         fi
-    else
-        echo "Failed to copy ${METRIC_FILES[$i]} — trial may have produced no data"
-    fi
 
-    echo "=== Trial $((i+1)) done ==="
-    docker stop hermes && docker rm hermes
+        echo "=== Trial ${trial}/${TRIALS} done ==="
+        docker stop hermes && docker rm hermes
+    done
 done

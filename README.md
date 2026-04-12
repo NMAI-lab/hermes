@@ -402,6 +402,14 @@ $ source ~/hermes_ws/install/local_setup.bash
 $ ros2 launch hermes_simulator robot.launch.py end:=B1
 ```
 
+## Experimentation
+Hermes is designed to be fully automated allowing it to run multiple headless runs. To demonstrate this capability, a simple experiment verifying different styles of simple trips has already been provided. To run this experiment run:
+```console
+$ ./run_experiment.sh
+```
+
+The results of this experiment along with an analysis of them are located at [data_analysis](data_analysis)
+
 ## Project Structure
 - **hermes_create_description:** This package includes the Gazebo descriptions for the robotcs, sensors, and the dock station. It also includes the appropriate launch files for spawning these objects.
 - **hermes_environment:** This package includes the implementation of the simulation environment with the various configs for loading the robot map.
@@ -418,6 +426,3 @@ $ ros2 launch hermes_simulator robot.launch.py end:=B1
 - [Jason](https://github.com/jason-lang/jason) an AgentSpeak interpreter for the agent definitions.
 - [Peleus](https://github.com/meneguzzi/Peleus) for connecting Jason to various planners **(TODO)**.
 - [JPDDLPLUS](https://github.com/hstairs/jpddlplus) for generating PDDL plans using its builtin ENHSP planner **(TODO)**.
-
-## TODO
-- Connect Peleus and the ENHSP planner for this behaviour

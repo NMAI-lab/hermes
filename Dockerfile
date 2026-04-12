@@ -1,8 +1,10 @@
 FROM ubuntu:20.04
 
+ARG ROS_DISTRO=foxy
+
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
-ENV ROS_DISTRO=foxy
+ENV ROS_DISTRO=${ROS_DISTRO}
 
 SHELL ["/bin/bash", "-c"]
 
