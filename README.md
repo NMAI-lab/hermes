@@ -408,7 +408,7 @@ Hermes is designed to be fully automated allowing it to run multiple headless ru
 $ ./run_experiment.sh
 ```
 
-The results of this experiment along with an analysis of them are located at [data_analysis](data_analysis)
+The results of this experiment along with an analysis of them are located at [trip_data_analysis](miscellaneous/data_analysis/metrics_analysis/)
 
 ## Project Structure
 - **hermes_create_description:** This package includes the Gazebo descriptions for the robotcs, sensors, and the dock station. It also includes the appropriate launch files for spawning these objects.
@@ -424,5 +424,3 @@ The results of this experiment along with an analysis of them are located at [da
 - [iRobot's CREATE 3 Simulator](https://github.com/iRobotEducation/create3_sim) for the main robot simulator.
 - [ros2_java](https://github.com/ros2-java/ros2_java) to integrate ROS2 with the Java agent implementations.
 - [Jason](https://github.com/jason-lang/jason) an AgentSpeak interpreter for the agent definitions.
-- [Peleus](https://github.com/meneguzzi/Peleus) for connecting Jason to various planners **(TODO)**.
-- [JPDDLPLUS](https://github.com/hstairs/jpddlplus) for generating PDDL plans using its builtin ENHSP planner **(TODO)**.

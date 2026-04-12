@@ -20,9 +20,9 @@ EXPERIMENTS=(
 )
 
 METRIC_FILES=(
-    "right_turn.json"
-    "straight.json"
-    "left_turn.json"
+    "right_turn_simulator.json"
+    "pass_through_simulator.json"
+    "left_turn_simulator.json"
     "u_turn.json"
 )
 
@@ -68,17 +68,17 @@ for i in "${!EXPERIMENTS[@]}"; do
 
         wait $TRIAL_PID
 
-        if docker cp hermes:/root/hermes_ws/${METRIC_FILES[$i]} ./data_analysis/data/tmp.json 2>/dev/null; then
+        if docker cp hermes:/root/hermes_ws/${METRIC_FILES[$i]} ./miscellaneous/data_analysis/metrics_analysis/data/tmp.json 2>/dev/null; then
             echo "Copied ${METRIC_FILES[$i]}"
 
-            if [ -f ./data_analysis/data/${METRIC_FILES[$i]} ]; then
-                head -c -2 ./data_analysis/data/${METRIC_FILES[$i]} > ./data_analysis/data/merged.json
-                echo "," >> ./data_analysis/data/merged.json
-                tail -c +2 ./data_analysis/data/tmp.json >> ./data_analysis/data/merged.json
-                mv ./data_analysis/data/merged.json ./data_analysis/data/${METRIC_FILES[$i]}
-                rm ./data_analysis/data/tmp.json
+            if [ -f ./miscellaneous/data_analysis/metrics_analysis/data/${METRIC_FILES[$i]} ]; then
+                head -c -2 ./miscellaneous/data_analysis/metrics_analysis/data/${METRIC_FILES[$i]} > ./miscellaneous/data_analysis/metrics_analysis/data/merged.json
+                echo "," >> ./miscellaneous/data_analysis/metrics_analysis/data/merged.json
+                tail -c +2 ./miscellaneous/data_analysis/metrics_analysis/data/tmp.json >> ./miscellaneous/data_analysis/metrics_analysis/data/merged.json
+                mv ./miscellaneous/data_analysis/metrics_analysis/data/merged.json ./data_analysis/data/${METRIC_FILES[$i]}
+                rm ./miscellaneous/data_analysis/metrics_analysis/data/tmp.json
             else
-                mv ./data_analysis/data/tmp.json ./data_analysis/data/${METRIC_FILES[$i]} 
+                mv ./miscellaneous/data_analysis/metrics_analysis/data/tmp.json ./miscellaneous/data_analysis/metrics_analysis/data/${METRIC_FILES[$i]} 
             fi
         else
             echo "Failed to copy ${METRIC_FILES[$i]} — trial may have produced no data"

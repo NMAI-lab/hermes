@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2026-01-25T20:17:23.360847152Z</date>
+  <millis>1769372243360</millis>
+  <nanos>847152</nanos>
+  <sequence>0</sequence>
+  <logger>jason.asSemantics.TransitionSystem.hermes</logger>
+  <level>INFO</level>
+  <class>org.ros2.hermes.agent.HermesAgent</class>
+  <method>run</method>
+  <thread>22</thread>
+  <message>Reasoning Cycle:  1</message>
+</record>
+<record>
+  <date>2026-01-25T20:17:23.434258968Z</date>
+  <millis>1769372243434</millis>
+  <nanos>258968</nanos>
+  <sequence>1</sequence>
+  <logger>jason.asSemantics.TransitionSystem.hermes</logger>
+  <level>INFO</level>
+  <class>org.ros2.hermes.agent.HermesAgent</class>
+  <method>perceive</method>
+  <thread>22</thread>
+  <message>Agent hermes is perceiving...</message>
+</record>
+<record>
+  <date>2026-01-25T20:17:23.452116091Z</date>
+  <millis>1769372243452</millis>
+  <nanos>116091</nanos>
+  <sequence>2</sequence>
+  <logger>jason.asSemantics.TransitionSystem.hermes</logger>
+  <level>INFO</level>
+  <class>org.ros2.hermes.agent.HermesAgent</class>
+  <method>perceive</method>
+  <thread>22</thread>
+  <message>Agent hermes beliefs are: [speed(0.4), angleChangeTolerance(5), wallFollowDistanceSetpoint(0.4), wallFollowAimAngle(30), lTurnAimAngle(60), uTurnAimAngle(120), actionExecutionDuration(0.1)]</message>
+</record>
+<record>
+  <date>2026-01-25T20:17:23.468654121Z</date>
+  <millis>1769372243468</millis>
+  <nanos>654121</nanos>
+  <sequence>3</sequence>
+  <logger>jason.asSemantics.TransitionSystem.hermes</logger>
+  <level>INFO</level>
+  <class>jason.stdlib.println</class>
+  <method>execute</method>
+  <thread>22</thread>
+  <message>Requesting a new trip!!</message>
+</record>
+<record>
+  <date>2026-01-25T20:17:23.470399615Z</date>
+  <millis>1769372243470</millis>
+  <nanos>399615</nanos>
+  <sequence>4</sequence>
+  <logger>jason.asSemantics.TransitionSystem.hermes</logger>
+  <level>INFO</level>
+  <class>org.ros2.hermes.agent.HermesAgent</class>
+  <method>run</method>
+  <thread>22</thread>
+  <message>Reasoning Time: 37</message>
+</record>
+<record>
+  <date>2026-01-25T20:17:23.471536933Z</date>
+  <millis>1769372243471</millis>
+  <nanos>536933</nanos>
+  <sequence>5</sequence>
+  <logger>jason.asSemantics.TransitionSystem.hermes</logger>
+  <level>INFO</level>
+  <class>org.ros2.hermes.agent.HermesAgent</class>
+  <method>run</method>
+  <thread>22</thread>
+  <message>Agent cannot sleep...</message>
+</record>
