@@ -52,23 +52,21 @@ def is_cmd_vel_valid(action, pattern):
     linear_x, angular_z = float(m.group(1)), float(m.group(2))
     return abs(linear_x - float(p.group(1))) < 0.05 and abs(angular_z - float(p.group(2))) < 0.1
 
-def wilson_ci(count, n):
-    return proportion_confint(count, n, method="wilson")
-
 # LOAD DATA
 
 def load_trips(data_dir):
     trips = {}
-
+    device_type = ""
     for filename in os.listdir(data_dir):
         if filename.endswith(".json"):
             path = os.path.join(data_dir, filename)
             trip_type = "_".join(filename.split("_")[:-1])
+            device_type = filename.split("_")[-1].split(".")[0]
 
             with open(path, "r") as f:
                 trips[trip_type] = json.load(f)
 
-    return trips
+    return trips, device_type
 
 # COMPUTE METRICS
 
@@ -154,44 +152,59 @@ def get_wall_distances(trips):
 
 # PLOTS
 
-def plot_behaviours(outcomes):
+def plot_behaviours(outcomes, device_type):
+    valid_outcome_types = [o for o in TRIP_OUTCOMES if o != TRIP_OUTCOMES[2]]
+    valid_outcomes = {
+        t: {o: inner.get(o, 0) for o in valid_outcome_types}
+        for t, inner in outcomes.items()
+    }
+
     x = np.arange(len(TRIP_TYPES))
-    width  = 0.25
-    offset = [-1, 0, 1]
-    fig, ax = plt.subplots(figsize=(11, 4))
+    width = 0.5
+    fig, ax = plt.subplots(figsize=(8, 4))
 
-    for i, outcome in enumerate(TRIP_OUTCOMES):
-        values, yerr_low, yerr_high = [], [], []
+    success_vals, failure_vals = [], []
+    ci_low, ci_high = [], []
 
-        for t in TRIP_TYPES:
-            n_success = outcomes[t][outcome]
-            n_total   = sum(outcomes[t].values())
+    for t in TRIP_TYPES:
+        n_success = valid_outcomes[t][TRIP_OUTCOMES[0]]
+        n_total   = sum(valid_outcomes[t].values())
+        pct_s = (n_success / n_total * 100) if n_total > 0 else 0
+        pct_f = 100 - pct_s
 
-            lo, hi = proportion_confint(n_success, n_total, method="wilson")
-            values.append(n_success)
-            yerr_low.append(n_success - lo * n_total)
-            yerr_high.append(hi * n_total - n_success)
+        lo, hi = proportion_confint(n_success, n_total, method="wilson")
+        success_vals.append(pct_s)
+        failure_vals.append(pct_f)
+        ci_low.append(max(0, (n_success / n_total - lo) * 100))
+        ci_high.append(max(0, (hi - n_success / n_total) * 100))
 
-        yerr = [yerr_low, yerr_high]
-        bars = ax.bar(
-            x + offset[i] * width, values, width,
-            label=outcome, color=COLORS[outcome],
-            yerr=yerr, capsize=4, error_kw={"elinewidth": 1.2, "ecolor": "black"}
-        )
-        ax.bar_label(bars, padding=3, fontsize=8)
+    _ = ax.bar(x, success_vals, width, label=TRIP_OUTCOMES[0], color=COLORS[TRIP_OUTCOMES[0]])
+    _ = ax.bar(x, failure_vals, width, bottom=success_vals, label=TRIP_OUTCOMES[1], color=COLORS[TRIP_OUTCOMES[1]])
+
+    ax.errorbar(
+        x, success_vals,
+        yerr=[ci_low, ci_high],
+        fmt="none", ecolor="black", elinewidth=1.2, capsize=4
+    )
+
+    for xi, (sv, fv) in enumerate(zip(success_vals, failure_vals)):
+        ax.text(xi, sv / 2, f"{sv:.1f}%", ha="center", va="center", fontsize=8, color="white", fontweight="bold")
+        if fv > 0:
+            ax.text(xi, sv + fv / 2, f"{fv:.1f}%", ha="center", va="center", fontsize=8, color="white", fontweight="bold")
 
     ax.set_xticks(x)
     ax.set_xticklabels([t.replace("_", " ").title() for t in TRIP_TYPES], rotation=15, ha="right")
-    ax.set_ylabel("Count")
-    ax.set_title("Success Rate of Individual Behaviours in the Simulator")
+    ax.set_ylabel("Success Rate (%)")
+    ax.set_ylim(0, 115)
+    ax.set_title(f"Success Rate of Individual Behaviours - {device_type.capitalize()}")
 
     ci_handle = Line2D([0], [0], color="black", linewidth=1.2, label="95% Wilson CI")
-    handles,_ = ax.get_legend_handles_labels()
+    handles, _ = ax.get_legend_handles_labels()
     ax.legend(
         handles=handles + [ci_handle],
         loc="upper center",
         bbox_to_anchor=(0.5, -0.18),
-        ncol=4,
+        ncol=3,
         frameon=True,
         framealpha=0.9,
         fontsize=9,
@@ -199,14 +212,12 @@ def plot_behaviours(outcomes):
         handletextpad=0.6
     )
 
-    ax.set_ylim(0, max(outcomes[t][o] for t in TRIP_TYPES for o in TRIP_OUTCOMES) + 6)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
-
     plt.tight_layout(pad=0.5)
-    plt.savefig("plots/behaviour_plot_simulator.png", dpi=150, bbox_inches="tight")
+    plt.savefig(f"plots/behaviour_plot_{device_type}.png", dpi=150, bbox_inches="tight")
     plt.close()
 
-def plot_wall_distances(distances):
+def plot_wall_distances(distances, device_type):
     fig, ax = plt.subplots(figsize=(4, 4))
     q1, q3 = np.percentile(distances, [25, 75])
     iqr = q3 - q1
@@ -225,19 +236,19 @@ def plot_wall_distances(distances):
 
     ax.set_xticks([])
     ax.set_ylabel("Distance (m)")
-    ax.set_title("Right Wall Distance (m) - Simulator")
+    ax.set_title(f"Right Wall Distance (m) - {device_type.capitalize()}")
     ax.grid(axis="y", linestyle="--", alpha=0.4)
 
     plt.tight_layout(pad=0.5)
-    plt.savefig("plots/wall_distances_simulator.png", dpi=150, bbox_inches="tight")
+    plt.savefig(f"plots/wall_distances_{device_type}.png", dpi=150, bbox_inches="tight")
     plt.close()
 
 def main():
-    trips = load_trips(DATA_DIR)
+    trips, device_type = load_trips(DATA_DIR)
     outcomes = compute_outcome_counts(trips)
     distances = get_wall_distances(trips)
 
-    plot_behaviours(outcomes=outcomes)
-    plot_wall_distances(distances=distances)
+    plot_behaviours(outcomes=outcomes, device_type=device_type)
+    plot_wall_distances(distances=distances, device_type=device_type)
 if __name__ == "__main__":
     main()
