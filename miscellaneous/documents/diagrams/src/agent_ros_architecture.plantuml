@@ -2,7 +2,7 @@
 ' --- Arrange horizontally ---
 left to right direction
 
-skinparam defaultFontSize 24
+skinparam defaultFontSize 32
 skinparam packageStyle rect
 skinparam shadowing false
 skinparam backgroundColor white
@@ -32,6 +32,10 @@ package "Control" {
     circle "action_translator" <<Python>> as action_translator
 }
 
+package "Tools" {
+    circle "data_collector" <<Python>> as data_collector
+}
+
 rectangle "Jason" as jason
 circle "iRobot CREATE" as robot
 
@@ -51,6 +55,9 @@ Java_agent <--> jason
 Java_agent --> navigator: /agent_request
 belief_generator --> Java_agent: /beliefs
 Java_agent --> action_translator: /actions
+
+belief_generator --> data_collector: /beliefs
+Java_agent --> data_collector: /actions
 
 action_translator --> robot : /cmd_vel\n/dock
 

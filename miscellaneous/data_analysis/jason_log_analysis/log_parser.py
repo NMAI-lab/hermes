@@ -4,11 +4,11 @@ from collections import defaultdict
 import matplotlib.pyplot as plt
 import numpy as np
 
-#LOG_FILE = "logs/hermes_simulator.log"
-#NAME = "Simulator"
+LOG_FILE = "logs/hermes_simulator.log"
+NAME = "Simulator"
 
-LOG_FILE = "logs/hermes_robot.log"
-NAME = "Robot"
+#LOG_FILE = "logs/hermes_robot.log"
+#NAME = "Robot"
 
 def parse_log(path):
     tree = ET.parse(path)
@@ -77,7 +77,7 @@ def compute_timings(cycles):
     return cycle_durations, stage_durations
 
 def combined_violin_box(cycle_times, stage_times, out_file):
-    labels = ["Total Reasoning Time"]
+    labels = ["Total Time"]
     data = [cycle_times]
 
     for stage, times in stage_times.items():
@@ -86,48 +86,64 @@ def combined_violin_box(cycle_times, stage_times, out_file):
         labels.append(stage)
         data.append(times)
 
+    def filter_iqr(values, whis=1.5):
+        arr = np.array(values)
+        q1, q3 = np.percentile(arr, 25), np.percentile(arr, 75)
+        iqr = q3 - q1
+        return arr[(arr >= q1 - whis * iqr) & (arr <= q3 + whis * iqr)]
+
+    data_ms = [np.array(d) * 1000 for d in data]
+    filtered_data = [filter_iqr(d) for d in data_ms]
+
     fig, ax = plt.subplots(figsize=(10, 5))
 
+    for i, (original, filtered) in enumerate(zip(data_ms, filtered_data), start=1):
+        outliers = original[~np.isin(original, filtered)]
+        if len(outliers) > 0:
+            ax.scatter(
+                [i] * len(outliers),
+                outliers,
+                color='gray',
+                alpha=0.3,
+                s=15,
+                zorder=1
+            )
+
     ax.boxplot(
-        data,
+        filtered_data,
         vert=True,
         whis=1.5,
-        showfliers=True,
+        showfliers=False,
         widths=0.6
     )
 
     ax.set_yscale("log")
 
-    for i, values in enumerate(data, start=1):
-        values_ms = np.array(values) * 1000.0
-
-        mean = np.mean(values_ms)
-        std  = np.std(values_ms, ddof=1) if len(values_ms) > 1 else 0.0
-
-        label = f"{mean:.3f} ± {std:.3f} ms"
+    for i, values in enumerate(filtered_data, start=1):
+        mean = np.mean(values)
+        std  = np.std(values, ddof=1) if len(values) > 1 else 0.0
 
         ax.text(
-            i + 0.4,          
+            i + 0.4,
             max(values),
-            label,
-            fontsize=9,
+            f"{mean:.3f} ± {std:.3f} ms",
+            fontsize=13,
             ha='right',
             va='bottom',
             color='black',
             zorder=10
         )
 
-
     ax.set_xticks(range(1, len(labels) + 1))
-    ax.set_xticklabels(labels, rotation=30, ha="right")
+    ax.set_xticklabels(labels, rotation=30, ha="right", fontsize=14)
 
+    ax.tick_params(axis='y', labelsize=14)
+    ax.set_ylabel("Time (ms)", fontsize=14)
+    ax.set_title("Total and Per Stage Reasoning Time Distributions for " + NAME, fontsize=15)
 
-    ax.set_ylabel("Time (s)")
-    ax.set_title("Total and Per Stage Reasoning Time Distributions for " + NAME)
-
-    plt.tight_layout()
-    file_name = "plots/" + out_file + "_time_distribution.png"
-    plt.savefig(file_name, dpi=300)
+    plt.tight_layout(pad=0.5)
+    file_name = "plots/" + out_file.lower() + "_time_distribution.png"
+    plt.savefig(file_name, dpi=300, bbox_inches='tight')
     plt.close()
 
     print(f"Saved plot to {file_name}")

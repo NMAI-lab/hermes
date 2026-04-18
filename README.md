@@ -408,7 +408,7 @@ Hermes is designed to be fully automated allowing it to run multiple headless ru
 $ ./run_experiment.sh
 ```
 
-The results of this experiment along with an analysis of them are located at [trip_data_analysis](miscellaneous/data_analysis/metrics_analysis/)
+The results of this experiment along with an analysis of both the robot and Jason's performance are located at [data_analysis](miscellaneous/data_analysis/)
 
 ## Project Structure
 - **hermes_create_description:** This package includes the Gazebo descriptions for the robotcs, sensors, and the dock station. It also includes the appropriate launch files for spawning these objects.
