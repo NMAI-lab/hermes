@@ -22,12 +22,12 @@ def launch_setup(context, *args, **kwargs):
     map_params_yaml_file = os.path.join(
         pkg_hermes_environment,
         'config',
-        LaunchConfiguration('map').perform(context)
+        'map_params.yaml'
     )
     map_file = os.path.join(
         pkg_hermes_environment,
         'worlds',
-        'map.json'
+        LaunchConfiguration('map').perform(context)
     )
     beacons_list_yaml_file = os.path.join(
         pkg_hermes_environment,
