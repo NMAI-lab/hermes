@@ -98,6 +98,10 @@ class DataCollector(Node):
         self.trial_data['actions'].append(action['name'])
         self.flush()
     
+    def _signal_handler(self, signum, frame):
+        self._shutting_down = True
+        raise KeyboardInterrupt
+
     def flush(self):
         '''
         Writes down the metrics into the JSON file.
