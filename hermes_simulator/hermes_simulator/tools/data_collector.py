@@ -5,6 +5,7 @@ from std_msgs.msg import String
 import json
 import os
 import signal
+import tempfile
 from datetime import datetime
 
 from hermes_simulator.tools.yaml_parser import load_yaml
@@ -25,6 +26,7 @@ class DataCollector(Node):
         super().__init__('data_collector')
 
         self.observations = {}
+        self._shutting_down = False
 
         # Declare the parameters
         self.declare_parameter('data_collector_params')
@@ -52,7 +54,8 @@ class DataCollector(Node):
 
         self.flush()
         
-        signal.signal(signal.SIGTERM, self.shutdown_handler)
+        signal.signal(signal.SIGINT, self._signal_handler)
+        signal.signal(signal.SIGTERM, self._signal_handler)
         
         self.beliefs_subscriber = self.create_subscription(String, 
                                                            self.data_collector_params['beliefs_subscriber_topic'],
@@ -65,53 +68,36 @@ class DataCollector(Node):
                                                            self.data_collector_params['queue_size'])
         
     def decode_beliefs(self, beliefs_data):
-        '''
-        The callback for /beliefs.
-        Reads the beliefs and collects the necessary metrics.
-
-        Parameters:
-        - beliefs_data(String): The current beliefs of the agent.
-        '''
+        if self._shutting_down:
+            return
+            
         beliefs = get_msg_content_as_dict(beliefs_data)
 
         if 'wall_following' in beliefs:
             self.trial_data['wall_following'].append(
                 {'right_wall_distance': beliefs['wall_following']['right_wall_dist'],
                  'intersection': 'intersection' in beliefs}
-                 )
+                )
 
         if 'bumper' in beliefs and beliefs['bumper']['bump']:
-             self.trial_data['bumps'] += 1
+            self.trial_data['bumps'] += 1
 
         if 'dock_station' in beliefs and beliefs['dock_station']['is_docked']:
-             self.trial_data['docked'] = True
+            self.trial_data['docked'] = True
 
         if 'navigation' in beliefs and beliefs['navigation'] != 'NONE':
-             self.trial_data['navigation_instructions'].append(beliefs['navigation'])
+            self.trial_data['navigation_instructions'].append(beliefs['navigation'])
         
         self.flush()
 
     def decode_actions(self, actions_data):
-        '''
-        The callback for /actions.
-        Reads the actions and collects the necessary metrics.
-
-        Parameters:
-        - actions_data(String): The current actions of the agent.
-        '''
+        if self._shutting_down:
+            return
+            
         action = get_msg_content_as_dict(actions_data)
         self.trial_data['actions'].append(action['name'])
         self.flush()
     
-    def shutdown_handler(self, signum, frame):
-        '''
-        The handler for when the node receives a SIG_TERM.
-        '''
-        self.get_logger().info('SIGTERM received, flushing final data...')
-        self.trial_data['end_time'] = datetime.now().isoformat()
-        self.flush()
-        rclpy.shutdown()
-
     def flush(self):
         '''
         Writes down the metrics into the JSON file.
@@ -122,18 +108,31 @@ class DataCollector(Node):
         else:
             self.all_trials.append(self.trial_data)
         
-        with open(self.output_file, 'w') as f:
-            json.dump(self.all_trials, f, indent=2)
-            f.flush()
-            os.fsync(f.fileno())
+        output_dir = os.path.dirname(os.path.abspath(self.output_file))
+        with tempfile.NamedTemporaryFile('w', dir=output_dir, delete=False, suffix='.tmp') as tmp:
+            tmp_path = tmp.name
+            json.dump(self.all_trials, tmp, indent=2)
+            tmp.flush()
+            os.fsync(tmp.fileno())
+        
+        os.replace(tmp_path, self.output_file)
+
 
 def main(args=None):
     '''
     Starts up the node. 
     '''
     rclpy.init(args=args)
-    beacon_sensor = DataCollector()
-    rclpy.spin(beacon_sensor)
-    
+    data_collector = DataCollector()
+
+    try:
+        rclpy.spin(data_collector)
+    finally:
+        data_collector.get_logger().info('Shutting down, writing final data...')
+        data_collector.trial_data['end_time'] = datetime.now().isoformat()
+        data_collector.flush()
+        data_collector.destroy_node()
+        rclpy.shutdown()
+
 if __name__ == '__main__':
     main()

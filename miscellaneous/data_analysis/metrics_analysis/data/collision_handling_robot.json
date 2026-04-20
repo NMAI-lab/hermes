@@ -1,0 +1,3722 @@
+[
+  {
+    "start_time": "2026-04-19T18:12:58.322645",
+    "end_time": "2026-04-19T18:13:21.934089",
+    "navigation_instructions": [
+      "START",
+      "DOCK"
+    ],
+    "wall_following": [
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.309,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.311,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.317,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.325,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.334,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.345,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.356,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.367,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.379,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.391,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.404,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.417,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.425,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.431,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.433,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.43,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.425,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.416,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.407,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.396,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.385,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.379,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.373,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.37,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.373,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.377,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.385,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.394,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.404,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.416,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.423,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.428,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.431,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.428,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.422,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.414,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.405,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.394,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.382,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.371,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.363,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.316,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.263,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.198,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.142,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.112,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.11,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.113,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.133,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.172,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.229,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.288,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.33,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.322,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.313,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.308,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.306,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.306,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.313,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.326,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.341,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.357,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.377,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.385,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.357,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.326,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.31,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.308,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.315,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.327,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.343,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.36,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.438,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.494,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.56,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.534,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.485,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.459,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.459,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.463,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.464,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.464,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.463,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.46,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.457,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.454,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.449,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.444,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.438,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.432,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.424,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.414,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.403,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.392,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.381,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.375,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.371,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.369,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.373,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.38,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.389,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.4,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.409,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.418,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.426,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.434,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.441,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.444,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.445,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.444,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.442,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.44,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.436,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.432,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.429,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.424,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.42,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.415,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.41,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.409,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.415,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.429,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.394,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.322,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.294,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.273,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.258,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.252,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.254,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.259,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.266,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.275,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.284,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.294,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.305,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.316,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.327,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.339,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.362,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.375,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.387,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.4,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.419,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.443,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.456,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.463,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.466,
+        "intersection": false
+      }
+    ],
+    "actions": [
+      "request_trip",
+      "disable_safety",
+      "cmd_vel(0.2,0,0,0,0,0.5832861339862797)",
+      "cmd_vel(0.2,0,0,0,0,0.5949324466477487)",
+      "cmd_vel(0.2,0,0,0,0,0.5949324466477487)",
+      "cmd_vel(0.2,0,0,0,0,0.5017619453559968)",
+      "cmd_vel(0.2,0,0,0,0,0.30959778644175856)",
+      "cmd_vel(0.2,0,0,0,0,0.2455430668036792)",
+      "cmd_vel(0.2,0,0,0,0,0.18731150349633446)",
+      "cmd_vel(0.2,0,0,0,0,0.1407262528504583)",
+      "cmd_vel(0.2,0,0,0,0,-0.3945188354093095)",
+      "cmd_vel(0.2,0,0,0,0,-0.4643967113781234)",
+      "cmd_vel(0.2,0,0,0,0,-0.9472333926612807)",
+      "cmd_vel(0.2,0,0,0,0,-0.8715323603617324)",
+      "cmd_vel(0.2,0,0,0,0,-0.6269597944708837)",
+      "cmd_vel(0.2,0,0,0,0,-0.5629050748328043)",
+      "cmd_vel(0.2,0,0,0,0,0.14703470334899832)",
+      "cmd_vel(0.2,0,0,0,0,0.23438204831001574)",
+      "cmd_vel(0.2,0,0,0,0,0.75215766757758)",
+      "cmd_vel(0.2,0,0,0,0,0.7405113549161112)",
+      "cmd_vel(0.2,0,0,0,0,0.5483471960018728)",
+      "cmd_vel(0.2,0,0,0,0,0.5134082580174658)",
+      "cmd_vel(0.2,0,0,0,0,-0.24311677081021266)",
+      "cmd_vel(0.2,0,0,0,0,-0.2838788651253542)",
+      "cmd_vel(0.2,0,0,0,0,-0.8657092040309978)",
+      "cmd_vel(0.2,0,0,0,0,-0.819123953385122)",
+      "cmd_vel(0.2,0,0,0,0,-0.6327829508016182)",
+      "cmd_vel(0.2,0,0,0,0,-0.522142980517663)",
+      "cmd_vel(0.2,0,0,0,0,0.14703470334899832)",
+      "cmd_vel(0.2,0,0,0,0,0.275144142625157)",
+      "cmd_vel(0.2,0,0,0,0,0.7929197618927216)",
+      "cmd_vel(0.2,0,0,0,0,1.5673995538804089)",
+      "cmd_vel(0.2,0,0,0,0,1.5673995538804089)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,1.5673995538804089)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.4,0,0,0,0,0.012616813574299598)",
+      "cmd_vel(0.2,0,0,0,0,0.7992282123912613)",
+      "cmd_vel(0.2,0,0,0,0,1.3519427696432327)",
+      "cmd_vel(0.2,0,0,0,0,1.072431265767977)",
+      "cmd_vel(0.2,0,0,0,0,0.5308777270096693)",
+      "cmd_vel(0.2,0,0,0,0,0.1174336275275205)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-0.9996417996378911)",
+      "cmd_vel(0.2,0,0,0,0,-0.8307702660465909)",
+      "cmd_vel(0.2,0,0,0,0,-0.760892390077777)",
+      "cmd_vel(0.2,0,0,0,0,-0.6968376704396976)",
+      "cmd_vel(0.2,0,0,0,0,-0.6094903254786802)",
+      "cmd_vel(0.2,0,0,0,0,-0.5396124495098662)",
+      "cmd_vel(0.2,0,0,0,0,-0.522142980517663)",
+      "cmd_vel(0.2,0,0,0,0,-0.4580882608795834)",
+      "cmd_vel(0.2,0,0,0,0,-0.3882103849107694)",
+      "cmd_vel(0.2,0,0,0,0,0.28679045528662594)",
+      "cmd_vel(0.2,0,0,0,0,0.28679045528662594)",
+      "cmd_vel(0.2,0,0,0,0,0.7638039802390489)",
+      "cmd_vel(0.2,0,0,0,0,0.6822797916087661)",
+      "cmd_vel(0.2,0,0,0,0,0.5483471960018728)",
+      "cmd_vel(0.2,0,0,0,0,-0.10336101887258478)",
+      "cmd_vel(0.2,0,0,0,0,-0.3129946467790266)",
+      "cmd_vel(0.2,0,0,0,0,-0.35957989742490243)",
+      "cmd_vel(0.2,0,0,0,0,-0.9239407673383428)",
+      "cmd_vel(0.2,0,0,0,0,-0.9297639236690772)",
+      "cmd_vel(0.2,0,0,0,0,-0.8424165787080599)",
+      "cmd_vel(0.2,0,0,0,0,-0.7841850154007151)",
+      "cmd_vel(0.2,0,0,0,0,-0.6618987324552906)",
+      "cmd_vel(0.2,0,0,0,0,-0.6269597944708837)",
+      "cmd_vel(0.2,0,0,0,0,-0.5629050748328043)",
+      "cmd_vel(0.2,0,0,0,0,-0.5454356058406008)",
+      "cmd_vel(0.4,0,0,0,0,0.0014557950806358643)",
+      "cmd_vel(0.4,0,0,0,0,0.018925264072839346)",
+      "cmd_vel(0.4,0,0,0,0,-0.05677576822670891)",
+      "cmd_vel(0.2,0,0,0,0,-0.17906205117213328)",
+      "cmd_vel(0.2,0,0,0,0,1.0379776219513754)",
+      "cmd_vel(0.2,0,0,0,0,1.5673995538804089)",
+      "cmd_vel(0.2,0,0,0,0,1.5615763975496744)",
+      "cmd_vel(0.2,0,0,0,0,1.381058551296905)",
+      "cmd_vel(0.2,0,0,0,0,0.9792607644762251)",
+      "cmd_vel(0.2,0,0,0,0,0.7055724169317041)",
+      "cmd_vel(0.2,0,0,0,0,0.4726461637023245)",
+      "cmd_vel(0.2,0,0,0,0,0.30959778644175856)",
+      "cmd_vel(0.2,0,0,0,0,0.2455430668036792)",
+      "cmd_vel(0.2,0,0,0,0,0.15819572184266179)",
+      "cmd_vel(0.2,0,0,0,0,0.12325678385825484)",
+      "cmd_vel(0.2,0,0,0,0,0.08831784587384811)",
+      "cmd_vel(0.2,0,0,0,0,0.09996415853531702)",
+      "cmd_vel(0.4,0,0,0,0,0.03590943889723766)",
+      "cmd_vel(0.2,0,0,0,0,-0.5109819620239993)",
+      "cmd_vel(0.2,0,0,0,0,-0.49351249303179573)",
+      "cmd_vel(0.2,0,0,0,0,-0.9821723306456877)",
+      "cmd_vel(0.2,0,0,0,0,-0.9181176110076084)"
+    ],
+    "bumps": 2,
+    "docked": false
+  },
+  {
+    "start_time": "2026-04-19T18:16:25.313799",
+    "end_time": "2026-04-19T18:16:48.635236",
+    "navigation_instructions": [
+      "START",
+      "DOCK"
+    ],
+    "wall_following": [
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.57,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.564,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.556,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.546,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.536,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.524,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.51,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.497,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.481,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.459,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.435,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.421,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.4,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.371,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.341,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.319,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.307,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.304,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.305,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.308,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.315,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.322,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.331,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.341,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.363,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.375,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.387,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.399,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.41,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.417,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.422,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.425,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.427,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.425,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.419,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.411,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.401,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.39,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.375,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.367,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.366,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.366,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.369,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.379,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.392,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.41,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.427,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.443,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.46,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.476,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.488,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.495,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.499,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.5,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.5,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.503,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.507,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.488,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.465,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.44,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.415,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.377,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.241,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.222,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.211,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.212,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.211,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.212,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.213,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.223,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.236,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.257,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.287,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.325,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.366,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.404,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.389,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.386,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.396,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.424,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.418,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.404,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.394,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.388,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.386,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.388,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.392,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.397,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.404,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.411,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.419,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.428,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.436,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.444,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.451,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.454,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.455,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.454,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.45,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.441,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.43,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.422,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.413,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.406,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.4,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.394,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.394,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.396,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.4,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.409,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.428,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.446,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.457,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.465,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.472,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.474,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.473,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.47,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.464,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.459,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.456,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.452,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.45,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.444,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.434,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.425,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.413,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.404,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.396,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.389,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.389,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.393,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.399,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.395,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.391,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.392,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.399,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.411,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.382,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.347,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.323,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.299,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.275,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.257,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.247,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.244,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.247,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.253,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.261,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.27,
+        "intersection": false
+      }
+    ],
+    "actions": [
+      "request_trip",
+      "disable_safety",
+      "cmd_vel(0.2,0,0,0,0,-0.4580882608795834)",
+      "cmd_vel(0.2,0,0,0,0,-0.4580882608795834)",
+      "cmd_vel(0.2,0,0,0,0,-0.4697345735410525)",
+      "cmd_vel(0.2,0,0,0,0,-0.4347956355566456)",
+      "cmd_vel(0.2,0,0,0,0,-0.29503988361901773)",
+      "cmd_vel(0.2,0,0,0,0,-0.2601009456346107)",
+      "cmd_vel(0.4,0,0,0,0,-0.08540625571257614)",
+      "cmd_vel(0.2,0,0,0,0,-0.11452203736624852)",
+      "cmd_vel(0.4,0,0,0,0,-0.050467317728169044)",
+      "cmd_vel(0.4,0,0,0,0,-0.03882100506670014)",
+      "cmd_vel(0.2,0,0,0,0,0.5488324901696782)",
+      "cmd_vel(0.2,0,0,0,0,1.0200228587913667)",
+      "cmd_vel(0.2,0,0,0,0,1.0083765461298977)",
+      "cmd_vel(0.2,0,0,0,0,0.9035597321766767)",
+      "cmd_vel(0.2,0,0,0,0,0.6298713846321556)",
+      "cmd_vel(0.2,0,0,0,0,0.5541703523326074)",
+      "cmd_vel(0.2,0,0,0,0,0.362006193418369)",
+      "cmd_vel(0.2,0,0,0,0,0.25136622313441376)",
+      "cmd_vel(0.2,0,0,0,0,0.16984203450413096)",
+      "cmd_vel(0.2,0,0,0,0,0.1407262528504583)",
+      "cmd_vel(0.2,0,0,0,0,-0.4469272423859199)",
+      "cmd_vel(0.2,0,0,0,0,-0.48186618037032686)",
+      "cmd_vel(0.2,0,0,0,0,-0.3886956790785749)",
+      "cmd_vel(0.2,0,0,0,0,-0.8365934223773255)",
+      "cmd_vel(0.2,0,0,0,0,-0.72595345209337)",
+      "cmd_vel(0.2,0,0,0,0,-0.5920208564864767)",
+      "cmd_vel(0.4,0,0,0,0,0.06551051471871547)",
+      "cmd_vel(0.2,0,0,0,0,0.1819736413334053)",
+      "cmd_vel(0.2,0,0,0,0,0.7929197618927216)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,-0.5861977001557424)",
+      "cmd_vel(0.2,0,0,0,0,0.5202020026838111)",
+      "cmd_vel(0.2,0,0,0,0,0.4910862210301386)",
+      "cmd_vel(0.2,0,0,0,0,1.020508152959172)",
+      "cmd_vel(0.2,0,0,0,0,1.544106928557471)",
+      "cmd_vel(0.2,0,0,0,0,1.3286501443202947)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,1.0433154841143046)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5488324901696782)",
+      "cmd_vel(0.2,0,0,0,0,0.2926136116173605)",
+      "cmd_vel(0.2,0,0,0,0,0.14703470334899832)",
+      "cmd_vel(0.2,0,0,0,0,-0.10336101887258478)",
+      "cmd_vel(0.2,0,0,0,0,-0.2547630834716816)",
+      "cmd_vel(0.2,0,0,0,0,-0.35957989742490243)",
+      "cmd_vel(0.2,0,0,0,0,-0.9297639236690772)",
+      "cmd_vel(0.2,0,0,0,0,-0.9297639236690772)",
+      "cmd_vel(0.2,0,0,0,0,-0.8307702660465909)",
+      "cmd_vel(0.2,0,0,0,0,-0.7201302957626357)",
+      "cmd_vel(0.2,0,0,0,0,-0.45226510454884905)",
+      "cmd_vel(0.2,0,0,0,0,-0.359094603257097)",
+      "cmd_vel(0.2,0,0,0,0,-0.359094603257097)",
+      "cmd_vel(0.2,0,0,0,0,0.14703470334899832)",
+      "cmd_vel(0.2,0,0,0,0,0.12956523435679482)",
+      "cmd_vel(0.4,0,0,0,0,0.0014557950806358643)",
+      "cmd_vel(0.2,0,0,0,0,-0.17323889484139873)",
+      "cmd_vel(0.2,0,0,0,0,-0.9355870799998118)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-0.9996417996378911)",
+      "cmd_vel(0.2,0,0,0,0,-0.8307702660465909)",
+      "cmd_vel(0.2,0,0,0,0,-0.7434229210855735)",
+      "cmd_vel(0.2,0,0,0,0,-0.6153134818094147)",
+      "cmd_vel(0.2,0,0,0,0,-0.5745513874942733)",
+      "cmd_vel(0.2,0,0,0,0,-0.522142980517663)",
+      "cmd_vel(0.2,0,0,0,0,-0.5104966678561939)",
+      "cmd_vel(0.2,0,0,0,0,-0.3066861962804866)",
+      "cmd_vel(0.2,0,0,0,0,-0.29503988361901773)",
+      "cmd_vel(0.2,0,0,0,0,0.22273573564854657)",
+      "cmd_vel(0.2,0,0,0,0,0.1936199539948742)",
+      "cmd_vel(0.2,0,0,0,0,0.14703470334899832)",
+      "cmd_vel(0.4,0,0,0,0,-0.04512945556524001)",
+      "cmd_vel(0.2,0,0,0,0,0.15868101601046722)",
+      "cmd_vel(0.4,0,0,0,0,0.0305715767343085)",
+      "cmd_vel(0.2,0,0,0,0,-0.18488520750286763)",
+      "cmd_vel(0.2,0,0,0,0,-0.29552517778682313)",
+      "cmd_vel(0.2,0,0,0,0,1.4916985215808605)",
+      "cmd_vel(0.2,0,0,0,0,1.544106928557471)",
+      "cmd_vel(0.2,0,0,0,0,1.4684058962579225)",
+      "cmd_vel(0.2,0,0,0,0,1.276241737343684)",
+      "cmd_vel(0.2,0,0,0,0,0.9210292011688802)",
+      "cmd_vel(0.2,0,0,0,0,0.6531640099550937)",
+      "cmd_vel(0.2,0,0,0,0,0.3852988187413071)",
+      "cmd_vel(0.2,0,0,0,0,0.30377463011102424)"
+    ],
+    "bumps": 2,
+    "docked": false
+  },
+  {
+    "start_time": "2026-04-19T18:17:27.654403",
+    "end_time": "2026-04-19T18:17:45.762135",
+    "navigation_instructions": [
+      "START",
+      "DOCK"
+    ],
+    "wall_following": [
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.353,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.364,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.384,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.411,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.438,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.455,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.464,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.469,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.468,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.463,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.455,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.447,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.436,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.424,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.411,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.399,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.385,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.377,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.37,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.365,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.367,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.371,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.378,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.387,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.397,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.324,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.291,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.274,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.252,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.233,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.234,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.239,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.255,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.284,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.325,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.37,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.35,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.33,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.312,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.299,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.292,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.292,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.298,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.314,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.336,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.36,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.389,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.381,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.355,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.324,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.306,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.304,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.311,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.322,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.337,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.38,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.413,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 1.85,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.443,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.453,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 1.782,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 1.786,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 1.632,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.508,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.516,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.514,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.518,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.518,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.514,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.508,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.503,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.496,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.489,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.483,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.476,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.469,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.463,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.457,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.451,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.445,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.439,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.433,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.427,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.422,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.416,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.41,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.405,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.399,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.399,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.411,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.382,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.347,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.323,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.299,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.275,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.257,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.247,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.244,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.247,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.253,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.261,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.27,
+        "intersection": false
+      }
+    ],
+    "actions": [
+      "request_trip",
+      "disable_safety",
+      "cmd_vel(0.2,0,0,0,0,-0.4580882608795834)",
+      "cmd_vel(0.2,0,0,0,0,-0.4580882608795834)",
+      "cmd_vel(0.2,0,0,0,0,-0.4697345735410525)",
+      "cmd_vel(0.2,0,0,0,0,-0.4347956355566456)",
+      "cmd_vel(0.2,0,0,0,0,-0.29503988361901773)",
+      "cmd_vel(0.2,0,0,0,0,-0.2601009456346107)",
+      "cmd_vel(0.4,0,0,0,0,-0.08540625571257614)",
+      "cmd_vel(0.2,0,0,0,0,-0.11452203736624852)",
+      "cmd_vel(0.4,0,0,0,0,-0.050467317728169044)",
+      "cmd_vel(0.4,0,0,0,0,-0.03882100506670014)",
+      "cmd_vel(0.2,0,0,0,0,0.5488324901696782)",
+      "cmd_vel(0.2,0,0,0,0,1.0200228587913667)",
+      "cmd_vel(0.2,0,0,0,0,1.0083765461298977)",
+      "cmd_vel(0.2,0,0,0,0,0.9035597321766767)",
+      "cmd_vel(0.2,0,0,0,0,0.6298713846321556)",
+      "cmd_vel(0.2,0,0,0,0,0.5541703523326074)",
+      "cmd_vel(0.2,0,0,0,0,0.362006193418369)",
+      "cmd_vel(0.2,0,0,0,0,0.25136622313441376)",
+      "cmd_vel(0.2,0,0,0,0,0.16984203450413096)",
+      "cmd_vel(0.2,0,0,0,0,0.1407262528504583)",
+      "cmd_vel(0.2,0,0,0,0,-0.4469272423859199)",
+      "cmd_vel(0.2,0,0,0,0,-0.48186618037032686)",
+      "cmd_vel(0.2,0,0,0,0,-0.3886956790785749)",
+      "cmd_vel(0.2,0,0,0,0,-0.8365934223773255)",
+      "cmd_vel(0.2,0,0,0,0,-0.72595345209337)",
+      "cmd_vel(0.2,0,0,0,0,-0.5920208564864767)",
+      "cmd_vel(0.4,0,0,0,0,0.06551051471871547)",
+      "cmd_vel(0.2,0,0,0,0,0.1819736413334053)",
+      "cmd_vel(0.2,0,0,0,0,0.7929197618927216)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,-0.5861977001557424)",
+      "cmd_vel(0.2,0,0,0,0,0.5202020026838111)",
+      "cmd_vel(0.2,0,0,0,0,0.4910862210301386)",
+      "cmd_vel(0.2,0,0,0,0,1.020508152959172)",
+      "cmd_vel(0.2,0,0,0,0,1.544106928557471)",
+      "cmd_vel(0.2,0,0,0,0,1.3286501443202947)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,1.0433154841143046)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5488324901696782)",
+      "cmd_vel(0.2,0,0,0,0,0.2926136116173605)",
+      "cmd_vel(0.2,0,0,0,0,0.14703470334899832)",
+      "cmd_vel(0.2,0,0,0,0,-0.10336101887258478)",
+      "cmd_vel(0.2,0,0,0,0,-0.2547630834716816)",
+      "cmd_vel(0.2,0,0,0,0,-0.35957989742490243)",
+      "cmd_vel(0.2,0,0,0,0,-0.9297639236690772)",
+      "cmd_vel(0.2,0,0,0,0,-0.9297639236690772)",
+      "cmd_vel(0.2,0,0,0,0,-0.8307702660465909)",
+      "cmd_vel(0.2,0,0,0,0,-0.7201302957626357)",
+      "cmd_vel(0.2,0,0,0,0,-0.45226510454884905)",
+      "cmd_vel(0.2,0,0,0,0,-0.359094603257097)",
+      "cmd_vel(0.2,0,0,0,0,-0.359094603257097)",
+      "cmd_vel(0.2,0,0,0,0,0.14703470334899832)",
+      "cmd_vel(0.2,0,0,0,0,0.12956523435679482)",
+      "cmd_vel(0.4,0,0,0,0,0.0014557950806358643)",
+      "cmd_vel(0.2,0,0,0,0,-0.17323889484139873)",
+      "cmd_vel(0.2,0,0,0,0,-0.9355870799998118)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-0.9996417996378911)",
+      "cmd_vel(0.2,0,0,0,0,-0.8307702660465909)",
+      "cmd_vel(0.2,0,0,0,0,-0.7434229210855735)",
+      "cmd_vel(0.2,0,0,0,0,-0.6153134818094147)",
+      "cmd_vel(0.2,0,0,0,0,-0.5745513874942733)",
+      "cmd_vel(0.2,0,0,0,0,-0.522142980517663)",
+      "cmd_vel(0.2,0,0,0,0,-0.5104966678561939)",
+      "cmd_vel(0.2,0,0,0,0,-0.3066861962804866)",
+      "cmd_vel(0.2,0,0,0,0,-0.29503988361901773)",
+      "cmd_vel(0.2,0,0,0,0,0.22273573564854657)",
+      "cmd_vel(0.2,0,0,0,0,0.1936199539948742)",
+      "cmd_vel(0.2,0,0,0,0,0.14703470334899832)",
+      "cmd_vel(0.4,0,0,0,0,-0.04512945556524001)",
+      "cmd_vel(0.2,0,0,0,0,0.15868101601046722)",
+      "cmd_vel(0.4,0,0,0,0,0.0305715767343085)",
+      "cmd_vel(0.2,0,0,0,0,-0.18488520750286763)",
+      "cmd_vel(0.2,0,0,0,0,-0.29552517778682313)",
+      "cmd_vel(0.2,0,0,0,0,1.4916985215808605)",
+      "cmd_vel(0.2,0,0,0,0,1.544106928557471)",
+      "cmd_vel(0.2,0,0,0,0,1.4684058962579225)",
+      "cmd_vel(0.2,0,0,0,0,1.276241737343684)",
+      "cmd_vel(0.2,0,0,0,0,0.9210292011688802)",
+      "cmd_vel(0.2,0,0,0,0,0.6531640099550937)",
+      "cmd_vel(0.2,0,0,0,0,0.3852988187413071)",
+      "cmd_vel(0.2,0,0,0,0,0.30377463011102424)"
+    ],
+    "bumps": 2,
+    "docked": false
+  },
+  {
+    "start_time": "2026-04-19T18:18:31.051591",
+    "end_time": "2026-04-19T18:18:55.285003",
+    "navigation_instructions": [
+      "START",
+      "DOCK"
+    ],
+    "wall_following": [
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.528,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.524,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.518,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.511,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.501,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.489,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.477,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.464,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.451,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.438,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.424,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.41,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.396,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.382,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.373,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.364,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.359,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.359,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.363,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.37,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.378,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.388,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.399,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.41,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.418,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.424,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.427,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.43,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.43,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.426,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.419,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.414,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.412,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.412,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.412,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.417,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.426,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.438,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.45,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.461,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.468,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.471,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.473,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.475,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.48,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.487,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.495,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.418,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.385,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.505,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.505,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.303,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.305,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.3,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.3,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.313,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.502,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.498,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.493,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.487,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.481,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.475,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.472,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.471,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.472,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.479,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.491,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.506,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.426,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.357,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.331,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.312,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.295,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.288,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.293,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.305,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.319,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.336,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.4,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.652,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 1.728,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 1.78,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 1.694,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.73,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.566,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.524,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.51,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.514,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.516,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.514,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.512,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.507,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.501,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.496,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.488,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.478,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.47,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.462,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.456,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.45,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.444,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.438,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.433,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.432,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.443,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.433,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.426,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.406,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.391,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.375,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.366,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.363,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.363,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.37,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.38,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.394,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.409,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.424,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.437,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.449,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.46,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.465,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.465,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.465,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.463,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.461,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.459,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.457,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.454,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.449,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.444,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.439,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.434,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.428,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.423,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.417,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.412,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.407,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.405,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.405,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.353,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.277,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.202,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.172,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.154,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.154,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.181,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.23,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.298,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.369,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.379,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.374,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.388,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.433,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.473,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.475,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.479,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.481,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.486,
+        "intersection": false
+      }
+    ],
+    "actions": [
+      "request_trip",
+      "disable_safety",
+      "cmd_vel(0.2,0,0,0,0,-0.6211366381401493)",
+      "cmd_vel(0.2,0,0,0,0,-0.6211366381401493)",
+      "cmd_vel(0.2,0,0,0,0,-0.6211366381401493)",
+      "cmd_vel(0.2,0,0,0,0,-0.42897247922591103)",
+      "cmd_vel(0.2,0,0,0,0,-0.35327144692636275)",
+      "cmd_vel(0.2,0,0,0,0,-0.21351569498873488)",
+      "cmd_vel(0.2,0,0,0,0,-0.19022306966579677)",
+      "cmd_vel(0.2,0,0,0,0,-0.12034519369698285)",
+      "cmd_vel(0.2,0,0,0,0,-0.10287572470477938)",
+      "cmd_vel(0.2,0,0,0,0,0.47313145787012983)",
+      "cmd_vel(0.2,0,0,0,0,0.46148514520866074)",
+      "cmd_vel(0.2,0,0,0,0,0.8977365758459422)",
+      "cmd_vel(0.2,0,0,0,0,0.9093828885074114)",
+      "cmd_vel(0.2,0,0,0,0,0.6881029479395007)",
+      "cmd_vel(0.2,0,0,0,0,0.5483471960018728)",
+      "cmd_vel(0.2,0,0,0,0,0.362006193418369)",
+      "cmd_vel(0.2,0,0,0,0,-0.26058623980241613)",
+      "cmd_vel(0.2,0,0,0,0,-0.35957989742490243)",
+      "cmd_vel(0.2,0,0,0,0,-0.34793358476343356)",
+      "cmd_vel(0.2,0,0,0,0,-0.7434229210855735)",
+      "cmd_vel(0.2,0,0,0,0,-0.7375997647548391)",
+      "cmd_vel(0.2,0,0,0,0,-0.5803745438250077)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,-0.6153134818094147)",
+      "cmd_vel(0.2,0,0,0,0,1.04380077828211)",
+      "cmd_vel(0.2,0,0,0,0,-0.6327829508016182)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,-0.6327829508016182)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5202020026838111)",
+      "cmd_vel(0.2,0,0,0,0,1.4916985215808605)",
+      "cmd_vel(0.2,0,0,0,0,1.3635890823047017)",
+      "cmd_vel(0.2,0,0,0,0,0.9152060448381457)",
+      "cmd_vel(0.2,0,0,0,0,0.6124019156399522)",
+      "cmd_vel(0.2,0,0,0,0,0.15819572184266179)",
+      "cmd_vel(0.4,0,0,0,0,9.705009128306911E-4)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-1.0054649559686257)",
+      "cmd_vel(0.2,0,0,0,0,-1.0287575812915635)",
+      "cmd_vel(0.2,0,0,0,0,-0.8598860477002633)",
+      "cmd_vel(0.2,0,0,0,0,-0.6851913577782287)",
+      "cmd_vel(0.2,0,0,0,0,-0.5454356058406008)",
+      "cmd_vel(0.2,0,0,0,0,-0.3823872285800351)",
+      "cmd_vel(0.2,0,0,0,0,-0.359094603257097)",
+      "cmd_vel(0.2,0,0,0,0,-0.359094603257097)",
+      "cmd_vel(0.2,0,0,0,0,-0.37074091591856617)",
+      "cmd_vel(0.2,0,0,0,0,-0.3882103849107694)",
+      "cmd_vel(0.2,0,0,0,0,-0.39403354124150397)",
+      "cmd_vel(0.2,0,0,0,0,-0.4347956355566456)",
+      "cmd_vel(0.2,0,0,0,0,-0.37074091591856617)",
+      "cmd_vel(0.2,0,0,0,0,-0.3649177595878316)",
+      "cmd_vel(0.2,0,0,0,0,0.5488324901696782)",
+      "cmd_vel(0.2,0,0,0,0,0.9909070771376941)",
+      "cmd_vel(0.2,0,0,0,0,0.8511513252000663)",
+      "cmd_vel(0.2,0,0,0,0,0.6298713846321556)",
+      "cmd_vel(0.2,0,0,0,0,0.43770722571791754)",
+      "cmd_vel(0.2,0,0,0,0,-0.3886956790785749)",
+      "cmd_vel(0.2,0,0,0,0,-0.49933564936253033)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-0.9996417996378911)",
+      "cmd_vel(0.2,0,0,0,0,-0.9181176110076084)",
+      "cmd_vel(0.2,0,0,0,0,-0.7725387027392461)",
+      "cmd_vel(0.2,0,0,0,0,-0.7084839831011666)",
+      "cmd_vel(0.2,0,0,0,0,-0.6327829508016182)",
+      "cmd_vel(0.2,0,0,0,0,-0.6094903254786802)",
+      "cmd_vel(0.2,0,0,0,0,-0.5512587621713354)",
+      "cmd_vel(0.2,0,0,0,0,-0.5279661368483973)",
+      "cmd_vel(0.2,0,0,0,0,-0.5104966678561939)",
+      "cmd_vel(0.2,0,0,0,0,-0.48138088620252145)",
+      "cmd_vel(0.4,0,0,0,0,0.05386420205724631)",
+      "cmd_vel(0.4,0,0,0,0,0.05968735838798089)",
+      "cmd_vel(0.4,0,0,0,0,-0.04512945556524001)",
+      "cmd_vel(0.4,0,0,0,0,-0.03930629923450543)",
+      "cmd_vel(0.2,0,0,0,0,1.5673995538804089)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,1.5673995538804089)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5143788463530766)"
+    ],
+    "bumps": 4,
+    "docked": false
+  },
+  {
+    "start_time": "2026-04-19T18:19:39.863711",
+    "end_time": "2026-04-19T18:20:00.391236",
+    "navigation_instructions": [
+      "START",
+      "DOCK"
+    ],
+    "wall_following": [
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.354,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.359,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.368,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.377,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.388,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.4,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.322,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.2,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.171,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.136,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.116,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.117,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.117,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.124,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.141,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.168,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.208,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.255,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.318,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.283,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.253,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.235,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.227,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.231,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.249,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.282,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.32,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.361,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.379,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.364,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.346,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.337,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.342,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.368,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.384,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.435,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.464,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 1.888,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 1.862,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.5,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.51,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 1.784,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 1.786,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 1.77,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 1.502,
+        "intersection": true
+      },
+      {
+        "right_wall_distance": 0.582,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.876,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.604,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.6,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.606,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.608,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.604,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.598,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.592,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.584,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.576,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.568,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.558,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.548,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.536,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.526,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.518,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.512,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.506,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.498,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.491,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.483,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.473,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.461,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.454,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.45,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.454,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.474,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.489,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.486,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.486,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.484,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.479,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.472,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.466,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.46,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.453,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.447,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.44,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.434,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.427,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.42,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.414,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.409,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.41,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.412,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.418,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.403,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.346,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.289,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.239,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.198,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.168,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.149,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.137,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.138,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.138,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.141,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.15,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.164,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.183,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.205,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.225,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.246,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.263,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.275,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.281,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.283,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.283,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.282,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.283,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.286,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.291,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.299,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.308,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.319,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.33,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.341,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.352,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.364,
+        "intersection": false
+      },
+      {
+        "right_wall_distance": 0.377,
+        "intersection": false
+      }
+    ],
+    "actions": [
+      "request_trip",
+      "disable_safety",
+      "cmd_vel(0.2,0,0,0,0,0.717218729593173)",
+      "cmd_vel(0.2,0,0,0,0,0.717218729593173)",
+      "cmd_vel(0.2,0,0,0,0,0.717218729593173)",
+      "cmd_vel(0.2,0,0,0,0,0.5891092903170143)",
+      "cmd_vel(0.2,0,0,0,0,0.49011563269452796)",
+      "cmd_vel(0.2,0,0,0,0,0.2979514737802897)",
+      "cmd_vel(0.2,0,0,0,0,-0.31881780310976093)",
+      "cmd_vel(0.2,0,0,0,0,1.5673995538804089)",
+      "cmd_vel(0.2,0,0,0,0,1.5673995538804089)",
+      "cmd_vel(0.2,0,0,0,0,1.5149911469037982)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.4,0,0,0,0,9.705009128306911E-4)",
+      "cmd_vel(0.2,0,0,0,0,1.1481322980675253)",
+      "cmd_vel(0.2,0,0,0,0,0.9035597321766767)",
+      "cmd_vel(0.2,0,0,0,0,0.4959387890252623)",
+      "cmd_vel(0.2,0,0,0,0,0.1174336275275205)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,0.5202020026838111)",
+      "cmd_vel(0.2,0,0,0,0,0.5202020026838111)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,0.5202020026838111)",
+      "cmd_vel(0.2,0,0,0,0,-1.046227050283767)",
+      "cmd_vel(0.2,0,0,0,0,-1.0404038939530327)",
+      "cmd_vel(0.2,0,0,0,0,-1.0171112686300945)",
+      "cmd_vel(0.2,0,0,0,0,-0.9414102363305463)",
+      "cmd_vel(0.2,0,0,0,0,-0.8482397350387944)",
+      "cmd_vel(0.2,0,0,0,0,-0.5687282311635389)",
+      "cmd_vel(0.2,0,0,0,0,-0.5046735115254595)",
+      "cmd_vel(0.2,0,0,0,0,-0.4173261665644421)",
+      "cmd_vel(0.2,0,0,0,0,-0.39985669757223863)",
+      "cmd_vel(0.2,0,0,0,0,-0.3882103849107694)",
+      "cmd_vel(0.2,0,0,0,0,-0.3882103849107694)",
+      "cmd_vel(0.2,0,0,0,0,-0.3823872285800351)",
+      "cmd_vel(0.2,0,0,0,0,-0.3765640722493005)",
+      "cmd_vel(0.2,0,0,0,0,-0.39403354124150397)",
+      "cmd_vel(0.2,0,0,0,0,-0.39985669757223863)",
+      "cmd_vel(0.2,0,0,0,0,-0.39985669757223863)",
+      "cmd_vel(0.2,0,0,0,0,-0.4173261665644421)",
+      "cmd_vel(0.2,0,0,0,0,-0.41150301023370756)",
+      "cmd_vel(0.2,0,0,0,0,-0.4464419482181145)",
+      "cmd_vel(0.2,0,0,0,0,-0.4347956355566456)",
+      "cmd_vel(0.2,0,0,0,0,-0.40567985390297295)",
+      "cmd_vel(0.2,0,0,0,0,-0.39403354124150397)",
+      "cmd_vel(0.2,0,0,0,0,-0.3882103849107694)",
+      "cmd_vel(0.2,0,0,0,0,-0.3823872285800351)",
+      "cmd_vel(0.2,0,0,0,0,-0.39403354124150397)",
+      "cmd_vel(0.2,0,0,0,0,-0.39403354124150397)",
+      "cmd_vel(0.2,0,0,0,0,-0.40567985390297295)",
+      "cmd_vel(0.2,0,0,0,0,0.11209576536459136)",
+      "cmd_vel(0.4,0,0,0,0,0.08297998371091896)",
+      "cmd_vel(0.4,0,0,0,0,-0.08589154988038131)",
+      "cmd_vel(0.2,0,0,0,0,1.04380077828211)",
+      "cmd_vel(0.2,0,0,0,0,1.5673995538804089)",
+      "cmd_vel(0.2,0,0,0,0,1.5673995538804089)",
+      "cmd_vel(0.2,0,0,0,0,1.276241737343684)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,1.0316691714528357)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(-0.4,0,0,0,0,0)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5235987755982988)",
+      "cmd_vel(0.2,0,0,0,0,0.5599935086633417)",
+      "cmd_vel(0.2,0,0,0,0,0.5017619453559968)",
+      "cmd_vel(0.2,0,0,0,0,0.31542094277249316)",
+      "cmd_vel(0.2,0,0,0,0,0.18148834716559983)",
+      "cmd_vel(0.2,0,0,0,0,0.15237256551192746)",
+      "cmd_vel(0.2,0,0,0,0,0.1174336275275205)",
+      "cmd_vel(0.2,0,0,0,0,0.12325678385825484)"
+    ],
+    "bumps": 2,
+    "docked": false
+  }
+]

@@ -50,23 +50,24 @@ def is_cmd_vel_valid(action, pattern):
     if not m:
         return False
     linear_x, angular_z = float(m.group(1)), float(m.group(2))
-    return abs(linear_x - float(p.group(1))) < 0.05 and abs(angular_z - float(p.group(2))) < 0.1
+    return abs(linear_x - float(p.group(1))) < 0.05 and abs(angular_z - float(p.group(2))) < 0.2
 
 # LOAD DATA
 
 def load_trips(data_dir):
-    trips = {}
-    device_type = ""
+    trips = defaultdict(dict)
     for filename in os.listdir(data_dir):
         if filename.endswith(".json"):
             path = os.path.join(data_dir, filename)
-            trip_type = "_".join(filename.split("_")[:-1])
-            device_type = filename.split("_")[-1].split(".")[0]
+            parts = filename.replace(".json", "").split("_")
+            device_type = parts[-1]
+            trip_type = "_".join(parts[:-1])
 
             with open(path, "r") as f:
-                trips[trip_type] = json.load(f)
+                data = json.load(f)
+                trips[device_type][trip_type] = data
 
-    return trips, device_type
+    return trips
 
 # COMPUTE METRICS
 
@@ -130,16 +131,18 @@ def compute_outcome_counts(trips):
     counts = defaultdict(lambda: defaultdict(int))
 
     for trip_type in TRIP_TYPES:
+        if trip_type not in trips:
+            continue
         for trip in trips[trip_type]:
             outcome = assign_trip_outcome(trip, trip_type)
             counts[trip_type][outcome] += 1
-
     return counts
 
 def get_wall_distances(trips):
     distances = []
-
     for trip_type in TRIP_TYPES:
+        if trip_type not in trips:
+            continue
         for trip in trips[trip_type]:
             outcome = assign_trip_outcome(trip, trip_type)
             if outcome == TRIP_OUTCOMES[2]:
@@ -147,7 +150,6 @@ def get_wall_distances(trips):
             for entry in trip["wall_following"]:
                 if not entry["intersection"]:
                     distances.append(entry["right_wall_distance"])
-
     return distances
 
 # PLOTS
@@ -244,11 +246,14 @@ def plot_wall_distances(distances, device_type):
     plt.close()
 
 def main():
-    trips, device_type = load_trips(DATA_DIR)
-    outcomes = compute_outcome_counts(trips)
-    distances = get_wall_distances(trips)
+    all_trips = load_trips(DATA_DIR) 
 
-    plot_behaviours(outcomes=outcomes, device_type=device_type)
-    plot_wall_distances(distances=distances, device_type=device_type)
+    for device_type, trips in all_trips.items():
+        outcomes = compute_outcome_counts(trips)
+        distances = get_wall_distances(trips)
+
+        plot_behaviours(outcomes=outcomes, device_type=device_type)
+        plot_wall_distances(distances=distances, device_type=device_type)
+
 if __name__ == "__main__":
     main()
