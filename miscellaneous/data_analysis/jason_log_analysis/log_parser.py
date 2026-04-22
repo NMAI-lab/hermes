@@ -2,13 +2,23 @@ import xml.etree.ElementTree as ET
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import numpy as np
 
-LOG_FILE = "logs/hermes_simulator.log"
-NAME = "Simulator"
+# ── Config ────────────────────────────────────────────────────────────────────
+SOURCES = {
+    "Simulator": "logs/hermes_simulator.log",
+    "Robot":     "logs/hermes_robot.log",
+}
 
-#LOG_FILE = "logs/hermes_robot.log"
-#NAME = "Robot"
+COLORS = {
+    "Simulator": "#4C9BE8",
+    "Robot":     "#E8714C",
+}
+
+OUT_FILE = "plots/jason_time_distribution.png"
+# ─────────────────────────────────────────────────────────────────────────────
+
 
 def parse_log(path):
     tree = ET.parse(path)
@@ -17,13 +27,11 @@ def parse_log(path):
     records = []
     for r in root.findall("record"):
         millis = int(r.findtext("millis"))
-        nanos = int(r.findtext("nanos", "0"))
-        time_ms = millis + nanos * 1e-6
-
+        nanos  = int(r.findtext("nanos", "0"))
         records.append({
-            "time": time_ms,
-            "method": r.findtext("method", ""),
-            "message": r.findtext("message", "")
+            "time":    millis + nanos * 1e-6,
+            "method":  r.findtext("method", ""),
+            "message": r.findtext("message", ""),
         })
 
     records.sort(key=lambda x: x["time"])
@@ -31,27 +39,18 @@ def parse_log(path):
 
 
 def extract_cycles(records):
-    cycles = []
-    current = None
-
+    cycles, current = [], None
     for rec in records:
         if "Reasoning Cycle" in rec["message"] and rec["method"] == "run":
             if current:
                 cycles.append(current)
-            current = {
-                "start": rec["time"],
-                "events": []
-            }
-
+            current = {"start": rec["time"], "events": []}
         if current:
             current["events"].append(rec)
-
         if current and "Reasoning Time" in rec["message"]:
             current["end"] = rec["time"]
-
     if current:
         cycles.append(current)
-
     return cycles
 
 
@@ -62,132 +61,150 @@ def compute_timings(cycles):
     for c in cycles:
         if "end" not in c:
             continue
-
         cycle_durations.append((c["end"] - c["start"]) / 1000.0)
-
         events = c["events"]
         for i in range(len(events) - 1):
-            t0 = events[i]["time"]
-            t1 = events[i + 1]["time"]
             stage = events[i]["method"]
-
-            dt = (t1 - t0) / 1000.0
+            dt    = (events[i + 1]["time"] - events[i]["time"]) / 1000.0
             stage_durations[stage].append(dt)
 
     return cycle_durations, stage_durations
 
-def combined_violin_box(cycle_times, stage_times, out_file):
+
+def filter_iqr(values, whis=1.5):
+    arr = np.array(values)
+    q1, q3 = np.percentile(arr, 25), np.percentile(arr, 75)
+    iqr = q3 - q1
+    return arr[(arr >= q1 - whis * iqr) & (arr <= q3 + whis * iqr)]
+
+
+def load_all():
+    result = {}
+    for name, path in SOURCES.items():
+        records = parse_log(path)
+        cycles  = extract_cycles(records)
+        ct, st  = compute_timings(cycles)
+        ct_ms   = np.array(ct) * 1000
+        st_ms   = {k: np.array(v) * 1000 for k, v in st.items()
+                   if k != "loadImplementation"}
+        result[name] = (ct_ms, st_ms)
+        print(f"[{name}] {len(ct)} cycles | stages: {list(st_ms.keys())}")
+    return result
+
+
+def build_label_order(all_data):
     labels = ["Total Time"]
-    data = [cycle_times]
+    seen   = set(labels)
+    for _, (_, st) in all_data.items():
+        for k in st:
+            if k not in seen:
+                labels.append(k)
+                seen.add(k)
+    return labels
 
-    for stage, times in stage_times.items():
-        if stage == "loadImplementation":
-            continue
-        labels.append(stage)
-        data.append(times)
 
-    def filter_iqr(values, whis=1.5):
-        arr = np.array(values)
-        q1, q3 = np.percentile(arr, 25), np.percentile(arr, 75)
-        iqr = q3 - q1
-        return arr[(arr >= q1 - whis * iqr) & (arr <= q3 + whis * iqr)]
+def make_comparison_plot(all_data):
+    labels  = build_label_order(all_data)
+    n       = len(labels)
+    names   = list(all_data.keys())
+    k       = len(names)
 
-    data_ms = [np.array(d) * 1000 for d in data]
-    filtered_data = [filter_iqr(d) for d in data_ms]
+    box_w   = 0.24
+    offsets = np.linspace(-(k - 1) * box_w / 2, (k - 1) * box_w / 2, k)
 
-    fig, ax = plt.subplots(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=(max(12, n * 2.4), 5))
 
-    for i, (original, filtered) in enumerate(zip(data_ms, filtered_data), start=1):
-        outliers = original[~np.isin(original, filtered)]
-        if len(outliers) > 0:
-            ax.scatter(
-                [i] * len(outliers),
-                outliers,
-                color='gray',
-                alpha=0.3,
-                s=15,
-                zorder=1
+    group_annotations = defaultdict(list)
+
+    for ni, name in enumerate(names):
+        ct_ms, st_ms = all_data[name]
+        color        = COLORS[name]
+
+        for li, label in enumerate(labels):
+            x_center = li + 1
+            x_pos    = x_center + offsets[ni]
+
+            raw = ct_ms if label == "Total Time" else st_ms.get(label, np.array([]))
+            if len(raw) == 0:
+                continue
+
+            raw_ms   = np.array(raw)
+            filtered = filter_iqr(raw_ms)
+
+            # Outliers
+            outliers = raw_ms[~np.isin(raw_ms, filtered)]
+            if len(outliers):
+                ax.scatter(
+                    [x_pos] * len(outliers), outliers,
+                    color="gray", alpha=0.25, s=14, zorder=1,
+                )
+
+            ax.boxplot(
+                [filtered],
+                positions=[x_pos],
+                widths=box_w * 0.85,
+                vert=True,
+                whis=1.5,
+                showfliers=False,
+                patch_artist=True,
+                boxprops=dict(facecolor=color, alpha=0.55, linewidth=1.4),
+                medianprops=dict(color="white", linewidth=2.2),
+                whiskerprops=dict(color=color, linewidth=1.4),
+                capprops=dict(color=color, linewidth=1.6),
             )
 
-    ax.boxplot(
-        filtered_data,
-        vert=True,
-        whis=1.5,
-        showfliers=False,
-        widths=0.6
-    )
+            mean = np.mean(filtered)
+            std  = np.std(filtered, ddof=1) if len(filtered) > 1 else 0.0
+            group_annotations[li].append((mean, color, f"{mean:.3f}±{std:.3f} ms"))
+
+    # Each label sits just above its own box's top whisker cap, rotated 90°.
+    for li, annotations in group_annotations.items():
+        for idx, (mean, color, text) in enumerate(annotations):
+            x_pos = (li + 1) + offsets[idx]
+            ct_ms, st_ms = all_data[names[idx]]
+            raw = ct_ms if labels[li] == "Total Time" else st_ms.get(labels[li], np.array([]))
+            if len(raw) == 0:
+                continue
+            filtered = filter_iqr(np.array(raw))
+            top = np.max(filtered)
+            ax.text(
+                x_pos - 0.08, top * 1.05,
+                text,
+                fontsize=12,
+                ha="center",
+                va="bottom",
+                color=color,
+                fontweight="bold",
+                rotation=90,
+                zorder=10,
+            )
 
     ax.set_yscale("log")
+    ax.set_xticks(range(1, n + 1))
+    ax.set_xticklabels(labels, rotation=25, ha="right", fontsize=16)
+    ax.tick_params(axis="y", labelsize=15)
+    ax.set_ylabel("Time (ms)", fontsize=16)
+    ax.set_title(
+        "Jason's Reasoning Time Distributions — Simulator vs Robot (per stage)",
+        fontsize=17, pad=10,
+    )
 
-    for i, values in enumerate(filtered_data, start=1):
-        mean = np.mean(values)
-        std  = np.std(values, ddof=1) if len(values) > 1 else 0.0
+    # ── Legend ────────────────────────────────────────────────────────────────
+    patches = [
+        mpatches.Patch(facecolor=COLORS[nm], alpha=0.75, label=nm)
+        for nm in names
+    ]
+    ax.legend(handles=patches, fontsize=12, loc="upper right")
 
-        ax.text(
-            i + 0.4,
-            max(values),
-            f"{mean:.3f} ± {std:.3f} ms",
-            fontsize=13,
-            ha='right',
-            va='bottom',
-            color='black',
-            zorder=10
-        )
+    for xi in range(1, n):
+        ax.axvline(xi + 0.5, color="lightgrey", linewidth=0.8, zorder=0)
 
-    ax.set_xticks(range(1, len(labels) + 1))
-    ax.set_xticklabels(labels, rotation=30, ha="right", fontsize=14)
 
-    ax.tick_params(axis='y', labelsize=14)
-    ax.set_ylabel("Time (ms)", fontsize=14)
-    ax.set_title("Total and Per Stage Reasoning Time Distributions for " + NAME, fontsize=15)
-
-    plt.tight_layout(pad=0.5)
-    file_name = "plots/" + out_file.lower() + "_time_distribution.png"
-    plt.savefig(file_name, dpi=300, bbox_inches='tight')
+    plt.tight_layout(pad=0.1)
+    plt.savefig(OUT_FILE, dpi=300, bbox_inches="tight")
     plt.close()
+    print(f"\nSaved comparison plot → {OUT_FILE}")
 
-    print(f"Saved plot to {file_name}")
 
-def report_stats(cycle_times, stage_times):
-    print("\nTiming statistics (seconds)")
-    print("-" * 40)
-
-    def stats(name, values):
-        mean = np.mean(values)
-        std = np.std(values, ddof=1)  # sample std
-        print(f"{name:15s}  mean = {mean:.6f}  std = {std:.6f}")
-
-    stats("Total Reasoning Time", cycle_times)
-
-    for stage, times in stage_times.items():
-        stats(stage, times)
-
-records = parse_log(LOG_FILE)
-cycles = extract_cycles(records)
-
-cycle_times, stage_times = compute_timings(cycles)
-
-combined_violin_box(
-    cycle_times,
-    stage_times,
-    NAME
-)
-
-print(f"Parsed {len(cycle_times)} reasoning cycles")
-print("Stages found:", list(stage_times.keys()))
-report_stats(cycle_times, stage_times)
-
-longest_cycles = sorted(
-    cycles,
-    key=lambda c: (c["end"] - c["start"]) if "end" in c else 0,
-    reverse=True
-)[:20]
-
-print("\nTop 20 longest reasoning cycles are:")
-for c in longest_cycles:
-    print(f"\n====================\nCycle: from {c['start']:.3f} to {c['end']:.3f} - Duration: {c['end'] - c['start']:.3f}ms:")
-    stages = ["perceive", "execute", "act"]
-    for stage in stages:
-        for event  in c["events"]:
-            if event["method"] == stage:
-                print(f"\n--------------------\n{stage}: {event["message"]}")
+all_data = load_all()
+make_comparison_plot(all_data)
