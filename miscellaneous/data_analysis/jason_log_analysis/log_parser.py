@@ -5,20 +5,17 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 
-# ── Config ────────────────────────────────────────────────────────────────────
 SOURCES = {
     "Simulator": "logs/hermes_simulator.log",
-    "Robot":     "logs/hermes_robot.log",
+    "Robot": "logs/hermes_robot.log",
 }
 
 COLORS = {
     "Simulator": "#4C9BE8",
-    "Robot":     "#E8714C",
+    "Robot": "#E8714C",
 }
 
 OUT_FILE = "plots/jason_time_distribution.png"
-# ─────────────────────────────────────────────────────────────────────────────
-
 
 def parse_log(path):
     tree = ET.parse(path)
@@ -37,7 +34,6 @@ def parse_log(path):
     records.sort(key=lambda x: x["time"])
     return records
 
-
 def extract_cycles(records):
     cycles, current = [], None
     for rec in records:
@@ -52,7 +48,6 @@ def extract_cycles(records):
     if current:
         cycles.append(current)
     return cycles
-
 
 def compute_timings(cycles):
     cycle_durations = []
@@ -70,13 +65,11 @@ def compute_timings(cycles):
 
     return cycle_durations, stage_durations
 
-
 def filter_iqr(values, whis=1.5):
     arr = np.array(values)
     q1, q3 = np.percentile(arr, 25), np.percentile(arr, 75)
     iqr = q3 - q1
     return arr[(arr >= q1 - whis * iqr) & (arr <= q3 + whis * iqr)]
-
 
 def load_all():
     result = {}
@@ -91,7 +84,6 @@ def load_all():
         print(f"[{name}] {len(ct)} cycles | stages: {list(st_ms.keys())}")
     return result
 
-
 def build_label_order(all_data):
     labels = ["Total Time"]
     seen   = set(labels)
@@ -101,7 +93,6 @@ def build_label_order(all_data):
                 labels.append(k)
                 seen.add(k)
     return labels
-
 
 def make_comparison_plot(all_data):
     labels  = build_label_order(all_data)
@@ -157,7 +148,7 @@ def make_comparison_plot(all_data):
             std  = np.std(filtered, ddof=1) if len(filtered) > 1 else 0.0
             group_annotations[li].append((mean, color, f"{mean:.3f}±{std:.3f} ms"))
 
-    # Each label sits just above its own box's top whisker cap, rotated 90°.
+    # Placing labels for each graph
     for li, annotations in group_annotations.items():
         for idx, (mean, color, text) in enumerate(annotations):
             x_pos = (li + 1) + offsets[idx]
@@ -185,11 +176,10 @@ def make_comparison_plot(all_data):
     ax.tick_params(axis="y", labelsize=15)
     ax.set_ylabel("Time (ms)", fontsize=16)
     ax.set_title(
-        "Jason's Reasoning Time Distributions — Simulator vs Robot (per stage)",
+        "Jason's Reasoning Time Distributions - Simulator vs Robot (per stage)",
         fontsize=17, pad=10,
     )
 
-    # ── Legend ────────────────────────────────────────────────────────────────
     patches = [
         mpatches.Patch(facecolor=COLORS[nm], alpha=0.75, label=nm)
         for nm in names
@@ -203,7 +193,7 @@ def make_comparison_plot(all_data):
     plt.tight_layout(pad=0.1)
     plt.savefig(OUT_FILE, dpi=300, bbox_inches="tight")
     plt.close()
-    print(f"\nSaved comparison plot → {OUT_FILE}")
+    print(f"\nSaved plot at: {OUT_FILE}")
 
 
 all_data = load_all()
