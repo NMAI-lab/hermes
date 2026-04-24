@@ -1,0 +1,43 @@
+@startuml
+left to right direction
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam defaultFontSize 18
+skinparam defaultTextAlignment center
+
+skinparam padding 14
+skinparam nodesep 80
+skinparam ranksep 100
+
+skinparam rectanglePadding 16
+skinparam cloudPadding 16
+skinparam interfacePadding 12
+skinparam circlePadding 20
+
+circle "Python\nROS2 Nodes" as PY #0000ff
+cloud "ROS2 Network" as ROS #badcff
+queue "ros2-java bridge" as PIPE #ffccbc
+circle "AgArch\n(rcljava.node)" as AG #ff0000
+rectangle "Jason" as JASON #ffc400
+rectangle "Hardware" as HW #F0E6FF
+
+PY   -[hidden]-> ROS
+ROS  -[hidden]-> PIPE
+PIPE -[hidden]-> AG
+AG   -[hidden]-> JASON
+HW   -[hidden]-> ROS
+
+HW <--> ROS : ROS topics
+PY <--> ROS : ROS topics
+
+ROS -down-> PIPE : /beliefs
+PIPE -up-> ROS : /actions
+
+PIPE -right-> AG : /beliefs
+AG -left-> PIPE : /actions
+
+AG -down-> JASON : perceive()
+JASON -up-> AG : act()
+
+@enduml
