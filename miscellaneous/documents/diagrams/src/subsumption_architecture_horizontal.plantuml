@@ -36,12 +36,12 @@ S3 -[hidden]-> S4
 S4 -[hidden]-> S5
 S5 -[hidden]-> S6
 
-STATE --> S1
-REQ   --> S2
-COLL  --> S3
-DOCK  --> S4
-INT   --> S5
-WALL  --> S6
+STATE -> S1
+REQ   -> S2
+COLL  -> S3
+DOCK  -> S4
+INT   -> S5
+WALL  -> S6
 
 S1 --> S2
 S2 --> S3
