@@ -1,61 +1,42 @@
-FROM ubuntu:20.04
+ARG ROS_DISTRO=foxy 
+
+FROM osrf/ros:${ROS_DISTRO}-desktop
 
 ARG ROS_DISTRO=foxy
+ARG ARCH
 
-# Set environment variables
-ENV DEBIAN_FRONTEND=noninteractive
 ENV ROS_DISTRO=${ROS_DISTRO}
+ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-c"]
 
-# Install basic tools and locales
-RUN apt update && apt install -y \
-    locales \
-    curl \
-    gnupg2 \
-    lsb-release \
-    software-properties-common \
-    git \
-    sudo \
-    python3-pip \
-    wget \
-    unzip \
-    && locale-gen en_US en_US.UTF-8 \
-    && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
-
-ENV LANG=en_US.UTF-8
-ENV LC_ALL=en_US.UTF-8
-
-# Add ROS 2 GPG key and repo
-RUN curl -sSL http://repo.ros2.org/repos.key | apt-key add - && \
-    add-apt-repository universe && \
-    echo "deb http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2-latest.list
-
-# Install ROS 2 base packages
-RUN apt update && apt install -y \
-    ros-$ROS_DISTRO-desktop \
+# Install additional ROS packages
+RUN apt update && apt install -y \ 
     ros-$ROS_DISTRO-gazebo-ros-pkgs \
     ros-$ROS_DISTRO-rviz2 \
     ros-$ROS_DISTRO-ackermann-msgs \
     ros-$ROS_DISTRO-joint-state-publisher \
     ros-$ROS_DISTRO-control-toolbox \
     ros-$ROS_DISTRO-xacro
-
+    
 # Install Java 21
-RUN apt install -y openjdk-21-jdk \
-    openjdk-21-jre
-
-ARG ARCH
-
+RUN apt update && \ 
+    apt install -y software-properties-common && \
+    add-apt-repository ppa:openjdk-r/ppa && \ 
+    apt update && \ 
+    apt install -y openjdk-21-jdk openjdk-21-jre
+    
 RUN echo "Architecture is $ARCH"
 
 ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-${ARCH}
 ENV PATH=$JAVA_HOME/bin:$PATH
 
-# Install rosdep and initialize
-RUN apt install -y python3-rosdep \
-    && source /opt/ros/$ROS_DISTRO/setup.bash \
-    && sudo rosdep init \
+# Install Python packages and initialize
+RUN apt install -y \
+    python3-rosdep \
+    python3-pip \ 
+    && source /opt/ros/$ROS_DISTRO/setup.bash \ 
+    && rosdep init || true \ 
     && rosdep update
 
 # Clean up apt libraries
@@ -97,15 +78,20 @@ RUN gradle publishToMavenLocal
 # Build ROS 2 workspace
 WORKDIR /root/hermes_ws
 
+# Build the core ROS packages
+RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
+    colcon build --symlink-install
+
 # Copy Hermes
 COPY hermes_agent src/hermes/hermes_agent
 COPY hermes_create_description src/hermes/hermes_create_description
 COPY hermes_environment src/hermes/hermes_environment
 COPY hermes_simulator src/hermes/hermes_simulator
 
-# Build the workspace
+# Build the Hermes packages
 RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
-    colcon build --symlink-install
+    colcon build --symlink-install \
+        --packages-select hermes_create_description hermes_environment hermes_agent hermes_simulator
 
 # Hotfix
 RUN sed -i "/^CLASSPATH=/d" ./install/hermes_agent/lib/hermes_agent/hermes_agent

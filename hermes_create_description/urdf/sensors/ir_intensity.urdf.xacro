@@ -6,7 +6,7 @@
                params="name parent:=base_link
                        update_rate:=62.0 fov:=${10*deg2rad}
                        min_range:=${25*mm2m} max_range:=${200*mm2m}
-                       visualize:=false *origin" >
+                       visualize:=true *origin" >
 
     <xacro:property name="link_name" value="ir_intensity_${name}"/>
 

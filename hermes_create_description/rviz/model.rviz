@@ -5,7 +5,8 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /RobotModel1/Description Topic1
+        - /RobotModel1
+        - /LiDAR1
       Splitter Ratio: 0.5
     Tree Height: 793
   - Class: rviz_common/Selection
@@ -24,6 +25,7 @@ Panels:
 Visualization Manager:
   Class: ""
   Displays:
+
     - Alpha: 0.5
       Cell Size: 1
       Class: rviz_default_plugins/Grid
@@ -42,6 +44,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
+
     - Alpha: 1
       Class: rviz_default_plugins/RobotModel
       Collision Enabled: false
@@ -60,10 +63,6 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_footprint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         base_link:
           Alpha: 1
           Show Axes: false
@@ -79,15 +78,17 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        mouse:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        wheel_drop_left:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         left_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_drop_left:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -96,7 +97,63 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        right_wheel:
+          Value: true
+        mouse:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        lidar_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        cliff_front_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        cliff_front_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        cliff_side_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        cliff_side_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ir_omni:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ir_front_facing:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        button_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        button_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        button_power_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -106,6 +163,7 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
+
     - Alpha: 1
       Class: rviz_default_plugins/RobotModel
       Collision Enabled: false
@@ -124,19 +182,22 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        green_buoy_link:
+        std_dock_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
         halo_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        red_buoy_link:
+          Value: true
+        green_buoy_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        std_dock_link:
+          Value: true
+        red_buoy_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -145,30 +206,375 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
       Name: DockModel
       TF Prefix: ""
       Update Interval: 0
       Value: true
-      Visual Enabled: true
+      Visual Enabled: false
+
     - Class: rviz_default_plugins/TF
-      Enabled: false
+      Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: true
-      Marker Scale: 1
+      Marker Scale: 0.3
       Name: TF
       Show Arrows: true
       Show Axes: true
-      Show Names: false
+      Show Names: true
       Tree:
         {}
       Update Interval: 0
+      Value: true
+
+    - Class: rviz_default_plugins/LaserScan
+      Name: LiDAR
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /scan
+      Color Transformer: AxisColor
+      Axis: Z
+      Max Color:
+        R: 255
+        G: 0
+        B: 0
+      Min Color:
+        R: 0
+        G: 0
+        B: 255
+      Size (m): 0.03
+      Style: Spheres
+      Alpha: 1
+      Decay Time: 0
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Value: true
+
+    - Class: rviz_default_plugins/Imu
+      Name: IMU
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /imu
+      Acc enabled: true
+      Acc scale: 1.0
+      Box enabled: true
+      Box scale: 0.1
+      Gyro enabled: true
+      Gyro scale: 0.05
+      Value: true
+
+    - Class: rviz_default_plugins/Range
+      Name: Cliff Front Left
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /cliff_intensity/front_left
+      Buffer Length: 1
+      Color:
+        R: 255
+        G: 100
+        B: 0
+      Value: true
+
+    - Class: rviz_default_plugins/Range
+      Name: Cliff Front Right
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /cliff_intensity/front_right
+      Buffer Length: 1
+      Color:
+        R: 255
+        G: 100
+        B: 0
+      Value: true
+
+    - Class: rviz_default_plugins/Range
+      Name: Cliff Side Left
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /cliff_intensity/side_left
+      Buffer Length: 1
+      Color:
+        R: 255
+        G: 150
+        B: 0
+      Value: true
+
+    - Class: rviz_default_plugins/Range
+      Name: Cliff Side Right
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /cliff_intensity/side_right
+      Buffer Length: 1
+      Color:
+        R: 255
+        G: 150
+        B: 0
+      Value: true
+
+    - Class: rviz_default_plugins/Range
+      Name: IR front_center_left
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /ir_range/front_center_left
+      Buffer Length: 1
+      Color:
+        R: 0
+        G: 180
+        B: 255
+      Value: true
+
+    - Class: rviz_default_plugins/Range
+      Name: IR front_center_right
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /ir_range/front_center_right
+      Buffer Length: 1
+      Color:
+        R: 0
+        G: 180
+        B: 255
+      Value: true
+
+    - Class: rviz_default_plugins/Range
+      Name: IR front_left
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /ir_range/front_left
+      Buffer Length: 1
+      Color:
+        R: 0
+        G: 200
+        B: 255
+      Value: true
+
+    - Class: rviz_default_plugins/Range
+      Name: IR front_right
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /ir_range/front_right
+      Buffer Length: 1
+      Color:
+        R: 0
+        G: 200
+        B: 255
+      Value: true
+
+    - Class: rviz_default_plugins/Range
+      Name: IR left
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /ir_range/left
+      Buffer Length: 1
+      Color:
+        R: 0
+        G: 220
+        B: 255
+      Value: true
+
+    - Class: rviz_default_plugins/Range
+      Name: IR right
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /ir_range/right
+      Buffer Length: 1
+      Color:
+        R: 0
+        G: 220
+        B: 255
+      Value: true
+
+    - Class: rviz_default_plugins/Range
+      Name: IR side_left
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /ir_range/side_left
+      Buffer Length: 1
+      Color:
+        R: 0
+        G: 240
+        B: 255
+      Value: true
+
+    - Class: rviz_default_plugins/Odometry
+      Name: Odometry
+      Enabled: false
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /odom
+      Angle Tolerance: 0.1
+      Keep: 100
+      Position Tolerance: 0.1
+      Shape:
+        Alpha: 0.5
+        Axes Length: 0.1
+        Axes Radius: 0.01
+        Color:
+          R: 255
+          G: 25
+          B: 0
+        Head Length: 0.05
+        Head Radius: 0.025
+        Shaft Length: 0.1
+        Shaft Radius: 0.01
+        Value: Arrow
       Value: false
+
+    - Class: rviz_default_plugins/Odometry
+      Name: Ground Truth Pose
+      Enabled: false
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /sim_ground_truth_pose
+      Angle Tolerance: 0.1
+      Keep: 200
+      Position Tolerance: 0.05
+      Shape:
+        Alpha: 0.7
+        Color:
+          R: 0
+          G: 255
+          B: 0
+        Value: Arrow
+      Value: false
+
+    - Class: rviz_default_plugins/Map
+      Name: Global Costmap
+      Enabled: false
+      Topic:
+        Depth: 5
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /global_costmap/costmap
+      Alpha: 0.7
+      Color Scheme: costmap
+      Draw Behind: false
+      Use Timestamp: false
+      Value: false
+
+    - Class: rviz_default_plugins/Map
+      Name: Local Costmap
+      Enabled: false
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /local_costmap/costmap
+      Alpha: 0.7
+      Color Scheme: costmap
+      Value: false
+
+    - Class: rviz_default_plugins/Path
+      Name: Global Plan
+      Enabled: false
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /plan
+      Alpha: 1
+      Buffer Length: 1
+      Color:
+        R: 0
+        G: 255
+        B: 0
+      Line Style: Lines
+      Line Width: 0.03
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color:
+        R: 255
+        G: 85
+        B: 255
+      Pose Style: None
+      Value: false
+
+    - Class: rviz_default_plugins/Path
+      Name: Local Plan
+      Enabled: false
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /local_plan
+      Alpha: 1
+      Color:
+        R: 0
+        G: 100
+        B: 255
+      Line Width: 0.02
+      Value: false
+
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: odom
-    Frame Rate: 30
+    Fixed Frame: base_link
+    Frame Rate: 60
   Name: root
   Tools:
     - Class: rviz_default_plugins/Interact
@@ -233,7 +639,6 @@ Window Geometry:
   Height: 1016
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd000000040000000000000156000003a2fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003b000003a2000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f000002f8fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003b000002f8000000a000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004420000003efc0100000002fb0000000800540069006d00650100000000000004420000000000000000fb0000000800540069006d00650100000000000004500000000000000000000005dc000003a200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Tool Properties:

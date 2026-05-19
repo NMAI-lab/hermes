@@ -14,7 +14,7 @@
                                                   samples:=50
                                                   min_range:=0.015
                                                   update_rate:=31
-                                                  visualize:=false
+                                                  visualize:=true
                                                   *origin" >
 
     <xacro:property name="joint_name" value="${name}_joint" />

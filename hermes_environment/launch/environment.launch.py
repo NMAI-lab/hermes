@@ -333,9 +333,6 @@ def launch_setup(context, *args, **kwargs):
     world_path = PathJoinSubstitution(
         [pkg_hermes_environment, 'worlds', map_params['world_name']]
     )
-    models_path = PathJoinSubstitution(
-        [pkg_hermes_environment, 'models']
-    )
 
     # Includes
     robot_description = IncludeLaunchDescription(
