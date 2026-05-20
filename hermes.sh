@@ -57,6 +57,7 @@ local_compile() {
 
 local_run() {
     echo "Running hermes (local): start=$START end=$END display_mas=$DISPLAY_MAS"
+    ./perform_cleanup.sh
     source $WORKSPACE/install/local_setup.bash
     ros2 launch hermes_simulator simulator.launch.py \
         start:="$START" \
