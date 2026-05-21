@@ -17,11 +17,17 @@ RUN apt update && apt install -y \
     ros-$ROS_DISTRO-ackermann-msgs \
     ros-$ROS_DISTRO-joint-state-publisher \
     ros-$ROS_DISTRO-control-toolbox \
-    ros-$ROS_DISTRO-xacro
+    ros-$ROS_DISTRO-xacro \
+    ros-$ROS_DISTRO-rosbridge-server
     
+# Install additional packages
+RUN apt update && apt install -y \
+    software-properties-common \
+    netcat \
+    python3-pip
+
 # Install Java 21
-RUN apt update && \ 
-    apt install -y software-properties-common && \
+RUN apt update && \
     add-apt-repository ppa:openjdk-r/ppa && \ 
     apt update && \ 
     apt install -y openjdk-21-jdk openjdk-21-jre
@@ -31,10 +37,9 @@ RUN echo "Architecture is $ARCH"
 ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-${ARCH}
 ENV PATH=$JAVA_HOME/bin:$PATH
 
-# Install Python packages and initialize
+# Install rosdep and initialize
 RUN apt install -y \
     python3-rosdep \
-    python3-pip \ 
     && source /opt/ros/$ROS_DISTRO/setup.bash \ 
     && rosdep init || true \ 
     && rosdep update
@@ -93,11 +98,16 @@ RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
     colcon build --symlink-install \
         --packages-select hermes_create_description hermes_environment hermes_agent hermes_simulator
 
-# Hotfix
+# ROS2-Java Hotfix
 RUN sed -i "/^CLASSPATH=/d" ./install/hermes_agent/lib/hermes_agent/hermes_agent
 
 # Source workspace
 RUN echo "source /root/hermes_ws/install/local_setup.bash" >> ~/.bashrc
+
+# Start the container
+COPY load_container.sh /root/load_container.sh
+RUN chmod +x /root/load_container.sh
+ENTRYPOINT ["/bin/bash", "/root/load_container.sh"]
 
 # Default shell
 CMD ["bash"]
