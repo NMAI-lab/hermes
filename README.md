@@ -8,6 +8,18 @@
 
 Hermes is a mobile robot, acting as a BDI agent, that navigates a custom maze through the use of a LiDAR sensor and the various Bluetooth beacons placed along its way. The goal of Hermes is to showcase a realistic application of AgentSpeak and Jason BDI. 
 
+## Citation
+
+```
+@inproceedings{bdimaildeliveryrobot,
+  author    = {Bardia Parmoun and Babak Esfandiari},
+  title     = {An Extended BDI Case Study Toward Campus Mail Delivery},
+  booktitle = {Proceedings of the Engineering Multi-Agent Systems (EMAS 2026) Workshop},
+  year      = {2026},
+  url       = {https://emas-workshop.github.io/2026/papers/008_An_Extended_BDI_Case_Study_Toward_Campus_Mail_Delivery.pdf}
+}
+```
+
 ## Description
 Hermes has the ability to perform the following:
 - Maintain a consistent distance with the wall.
@@ -24,7 +36,7 @@ Hermes can be run in two modes:
 
 ## Demos
 
-You can find demos of Hermes [here](https://youtube.com/playlist?list=PLOsC27zWBS6f5hggUMMKWLt9Lu81S2H6m&si=nvymUaGfLmntfnwr)!
+You can find demos of Hermes [here](https://www.youtube.com/playlist?list=PL5eOO0o-XDN2NaJcktxF5PdxjNZqxwHEO)!
 
 ## Installation
 
