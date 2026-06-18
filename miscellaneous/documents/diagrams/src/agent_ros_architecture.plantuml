@@ -1,6 +1,4 @@
 @startuml
-' --- Arrange horizontally ---
-left to right direction
 
 skinparam defaultFontSize 32
 skinparam packageStyle rect
