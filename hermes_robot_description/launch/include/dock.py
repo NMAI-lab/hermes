@@ -35,7 +35,7 @@ for pose_element in ['x', 'y', 'z', 'yaw']:
 
 def generate_launch_description():
     # Directory
-    pkg_create3_description = get_package_share_directory('hermes_create_description')
+    pkg_create3_description = get_package_share_directory('hermes_robot_description')
     # Path
     dock_xacro_file = PathJoinSubstitution(
         [pkg_create3_description, 'urdf', 'dock', 'standard.urdf.xacro'])

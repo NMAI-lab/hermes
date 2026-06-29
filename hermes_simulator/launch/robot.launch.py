@@ -207,6 +207,7 @@ def generate_launch_description():
         DeclareLaunchArgument('metrics_file',default_value='trips.json',
                               description='Where to store the metrics data.'),
         DeclareLaunchArgument('run_hermes_agent',default_value='true',
+                              choices=['true', 'false'],
                               description='Whether to launch the hermes_agent node.'),
     ]
 

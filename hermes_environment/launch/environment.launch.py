@@ -276,16 +276,16 @@ def generate_world(input_file, start_beacon, end_beacon, map_params):
 def launch_setup(context, *args, **kwargs):
     # Directories
     pkg_create3_control = get_package_share_directory('irobot_create_control')
-    pkg_create3_description = get_package_share_directory('hermes_create_description')
+    pkg_robot_description = get_package_share_directory('hermes_robot_description')
     pkg_hermes_environment = get_package_share_directory('hermes_environment')
 
     # Paths
     control_launch_file = PathJoinSubstitution(
         [pkg_create3_control, 'launch', 'include', 'control.py'])
     description_launch_file = PathJoinSubstitution(
-        [pkg_create3_description, 'launch', 'include', 'rviz2.py'])
+        [pkg_robot_description, 'launch', 'include', 'rviz2.py'])
     dock_launch_file = PathJoinSubstitution(
-        [pkg_create3_description, 'launch', 'include', 'dock.py'])
+        [pkg_robot_description, 'launch', 'include', 'dock.py'])
     hazards_params_yaml_file = PathJoinSubstitution(
         [pkg_hermes_environment, 'config', 'hazard_vector_params.yaml'])
     ir_intensity_params_yaml_file = PathJoinSubstitution(

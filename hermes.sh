@@ -50,7 +50,7 @@ simulator_docker_compile() {
 
 simulator_docker_run() {
     echo "Running hermes simulator (Docker)..."
-    docker rm hermes-sim 2>/dev/null
+    docker stop hermes-sim 2>/dev/null && docker rm hermes-sim 2>/dev/null
     xhost +local:docker
     docker run --name hermes-sim -it \
         --env DISPLAY="$DISPLAY" \
@@ -65,7 +65,7 @@ simulator_local_compile() {
     cd "$WORKSPACE" || { echo "Error: workspace not found: $WORKSPACE"; exit 1; }
     rm -rf build/hermes_agent install/hermes_agent
     colcon build --symlink-install \
-        --packages-select hermes_create_description hermes_environment hermes_agent hermes_simulator
+        --packages-select hermes_robot_description hermes_environment hermes_agent hermes_simulator
     sed -i "/^CLASSPATH=/d" ./install/hermes_agent/lib/hermes_agent/hermes_agent
     echo "Simulator build complete."
 }
@@ -90,11 +90,10 @@ robot_docker_compile() {
 
 robot_docker_run() {
     echo "Running hermes robot (Docker)..."
-    docker rm hermes-robot 2>/dev/null
+    docker stop hermes-robot 2>/dev/null && docker rm hermes-robot 2>/dev/null
     docker run --name hermes-robot -it \
         --network host \
         --privileged \
-        -p 9090:9090 \
         hermes-robot
 }
 
@@ -104,7 +103,7 @@ robot_local_compile() {
     rm -rf build/hermes_agent install/hermes_agent
     source /opt/ros/humble/setup.bash
     colcon build --symlink-install \
-        --packages-select hermes_create_description hermes_environment hermes_agent
+        --packages-select hermes_robot_description hermes_environment hermes_agent
     sed -i "/^CLASSPATH=/d" ./install/hermes_agent/lib/hermes_agent/hermes_agent
     echo "Robot build complete."
 }

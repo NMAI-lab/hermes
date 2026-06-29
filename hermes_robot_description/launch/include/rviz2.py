@@ -22,7 +22,7 @@ ARGUMENTS = [
 
 
 def generate_launch_description():
-    pkg_create3_description = get_package_share_directory('hermes_create_description')
+    pkg_create3_description = get_package_share_directory('hermes_robot_description')
     xacro_file = PathJoinSubstitution([pkg_create3_description, 'urdf', 'create3.urdf.xacro'])
 
     # Rviz

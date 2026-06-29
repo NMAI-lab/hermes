@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>hermes_create_description</name>
+  <name>hermes_robot_description</name>
   <version>0.0.1</version>
   <description>Provides the model description for the iRobot(R) Create(R) 3 Educational Robot.</description>
   <maintainer email="bardiaparmoun@cmail.carleton.ca">Bardia Parmoun</maintainer>

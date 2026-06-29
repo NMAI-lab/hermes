@@ -21,6 +21,7 @@ Hermes is a mobile robot, acting as a BDI agent, that navigates a custom maze th
 ```
 
 ## Description
+
 Hermes has the ability to perform the following:
 - Maintain a consistent distance with the wall.
 - Navigate the maze with its many intersections and complete a full trip from point A to point B using its preloaded map of the beacon connections.
@@ -336,7 +337,7 @@ Make sure to run `$ source ~/hermes_ws/install/local_setup.bash` before running 
 
 #### Running the simulator in Docker
 
-Make sure you have built the `hermes-ros2` docker container.
+Make sure you have built the `hermes-sim` docker container.
 
 - Connect `xhost` to docker:
 ```console
@@ -378,6 +379,20 @@ You should see the Gazebo and RViz windows pop up:
   </tr>
  </table>
 
+**NOTE:** you can pass the following flags:
+- **rviz: (boolean)** should start rviz or not.
+- **gui: (boolean)** display Gazebo GUI or not.
+- **display_mas: (boolean)** whether to display Jason MAS GUI or not.
+- **map: (string)** the environment description.
+- **start: (string)** the first beacon for the robot.
+- **end:** the final beacon for the robot.
+- **metrics_file: (string)** where to store the metrics data.
+- **run_hermes_agent: (boolean)** whether to launch the hermes_agent node.
+- **x: (int)** x component of the robot's pose.
+- **y: (int)** y component of the robot's pose.
+- **z: (int)** z component of the robot's pose.
+- **yaw: (int)** yaw component of the robot's pose.
+
 #### Cleaning up after the simulator
 
 A cleanup script has been included to ensure a proper cleanup of the shared memory and any leftover processes. If you run into any issues with the simulator, simply run:
@@ -386,8 +401,6 @@ $ ./perform_cleanup.sh
 ``` 
 
 ### Running Hermes on the physical robot
-
-#### Prerequisites
 
 1. Plug in the LiDAR sensor to the the SBC through USB
 
@@ -401,9 +414,28 @@ $ ./perform_cleanup.sh
 
 6. Make sure the robot is fully powered on and linked to ROS by doing a quick check:
 
-```console
-$ ros2 topic list
+- **If running locally:** run,
 
+```console
+$ ros2 topic  list
+```
+
+- **If running in Docker:** start the container as follows:
+
+```console
+$ docker run --name hermes-robot -it \
+  --network host \
+  --privileged \
+  hermes-robot
+```
+
+Then inside the container run:
+```console
+$ ros2 topic  list
+```
+
+You should see:
+```console
 /battery_state
 /cliff_intensity
 /cmd_audio
@@ -432,13 +464,20 @@ $ ros2 topic list
 /wheel_vels
 ```
 
-7. Start up Hermes
+7. Start up Hermes, either in your local shell or inside the container by running:
 ```console
 $ source ~/hermes_ws/install/local_setup.bash
 $ ros2 launch hermes_simulator robot.launch.py end:=B1
 ```
 
+**NOTE:** you can pass the following flags:
+- **map: (string)** the environment description.
+- **end: (string)** the final beacon for the robot.
+- **metrics_file: (string)** where to store the metrics data.
+- **run_hermes_agent:  (boolean)** whether to launch the hermes_agent node.
+
 ## Experimentation
+
 Hermes is designed to be fully automated allowing it to run multiple headless runs. To demonstrate this capability, a simple experiment verifying different styles of simple trips has already been provided. To run this experiment run:
 ```console
 $ ./run_experiment.sh
@@ -447,16 +486,19 @@ $ ./run_experiment.sh
 The results of this experiment along with an analysis of both the robot and Jason's performance are located at [data_analysis](miscellaneous/data_analysis/)
 
 ## Project Structure
-- **hermes_create_description:** This package includes the Gazebo descriptions for the robotcs, sensors, and the dock station. It also includes the appropriate launch files for spawning these objects.
+
+- **hermes_robot_description:** This package includes the Gazebo descriptions for the robotcs, sensors, and the dock station. It also includes the appropriate launch files for spawning these objects.
 - **hermes_environment:** This package includes the implementation of the simulation environment with the various configs for loading the robot map.
 - **hermes_agent:** This package includes the implementation of the agent which is in charge of parsing the agent brain files.
 - **hermes_simulator:** This package includes the implementation of the simulator with the various sensors for interpreting the environment. This package invokes the environment, the agent, and the sensors.
 
 ## Notes
+
 - The inspiration for this project came from another similar project I worked on. Make sure to check out [Carleton Mail Delivery Robot](https://github.com/bardia-p/carleton-mail-delivery-robot)!
 - The name Hermes is a nod to the previous major AgentSpeak projects namely, [Jason](https://github.com/jason-lang/jason) and [Peleus](https://github.com/meneguzzi/Peleus). I chose the name Hermes since the main purpose of this robot is to deliver mail from one place to another. 
 
 ## Acknowledgements
+
 - [iRobot's CREATE 3 Simulator](https://github.com/iRobotEducation/create3_sim) for the main robot simulator.
 - [ros2_java](https://github.com/ros2-java/ros2_java) to integrate ROS2 with the Java agent implementations.
 - [Jason](https://github.com/jason-lang/jason) an AgentSpeak interpreter for the agent definitions.

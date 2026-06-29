@@ -225,6 +225,7 @@ def generate_launch_description():
         DeclareLaunchArgument('end', default_value='',
                               description='The final beacon for the robot.'),
         DeclareLaunchArgument('run_hermes_agent',default_value='true',
+                              choices=['true', 'false'],
                               description='Whether to launch the hermes_agent node.'),
     ]
 

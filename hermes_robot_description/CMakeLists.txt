@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(hermes_create_description)
+project(hermes_robot_description)
 
 find_package(ament_cmake REQUIRED)
 find_package(urdf REQUIRED)

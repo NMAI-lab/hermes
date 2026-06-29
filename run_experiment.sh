@@ -30,6 +30,16 @@ METRIC_FILES=(
     "collision_handling_simulator.json"
 )
 
+cleanup() {
+    echo "Caught SIGTERM — cleaning up..."
+
+    docker stop hermes-sim && docker rm hermes-sim
+
+    exit 0
+}
+
+trap cleanup SIGINT SIGTERM EXIT
+
 if ! docker images | grep -q hermes || [ "$FORCE_COMPILE" = true ]; then
     if [ "$FORCE_COMPILE" = true ]; then
         echo "Force compile requested, rebuilding..."
@@ -37,12 +47,18 @@ if ! docker images | grep -q hermes || [ "$FORCE_COMPILE" = true ]; then
     else
         echo "Hermes not found, building..."
     fi
-    docker build --build-arg ARCH=$(dpkg --print-architecture) --build-arg ROS_DISTRO=${ROS_VERSION} -t hermes .
+
+    docker build \
+        --build-arg ARCH=$(dpkg --print-architecture) \
+        --build-arg ROS_DISTRO="${ROS_VERSION}" \
+        -f Dockerfile.simulator \
+        -t hermes-sim .
 else
     echo "Hermes image already exists, skipping build."
 fi
 
 xhost +local:docker
+docker stop hermes-sim && docker rm hermes-sim
 
 for i in "${!EXPERIMENTS[@]}"; do
     echo "=== Running Experiment ${EXPERIMENTS[$i]} ==="
@@ -50,15 +66,24 @@ for i in "${!EXPERIMENTS[@]}"; do
     for trial in $(seq 1 $TRIALS); do
         echo "=== Running Trial ${trial}/${TRIALS} ==="
 
-        docker run --name hermes -d \
+        docker run --name hermes-sim -d \
             --env DISPLAY=$DISPLAY \
             --env QT_X11_NO_MITSHM=1 \
             --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
-            hermes \
+            hermes-sim \
             /bin/bash -c "sleep infinity"
 
-        timeout ${TIMEOUT} docker exec hermes \
-            /bin/bash -c "source /opt/ros/${ROS_VERSION}/setup.bash && source /root/hermes_ws/install/local_setup.bash && ros2 launch hermes_simulator simulator.launch.py ${EXPERIMENTS[$i]} map:=experiment_map.json metrics_file:=${METRIC_FILES[$i]} rviz:=false gui:=false > /dev/null" &
+        timeout ${TIMEOUT} docker exec hermes-sim /bin/bash -lc "
+            source /opt/ros/${ROS_VERSION}/setup.bash &&
+            source /root/hermes_ws/install/local_setup.bash &&
+            ros2 launch hermes_simulator simulator.launch.py \
+                ${EXPERIMENTS[$i]} \
+                map:=experiment_map.json \
+                metrics_file:=${METRIC_FILES[$i]} \
+                rviz:=false \
+                gui:=false \
+            > /dev/null
+        " &
         
         TRIAL_PID=$!
 
@@ -72,7 +97,7 @@ for i in "${!EXPERIMENTS[@]}"; do
 
         wait $TRIAL_PID
 
-        if docker cp hermes:/root/hermes_ws/${METRIC_FILES[$i]} ./miscellaneous/data_analysis/metrics_analysis/data/tmp.json 2>/dev/null; then
+        if docker cp hermes-sim:/root/hermes_ws/${METRIC_FILES[$i]} ./miscellaneous/data_analysis/metrics_analysis/data/tmp.json 2>/dev/null; then
             echo "Copied ${METRIC_FILES[$i]}"
 
             if [ -f ./miscellaneous/data_analysis/metrics_analysis/data/${METRIC_FILES[$i]} ]; then
@@ -89,6 +114,6 @@ for i in "${!EXPERIMENTS[@]}"; do
         fi
 
         echo "=== Trial ${trial}/${TRIALS} done ==="
-        docker stop hermes && docker rm hermes
+        docker stop hermes-sim && docker rm hermes-sim
     done
 done

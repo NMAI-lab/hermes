@@ -11,7 +11,7 @@
 
   <depend>gazebo_ros</depend>
   <depend>irobot_create_control</depend>
-  <depend>hermes_create_description</depend>
+  <depend>hermes_robot_description</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

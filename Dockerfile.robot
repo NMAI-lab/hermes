@@ -101,14 +101,14 @@ RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
 
 # Copy Hermes packages
 COPY hermes_agent              src/hermes/hermes_agent
-COPY hermes_create_description src/hermes/hermes_create_description
+COPY hermes_robot_description  src/hermes/hermes_robot_description
 COPY hermes_environment        src/hermes/hermes_environment
 COPY hermes_simulator          src/hermes/hermes_simulator
 
 # Build the Hermes packages
 RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
     colcon build --symlink-install \
-        --packages-select hermes_create_description hermes_environment hermes_agent hermes_simulator
+        --packages-select hermes_robot_description hermes_environment hermes_agent hermes_simulator
 
 # ROS2-Java Hotfix
 RUN sed -i "/^CLASSPATH=/d" ./install/hermes_agent/lib/hermes_agent/hermes_agent
