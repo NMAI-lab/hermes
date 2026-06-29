@@ -83,7 +83,6 @@ simulator_local_run() {
 robot_docker_compile() {
     echo "Compiling hermes robot (Docker, ROS Humble)..."
     docker build \
-        --build-arg ARCH=$(dpkg --print-architecture) \
         --build-arg ROS_DISTRO=humble \
         -f Dockerfile.robot \
         -t hermes-robot .

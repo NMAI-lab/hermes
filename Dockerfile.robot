@@ -1,9 +1,8 @@
 ARG ROS_DISTRO=humble
 
-FROM osrf/ros:${ROS_DISTRO}-desktop
+FROM arm64v8/ros:humble
 
 ARG ROS_DISTRO=humble
-ARG ARCH=arm64
 
 ENV ROS_DISTRO=${ROS_DISTRO}
 ENV DEBIAN_FRONTEND=noninteractive
@@ -26,7 +25,9 @@ RUN apt update && apt install -y \
     python3-pip \
     bluetooth \
     libbluetooth-dev \
-    libcap2-bin
+    libcap2-bin \
+    libglib2.0-dev \
+    unzip
 
 # Install Java 21
 RUN apt update && \
@@ -34,8 +35,7 @@ RUN apt update && \
     apt update && \
     apt install -y openjdk-21-jdk openjdk-21-jre
 
-RUN echo "Architecture is $ARCH"
-ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-${ARCH}
+ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-arm64
 ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Set CycloneDDS as the RMW implementation (required for Create 3)
