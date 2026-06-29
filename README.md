@@ -40,14 +40,9 @@ You can find demos of Hermes [here](https://www.youtube.com/playlist?list=PL5eOO
 
 ## Installation
 
-### Docker Installation
+### Simulator Installation
 
-Build a local container using:
-```console
-$ docker build --build-arg ARCH=$(dpkg --print-architecture) -t hermes . 
-```
-
-### Local Installation
+#### Local Installation
 
 1. Install [ROS Foxy](https://docs.ros.org/en/foxy/Installation.html) on an Ubuntu 20.04 system
 
@@ -132,7 +127,19 @@ $ sed -i "/^CLASSPATH=/d" ./install/hermes_agent/lib/hermes_agent/hermes_agent
 $ source ~/hermes_ws/install/local_setup.bash
 ```
 
-### Physical Robot Installation (on a Raspberry Pi)
+#### Docker installation
+
+1. Install the container as follows:
+
+```
+$ docker build \
+  --build-arg ARCH=$(dpkg --print-architecture) \
+  --build-arg ROS_DISTRO="${ros_version}" \
+  -f Dockerfile.simulator \
+  -t hermes-sim .
+```
+
+### Physical Robot Installation
 
 #### Required Equipment
 
@@ -141,11 +148,13 @@ $ source ~/hermes_ws/install/local_setup.bash
      <td>iRobot CREATE 3 and Dock Station</td>
      <td>RPLiDAR A1</td>
      <td>AprilBeacon N04</td>
+     <td>SBC</td>
   </tr>
   <tr>
     <td><img src="miscellaneous/images/create3_and_dock.png" width=1200></td>
     <td><img src="miscellaneous/images/rplidar_a1.jpg" width=1180></td>
     <td><img src="miscellaneous/images/aprilbeacon_n04.jpg" width=1080></td>
+    <td>Raspberry Pi OR Nvidia Jetson</td>
   </tr>
  </table>
 
@@ -153,11 +162,16 @@ $ source ~/hermes_ws/install/local_setup.bash
 
 1. Unscrew the faceplate of the CREATE 3 and ensure that the USB/BLE toggle on the adapter board is in the USB position. Screw the faceplate back into position.
 
-2. Screw the [3D printed Raspberry Pi 4B mount](miscellaneous/CAD_Models/C3-RPi-Mount.stl) in the cargo bay and attach the Pi.
+2. Mount the SBC in the cargo bay:
+- **Raspberry Pi:** Screw the [3D printed Raspberry Pi 4B mount](miscellaneous/CAD_Models/C3-RPi-Mount.stl) in the cargo bay and attach the Pi.
 
-3. Connect a USB-C cable between the USB-C port in the robot's cargo bay and the Raspberry Pi 4B's USB power input.
+- **Nvidia Jetson:** Screw the [3D printed Nvidia Jetson mount](miscellaneous/CAD_Models/C3-JetsonXavierNX-Mount.stl) in the cargo bay and attach the jetson.
 
-4. Connect a USB-to-micro USB cable to the Pi and a micro USB-to-serial converter. Route the cable through the cable passthrough hole to the top of the robot.
+3. Connect a USB-C cable between the USB-C port in the robot's cargo bay and the SBC's USB C input.
+
+- **NOTE:** for Nvidia Jetson you also need to connect the board's DC input to the iRobot CREATE's battery using a JST-XH female connector to DC barrel plug cable.   
+
+4. Connect a USB-to-micro USB cable to the SBC and a micro USB-to-serial converter. Route the cable through the cable passthrough hole to the top of the robot.
 
 5. Screw the [3D printed LiDAR mount](miscellaneous/CAD_Models/C3-RPLidar-A1-Mount.stl) and standoffs into the faceplate and attach the LiDAR.
 
@@ -188,26 +202,19 @@ Here is what the final robot setup looks like:
 
 9. If you changed the RMW implementation, restart the application.
 
-10. Navigate to the `Beta Features -> NTP sources` tab and add `server 192.168.186.3 iburst` so the robot can receive NTP info from the Raspberry Pi.
+10. Navigate to the `Beta Features -> NTP sources` tab and add `server 192.168.186.3 iburst` so the robot can receive NTP info from the SBC.
 
 11. Reboot the robot and disconnect from the Wi-Fi network.
 
-#### Raspberry Pi Setup
+#### SBC Software Setup (Local Installation) 
 
-1. Install Ubuntu 22.04 on your Raspberry Pi.
+1. Install Ubuntu 22.04 on your SBC.
 
-2. Install [ROS Humble](https://docs.ros.org/en/humble/Installation.html) the Pi.
+2. Install [ROS Humble](https://docs.ros.org/en/humble/Installation.html) the SBC.
 
-3. Setup an NTP server on the Raspberry Pi by following this [guide](https://iroboteducation.github.io/create3_docs/setup/compute-ntp/) (steps 6 and 7 were already done in the previous section).
+3. Setup an NTP server on the SBC by following this [guide](https://iroboteducation.github.io/create3_docs/setup/compute-ntp/) (steps 6 and 7 were already done in the previous section).
 
-4. Run `timedatectl` and check if `System clock synchronized` has the value `yes`. 
-  - If it does, move on the locale configuration.
-  - If not:
-    * Run `sudo nano /etc/systemd/timesyncd.conf`.
-    * Add `NTP=ntp.ubuntu.com` and `FallbackNTP=0.us.pool.ntp.org` if not already configured.
-    * Run `systemctl restart systemd-timesyncd.service`.
-
-5. Make sure to source your installation:
+4. Make sure to source your installation:
 ```console
 $ source /opt/ros/humble/setup.bash
 ```
@@ -289,6 +296,20 @@ $ sed -i "/^CLASSPATH=/d" ./install/hermes_agent/lib/hermes_agent/hermes_agent
 $ source ~/hermes_ws/install/local_setup.bash
 ```
 
+#### SBC Software Setup (Docker Installation) 
+
+1. Setup an NTP server on the SBC by following this [guide](https://iroboteducation.github.io/create3_docs/setup/compute-ntp/) (steps 6 and 7 were already done in the previous section).
+
+2. Simply install the Docker container:
+
+```
+$ docker build \
+  --build-arg ARCH=$(dpkg --print-architecture) \
+  --build-arg ROS_DISTRO=humble \
+  -f Dockerfile.robot \
+  -t hermes-robot .
+```
+
 ### Installation Notes
 
 **NOTE:** If at any point you face any issues with the installation process of these ROS dependencies, please refer to the README files of the appropriate repositories:
@@ -324,11 +345,12 @@ $ xhost +local:docker
 
 - Start the docker container:
 ```console
-$ docker run -it \
-  --env DISPLAY=$DISPLAY \
+$ docker run --name hermes-sim -it \
+  --env DISPLAY="$DISPLAY" \
   --env QT_X11_NO_MITSHM=1 \
   --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
-  hermes
+  -p 9090:9090 \
+  hermes-sim
 ```
 
 - Launch the simulator in the container:
@@ -365,7 +387,9 @@ $ ./perform_cleanup.sh
 
 ### Running Hermes on the physical robot
 
-1. Plug in the LiDAR sensor to the the Raspberry Pi through USB
+#### Prerequisites
+
+1. Plug in the LiDAR sensor to the the SBC through USB
 
 2. Turn on the iRobot CREATE 3
 
@@ -373,7 +397,7 @@ $ ./perform_cleanup.sh
 
 4. Make sure the map matches [map](hermes_environment/worlds/map.json) (you can ignore the obstacles and distance fields)
 
-5. SSH the Raspberry Pi on the robot
+5. SSH the SBC on the robot
 
 6. Make sure the robot is fully powered on and linked to ROS by doing a quick check:
 
