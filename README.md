@@ -349,14 +349,15 @@ $ xhost +local:docker
 $ docker run --name hermes-sim -it \
   --env DISPLAY="$DISPLAY" \
   --env QT_X11_NO_MITSHM=1 \
+  --gpus all \
   --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
   -p 9090:9090 \
+  --env LAUNCH_MODE=simulator \
+  --env START=$start \
+  --env END=$end \
+  --env DISPLAY_MAS=$display_mas \
+  --env LAUNCH_AGENT=$launch_agent \
   hermes-sim
-```
-
-- Launch the simulator in the container:
-```console
-$ ros2 launch hermes_simulator simulator.launch.py start:=B3 end:=B1 display_mas:=true
 ```
 
 #### Running the simulator locally 
@@ -426,6 +427,9 @@ $ ros2 topic  list
 $ docker run --name hermes-robot -it \
   --network host \
   --privileged \
+  --env LAUNCH_MODE=robot \
+  --env END=$end \
+  --env LAUNCH_AGENT=$launch_agent \
   hermes-robot
 ```
 
