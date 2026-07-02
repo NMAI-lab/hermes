@@ -1,0 +1,61 @@
+name: Simulation CI
+
+on:
+  push:
+    branches: [ "**" ]
+
+jobs:
+  run-simulation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute Dockerfile hash
+        id: dockerhash
+        run: echo "hash=$(sha256sum Dockerfile.simulator | cut -c1-12)" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build hermes-sim image (cached)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.simulator
+          tags: |
+            hermes-sim:latest
+            hermes-sim:${{ steps.dockerhash.outputs.hash }}
+          build-args: |
+            ARCH=amd64
+            ROS_DISTRO=foxy
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install plotting dependencies
+        run: pip install -r miscellaneous/data_analysis/metrics_analysis/requirements.txt
+
+      - name: Run simulation trials (10 trials, foxy)
+        run: |
+          chmod +x ./run_experiments.sh
+          ./run_experiments.sh 10 foxy
+
+      - name: Generate plots
+        run: |
+          mkdir -p miscellaneous/data_analysis/metrics_analysis/plots
+          cd miscellaneous/data_analysis/metrics_analysis
+          python plot_metrics.py
+
+      - name: Upload plots
+        uses: actions/upload-artifact@v4
+        with:
+          name: metric-plots-${{ github.sha }}
+          path: miscellaneous/data_analysis/metrics_analysis/plots/*.png
