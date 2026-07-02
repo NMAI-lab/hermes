@@ -1,5 +1,7 @@
 # Hermes
 
+[![Simulation CI](https://github.com/NMAI-lab/hermes/actions/workflows/simulation-ci.yml/badge.svg)](https://github.com/NMAI-lab/hermes/actions/workflows/simulation-ci.yml)
+
 <p align="center">
     <img src="miscellaneous/images/hermes.png" alt="hermes" width="200">
     <br>

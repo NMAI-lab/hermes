@@ -57,7 +57,6 @@ else
     echo "Hermes image already exists, skipping build."
 fi
 
-xhost +local:docker
 docker stop hermes-sim && docker rm hermes-sim
 
 for i in "${!EXPERIMENTS[@]}"; do
