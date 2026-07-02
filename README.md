@@ -486,7 +486,7 @@ $ ros2 launch hermes_simulator robot.launch.py end:=B1
 
 Hermes is designed to be fully automated allowing it to run multiple headless runs. To demonstrate this capability, a simple experiment verifying different styles of simple trips has already been provided. To run this experiment run:
 ```console
-$ ./run_experiment.sh
+$ ./run_experiments.sh
 ```
 
 The results of this experiment along with an analysis of both the robot and Jason's performance are located at [data_analysis](miscellaneous/data_analysis/)
