@@ -72,16 +72,16 @@ jobs:
       - name: Install plotting dependencies
         run: pip install -r miscellaneous/data_analysis/requirements.txt
 
-      - name: Run simulation trials
-        run: |
-          chmod +x ./run_experiments.sh
-          ./run_experiments.sh ${{ env.NUM_TRIALS }} ${{ env.ROS_DISTRO }}
-
       - name: Clean previous plot data
         run: |
           rm -rf miscellaneous/data_analysis/metrics_analysis/plots
           rm -rf miscellaneous/data_analysis/metrics_analysis/data
           mkdir -p miscellaneous/data_analysis/metrics_analysis/plots
+
+      - name: Run simulation trials
+        run: |
+          chmod +x ./run_experiments.sh
+          ./run_experiments.sh ${{ env.NUM_TRIALS }} ${{ env.ROS_DISTRO }}
 
       - name: Generate plots
         run: |
