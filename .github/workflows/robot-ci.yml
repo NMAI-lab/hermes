@@ -1,0 +1,63 @@
+name: Robot Build CI
+
+on:
+  push:
+    branches: [ "**" ]
+  workflow_dispatch:
+    inputs:
+      ros_distro:
+        description: "ROS distro to build against"
+        required: false
+        default: "humble"
+        type: string
+
+env:
+  ROS_DISTRO: ${{ github.event.inputs.ros_distro || 'humble' }}
+  PLATFORM: linux/arm64
+
+jobs:
+  build-robot-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute Dockerfile hash
+        id: dockerhash
+        run: echo "hash=$(sha256sum Dockerfile.robot | cut -c1-12)" >> "$GITHUB_OUTPUT"
+
+      - name: Set up QEMU (for ARM cross-build)
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build hermes-robot image (ARM64, cached)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.robot
+          platforms: ${{ env.PLATFORM }}
+          tags: |
+            hermes-robot:latest
+            hermes-robot:${{ steps.dockerhash.outputs.hash }}
+          build-args: |
+            ROS_DISTRO=${{ env.ROS_DISTRO }}
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Save image as tarball
+        run: |
+          mkdir -p image-artifact
+          docker save hermes-robot:latest -o image-artifact/hermes-robot-${{ env.ROS_DISTRO }}.tar
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hermes-robot-image-${{ github.sha }}
+          path: image-artifact/hermes-robot-${{ env.ROS_DISTRO }}.tar
+          compression-level: 0

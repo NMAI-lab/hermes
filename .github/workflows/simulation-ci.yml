@@ -3,10 +3,28 @@ name: Simulation CI
 on:
   push:
     branches: [ "**" ]
+  workflow_dispatch:
+    inputs:
+      ros_distro:
+        description: "ROS distro to build/test against"
+        required: false
+        default: "foxy"
+        type: string
+      num_trials:
+        description: "Number of simulation trials to run"
+        required: false
+        default: "5"
+        type: string
+
+env:
+  ROS_DISTRO: ${{ github.event.inputs.ros_distro || 'foxy' }}
+  NUM_TRIALS: ${{ github.event.inputs.num_trials || '5' }}
 
 jobs:
   run-simulation:
     runs-on: ubuntu-latest
+    outputs:
+      plot-files: ${{ steps.list-plots.outputs.files }}
 
     steps:
       - name: Checkout
@@ -29,10 +47,22 @@ jobs:
             hermes-sim:${{ steps.dockerhash.outputs.hash }}
           build-args: |
             ARCH=amd64
-            ROS_DISTRO=foxy
+            ROS_DISTRO=${{ env.ROS_DISTRO }}
           load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Save image as tarball
+        run: |
+          mkdir -p image-artifact
+          docker save hermes-sim:latest -o image-artifact/hermes-sim-${{ env.ROS_DISTRO }}.tar
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hermes-sim-image-${{ github.sha }}
+          path: image-artifact/hermes-sim-${{ env.ROS_DISTRO }}.tar
+          compression-level: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -42,19 +72,55 @@ jobs:
       - name: Install plotting dependencies
         run: pip install -r miscellaneous/data_analysis/requirements.txt
 
-      - name: Run simulation trials (10 trials, foxy)
+      - name: Run simulation trials
         run: |
           chmod +x ./run_experiments.sh
-          ./run_experiments.sh 10 foxy
+          ./run_experiments.sh ${{ env.NUM_TRIALS }} ${{ env.ROS_DISTRO }}
+
+      - name: Clean previous plot data
+        run: |
+          rm -rf miscellaneous/data_analysis/metrics_analysis/plots
+          rm -rf miscellaneous/data_analysis/metrics_analysis/data
+          mkdir -p miscellaneous/data_analysis/metrics_analysis/plots
 
       - name: Generate plots
         run: |
-          mkdir -p miscellaneous/data_analysis/metrics_analysis/plots
           cd miscellaneous/data_analysis/metrics_analysis
           python metrics_parser.py
 
-      - name: Upload plots
+      - name: List simulator plots
+        id: list-plots
+        run: |
+          cd miscellaneous/data_analysis/metrics_analysis/plots
+          files=$(ls *_simulator.png 2>/dev/null | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "files=$files" >> "$GITHUB_OUTPUT"
+
+      - name: Stage plots for handoff
         uses: actions/upload-artifact@v4
         with:
-          name: metric-plots-${{ github.sha }}
-          path: miscellaneous/data_analysis/metrics_analysis/plots/*.png
+          name: plots-staging-${{ github.run_id }}
+          path: miscellaneous/data_analysis/metrics_analysis/plots/*_simulator.png
+          retention-days: 1
+
+  publish-plots:
+    needs: run-simulation
+    if: needs.run-simulation.outputs.plot-files != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        file: ${{ fromJson(needs.run-simulation.outputs.plot-files) }}
+
+    steps:
+      - name: Download staged plots
+        uses: actions/download-artifact@v4
+        with:
+          name: plots-staging-${{ github.run_id }}
+          path: plots
+
+      - name: Upload plot as its own artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.file }}
+          path: plots/${{ matrix.file }}
+          compression-level: 0

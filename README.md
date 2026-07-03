@@ -1,6 +1,6 @@
 # Hermes
 
-[![Simulation CI](https://github.com/NMAI-lab/hermes/actions/workflows/simulation-ci.yml/badge.svg)](https://github.com/NMAI-lab/hermes/actions/workflows/simulation-ci.yml)
+[![Simulation CI](https://github.com/NMAI-lab/hermes/actions/workflows/simulation-ci.yml/badge.svg)](https://github.com/NMAI-lab/hermes/actions/workflows/simulation-ci.yml) [![Robot CI](https://github.com/NMAI-lab/hermes/actions/workflows/robot-ci.yml/badge.svg)](https://github.com/NMAI-lab/hermes/actions/workflows/robot-ci.yml)
 
 <p align="center">
     <img src="miscellaneous/images/hermes.png" alt="hermes" width="200">
