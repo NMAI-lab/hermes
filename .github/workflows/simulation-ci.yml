@@ -77,6 +77,7 @@ jobs:
           rm -rf miscellaneous/data_analysis/metrics_analysis/plots
           rm -rf miscellaneous/data_analysis/metrics_analysis/data
           mkdir -p miscellaneous/data_analysis/metrics_analysis/plots
+          mkdir -p miscellaneous/data_analysis/metrics_analysis/data
 
       - name: Run simulation trials
         run: |
