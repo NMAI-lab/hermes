@@ -13,12 +13,12 @@ on:
       num_trials:
         description: "Number of simulation trials to run"
         required: false
-        default: "5"
+        default: "10"
         type: string
 
 env:
   ROS_DISTRO: ${{ github.event.inputs.ros_distro || 'foxy' }}
-  NUM_TRIALS: ${{ github.event.inputs.num_trials || '5' }}
+  NUM_TRIALS: ${{ github.event.inputs.num_trials || '10' }}
 
 jobs:
   run-simulation:
@@ -49,8 +49,8 @@ jobs:
             ARCH=amd64
             ROS_DISTRO=${{ env.ROS_DISTRO }}
           load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=sim
+          cache-to: type=gha,mode=max,scope=sim
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -60,17 +60,15 @@ jobs:
       - name: Install plotting dependencies
         run: pip install -r miscellaneous/data_analysis/requirements.txt
 
-      - name: Clean previous plot data
-        run: |
-          rm -rf miscellaneous/data_analysis/metrics_analysis/plots
-          rm -rf miscellaneous/data_analysis/metrics_analysis/data
-          mkdir -p miscellaneous/data_analysis/metrics_analysis/plots
-          mkdir -p miscellaneous/data_analysis/metrics_analysis/data
-
       - name: Run simulation trials
         run: |
           chmod +x ./run_experiments.sh
           ./run_experiments.sh ${{ env.NUM_TRIALS }} ${{ env.ROS_DISTRO }}
+
+      - name: Clean previous plot data
+        run: |
+          rm -rf miscellaneous/data_analysis/metrics_analysis/plots
+          mkdir -p miscellaneous/data_analysis/metrics_analysis/plots
 
       - name: Generate plots
         run: |
@@ -107,7 +105,7 @@ jobs:
           name: plots-staging-${{ github.run_id }}
           path: plots
 
-      - name: Upload plot as its own artifact
+      - name: Upload plot as its own artifact (unzipped)
         uses: actions/upload-artifact@v7
         with:
           path: plots/${{ matrix.file }}

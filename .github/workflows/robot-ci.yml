@@ -16,7 +16,10 @@ env:
 
 jobs:
   build-robot-image:
-    runs-on: ubuntu-22.04-arm
+    # Native arm64 hosted runner - no QEMU emulation, matches real robot hardware.
+    # ubuntu-24.04-arm / ubuntu-22.04-arm are free on public repos; on private repos
+    # they require a paid plan with arm64 standard runners enabled.
+    runs-on: ubuntu-24.04-arm
 
     steps:
       - name: Checkout
@@ -40,5 +43,5 @@ jobs:
           build-args: |
             ROS_DISTRO=${{ env.ROS_DISTRO }}
           load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=robot
+          cache-to: type=gha,mode=max,scope=robot
