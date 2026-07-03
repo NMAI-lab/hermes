@@ -52,18 +52,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Save image as tarball
-        run: |
-          mkdir -p image-artifact
-          docker save hermes-sim:latest -o image-artifact/hermes-sim-${{ env.ROS_DISTRO }}.tar
-
-      - name: Upload Docker image artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: hermes-sim-image-${{ github.sha }}
-          path: image-artifact/hermes-sim-${{ env.ROS_DISTRO }}.tar
-          compression-level: 0
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
