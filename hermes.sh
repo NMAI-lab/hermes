@@ -163,7 +163,7 @@ robot_local_run() {
     echo "Running hermes robot (local): end=$end launch_agent=$launch_agent"
 
     export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-    export CYCLONEDDS_URI='<CycloneDDS><Domain><General><NetworkInterfaceAddress>usb0</NetworkInterfaceAddress></General></Domain></CycloneDDS>'
+    export CYCLONEDDS_URI='<CycloneDDS><Domain><General><NetworkInterfaceAddress>l4tbr0</NetworkInterfaceAddress></General></Domain></CycloneDDS>'
 
     source "~/hermes_ws/install/local_setup.bash"
 
