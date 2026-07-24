@@ -15,6 +15,18 @@ cleanup() {
 
 trap cleanup SIGINT SIGTERM EXIT
 
+# Detect which board this script is running on, and pick the correct
+# USB device-mode network interface for CycloneDDS accordingly.
+#   Jetson -> l4tbr0 (USB gadget bridge)
+#   Raspberry Pi (or anything else) -> usb0
+detect_cyclonedds_iface() {
+    if [ -f /etc/nv_tegra_release ]; then
+        echo "l4tbr0"
+    else
+        echo "usb0"
+    fi
+}
+
 usage() {
     echo "Usage: $0 [-s START] [-e END] [-d true|false] [-a true|false] <target> <mode> [ROS_VERSION]"
     echo ""
@@ -129,11 +141,15 @@ robot_docker_run() {
     local end="$1"
     local launch_agent="$2"
 
-    echo "Running hermes robot (Docker): end=$end launch_agent=$launch_agent"
+    local iface
+    iface="$(detect_cyclonedds_iface)"
+    echo "Running hermes robot (Docker): end=$end launch_agent=$launch_agent cyclonedds_iface=$iface"
 
     docker stop hermes-robot 2>/dev/null && docker rm hermes-robot 2>/dev/null
 
     docker run --name hermes-robot -it \
+        --env RMW_IMPLEMENTATION=rmw_cyclonedds_cpp \
+        --env CYCLONEDDS_URI="<CycloneDDS><Domain><General><NetworkInterfaceAddress>${iface}</NetworkInterfaceAddress></General></Domain></CycloneDDS>" \
         --network host \
         --privileged \
         --env LAUNCH_MODE=robot \
@@ -160,10 +176,12 @@ robot_local_run() {
     local end="$1"
     local launch_agent="$2"
 
-    echo "Running hermes robot (local): end=$end launch_agent=$launch_agent"
+    local iface
+    iface="$(detect_cyclonedds_iface)"
+    echo "Running hermes robot (local): end=$end launch_agent=$launch_agent cyclonedds_iface=$iface"
 
     export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-    export CYCLONEDDS_URI='<CycloneDDS><Domain><General><NetworkInterfaceAddress>l4tbr0</NetworkInterfaceAddress></General></Domain></CycloneDDS>'
+    export CYCLONEDDS_URI="<CycloneDDS><Domain><General><NetworkInterfaceAddress>${iface}</NetworkInterfaceAddress></General></Domain></CycloneDDS>"
 
     source "~/hermes_ws/install/local_setup.bash"
 

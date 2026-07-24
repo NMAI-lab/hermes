@@ -41,14 +41,6 @@ ENV PATH=$JAVA_HOME/bin:$PATH
 # Set CycloneDDS as the RMW implementation (required for Create 3)
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
-# Pin CycloneDDS to the USB Ethernet-over-USB interface.
-# The Create 3 connects to the Jetson via USB-C. The Jetson host must be
-# assigned the static IP 192.168.186.3 on its USB device-mode interface
-# (usb0 or l4tbr0 depending on your Jetson USB device mode config).
-# --network host at docker run time makes this interface visible here.
-# Change the interface name below if yours differs (check with: ip link show).
-ENV CYCLONEDDS_URI='<CycloneDDS><Domain><General><NetworkInterfaceAddress>l4tbr0</NetworkInterfaceAddress></General></Domain></CycloneDDS>'
-
 # Install rosdep and initialize
 RUN apt install -y \
     python3-rosdep \
@@ -69,7 +61,6 @@ ENV PATH=$GRADLE_HOME/bin:$PATH
 # Source ROS setup and set middleware env vars persistently
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 RUN echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
-RUN echo "export CYCLONEDDS_URI='<CycloneDDS><Domain><General><NetworkInterfaceAddress>l4tbr0</NetworkInterfaceAddress></General></Domain></CycloneDDS>'" >> ~/.bashrc
 
 # Create workspace
 RUN mkdir -p /root/hermes_ws/src

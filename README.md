@@ -187,7 +187,7 @@ Here is what the final robot setup looks like:
 
 #### iRobot Create 3 Software Setup
 
-1. Download the latest version of the CREATE 3 [firmware](https://edu.irobot.com/create3-update)
+1. Download the latest version of the CREATE 3 [firmware](https://iroboteducation.github.io/create3_docs/releases/overview/)
 
 2. Power on the robot by plugging it into the charging dock.
 
@@ -215,7 +215,48 @@ Here is what the final robot setup looks like:
 
 2. Install [ROS Humble](https://docs.ros.org/en/humble/Installation.html) the SBC.
 
-3. Setup an NTP server on the SBC by following this [guide](https://iroboteducation.github.io/create3_docs/setup/compute-ntp/) (steps 6 and 7 were already done in the previous section).
+3. Set up the SBC to share its network with the robot:
+- **Raspberry Pi:** Setup an NTP server on the SBC by following this [guide](https://iroboteducation.github.io/create3_docs/setup/compute-ntp/) (steps 6 and 7 were already done in the previous section).
+
+```console
+$ sudo apt install -y chrony
+
+# Backup config
+$ sudo cp /etc/chrony/chrony.conf /etc/chrony/chrony.conf.backup
+
+# Add allow rule after the Ubuntu pool line
+$ sudo sed -i '/^pool .*ubuntu.pool.ntp.org.*iburst.*/a\
+\
+# Enable serving time to ntp clients on 192.168.186.0 subnet.\
+allow 192.168.186.0/24' /etc/chrony/chrony.conf
+
+$ sudo sed -i '/^allow 192.168.186.0\/24/a\
+\
+# Serve time even if not synchronized to a time source\
+local stratum 10' /etc/chrony/chrony.conf
+
+$ sudo systemctl restart chrony
+```
+- **Nvidia Jetson:** assign a static IP to the robot's serial port.
+
+```console
+# Hard code the ip address of the robot
+$ sudo bash -c 'echo "192.168.186.3" > /opt/nvidia/l4t-usb-device-mode/IP_ADDRESS_FOR_CREATE3_ROBOT.conf'
+
+# Update the USB config of the port
+$ sudo cp /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-runtime-start.sh \
+        /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-runtime-start.sh.orig
+$ sudo wget -O /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-runtime-start.sh \
+        https://iroboteducation.github.io/create3_docs/setup/data/nv-l4t-usb-device-mode-runtime-start.sh
+$ sudo chmod +x /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-runtime-start.sh
+
+# Simplify the USB interface on the board
+$ sudo sed -i 's/^enable_rndis=1/enable_rndis=0/' /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-config.sh
+$ sudo sed -i 's/^enable_acm=1/enable_acm=0/' /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-config.sh
+$ sudo sed -i 's/^enable_ums=1/enable_ums=0/' /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-config.sh
+
+$ export CYCLONEDDS_URI='<CycloneDDS><Domain><General><NetworkInterfaceAddress>l4tbr0</NetworkInterfaceAddress></General></Domain></CycloneDDS>'
+```
 
 4. Make sure to source your installation:
 ```console
@@ -301,7 +342,46 @@ $ source ~/hermes_ws/install/local_setup.bash
 
 #### SBC Software Setup (Docker Installation) 
 
-1. Setup an NTP server on the SBC by following this [guide](https://iroboteducation.github.io/create3_docs/setup/compute-ntp/) (steps 6 and 7 were already done in the previous section).
+1. Set up the SBC to share its network with the robot:
+- **Raspberry Pi:** Setup an NTP server on the SBC by following this [guide](https://iroboteducation.github.io/create3_docs/setup/compute-ntp/) (steps 6 and 7 were already done in the previous section).
+
+```console
+$ sudo apt install -y chrony
+
+# Backup config
+$ sudo cp /etc/chrony/chrony.conf /etc/chrony/chrony.conf.backup
+
+# Add allow rule after the Ubuntu pool line
+$ sudo sed -i '/^pool .*ubuntu.pool.ntp.org.*iburst.*/a\
+\
+# Enable serving time to ntp clients on 192.168.186.0 subnet.\
+allow 192.168.186.0/24' /etc/chrony/chrony.conf
+
+$ sudo sed -i '/^allow 192.168.186.0\/24/a\
+\
+# Serve time even if not synchronized to a time source\
+local stratum 10' /etc/chrony/chrony.conf
+
+$ sudo systemctl restart chrony
+```
+- **Nvidia Jetson:** assign a static IP to the robot's serial port.
+
+```console
+# Hard code the ip address of the robot
+$ sudo bash -c 'echo "192.168.186.3" > /opt/nvidia/l4t-usb-device-mode/IP_ADDRESS_FOR_CREATE3_ROBOT.conf'
+
+# Update the USB config of the port
+$ sudo cp /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-runtime-start.sh \
+        /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-runtime-start.sh.orig
+$ sudo wget -O /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-runtime-start.sh \
+        https://iroboteducation.github.io/create3_docs/setup/data/nv-l4t-usb-device-mode-runtime-start.sh
+$ sudo chmod +x /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-runtime-start.sh
+
+# Simplify the USB interface on the board
+$ sudo sed -i 's/^enable_rndis=1/enable_rndis=0/' /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-config.sh
+$ sudo sed -i 's/^enable_acm=1/enable_acm=0/' /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-config.sh
+$ sudo sed -i 's/^enable_ums=1/enable_ums=0/' /opt/nvidia/l4t-usb-device-mode/nv-l4t-usb-device-mode-config.sh
+```
 
 2. Simply install the Docker container:
 
@@ -314,6 +394,10 @@ $ docker build \
 ```
 
 ### Installation Notes
+
+**NOTE:** Here are some useful guides:
+- [Raspberry Pi](https://iroboteducation.github.io/create3_docs/hw/rpi_hookup/)
+- [Nvidia Jetson](https://iroboteducation.github.io/create3_docs/setup/jetson/)
 
 **NOTE:** If at any point you face any issues with the installation process of these ROS dependencies, please refer to the README files of the appropriate repositories:
 - [create3_sim](https://github.com/iRobotEducation/create3_sim/)
@@ -425,8 +509,23 @@ $ ros2 topic  list
 
 - **If running in Docker:** start the container as follows:
 
+**Raspberry Pi**:
 ```console
 $ docker run --name hermes-robot -it \
+  --env RMW_IMPLEMENTATION=rmw_cyclonedds_cpp \
+  --network host \
+  --privileged \
+  --env LAUNCH_MODE=robot \
+  --env END=$end \
+  --env LAUNCH_AGENT=$launch_agent \
+  hermes-robot
+```
+
+**Nvidia Jetson:**
+```console
+$ docker run --name hermes-robot -it \
+  --env RMW_IMPLEMENTATION=rmw_cyclonedds_cpp \
+  --env CYCLONEDDS_URI="<CycloneDDS><Domain><General><NetworkInterfaceAddress>l4tbr0</NetworkInterfaceAddress></General></Domain></CycloneDDS>" \
   --network host \
   --privileged \
   --env LAUNCH_MODE=robot \
