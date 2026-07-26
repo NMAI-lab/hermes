@@ -166,9 +166,9 @@ $ docker build \
 1. Unscrew the faceplate of the CREATE 3 and ensure that the USB/BLE toggle on the adapter board is in the USB position. Screw the faceplate back into position.
 
 2. Mount the SBC in the cargo bay:
-- **Raspberry Pi:** Screw the [3D printed Raspberry Pi 4B mount](miscellaneous/documents/CAD_Models/C3-RPi-Mount.stl) in the cargo bay and attach the Pi.
+- **Raspberry Pi:** Screw the [3D printed Raspberry Pi 4B mount](miscellaneous/documents/CAD_models/C3-RPi-Mount.stl) in the cargo bay and attach the Pi.
 
-- **Nvidia Jetson:** Screw the [3D printed Nvidia Jetson mount](miscellaneous/documents/CAD_Models/C3-JetsonXavierNX-Mount.stl) in the cargo bay and attach the jetson.
+- **Nvidia Jetson:** Screw the [3D printed Nvidia Jetson mount](miscellaneous/documents/CAD_models/C3-JetsonXavierNX-Mount.stl) in the cargo bay and attach the jetson.
 
 3. Connect a USB-C cable between the USB-C port in the robot's cargo bay and the SBC's USB C input.
 
@@ -176,7 +176,7 @@ $ docker build \
 
 4. Connect a USB-to-micro USB cable to the SBC and a micro USB-to-serial converter. Route the cable through the cable passthrough hole to the top of the robot.
 
-5. Screw the [3D printed LiDAR mount](miscellaneous/documents/CAD_Models/C3-RPLidar-A1-Mount.stl) and standoffs into the faceplate and attach the LiDAR.
+5. Screw the [3D printed LiDAR mount](miscellaneous/documents/CAD_models/C3-RPLidar-A1-Mount.stl) and standoffs into the faceplate and attach the LiDAR.
 
 6. Using the LiDAR serial cable, connect the LiDAR pins to the USB-to-serial converter.
 
